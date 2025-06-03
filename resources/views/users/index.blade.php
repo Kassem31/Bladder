@@ -23,7 +23,7 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.users') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -42,7 +42,7 @@
                         <form method="GET" action="{{ route('users.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-4 col-12 filter-column">
-                                    <input type="text" name="name" class="form-control" placeholder="Filter by Name"
+                                    <input type="text" name="name" class="form-control" placeholder="{{ __('app.filter_by_name') }}"
                                         value="{{ request('name') }}">
                                 </div>
                                 <div class="col-md-4 col-12 d-flex">
@@ -54,10 +54,10 @@
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('common.name') }}</th>
+                                        <th>{{ __('app.email') }}</th>
+                                        <th>{{ __('app.role') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,7 +137,7 @@
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="{{asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js')}}"></script>
-    <script src="{{asset('src/plugins/src/sweetalerts2/custom-sweetalert.js')}}"></script>
+    {{-- <script src="{{asset('src/plugins/src/sweetalerts2/custom-sweetalert.js')}}"></script> --}}
 
     @if (session('success'))
         <script>

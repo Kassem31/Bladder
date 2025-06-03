@@ -64,7 +64,7 @@ class BladderController extends Controller
     {
         Bladder::create($request->validated());
         return redirect()->route('bladders.index')
-            ->with('success', 'Bladder created successfully.');
+            ->with('success', __('common.bladder_created'));
     }
 
     /**
@@ -92,7 +92,7 @@ class BladderController extends Controller
     {
         $bladder->update($request->validated());
         return redirect()->route('bladders.index')
-            ->with('success', 'Bladder updated successfully.');
+            ->with('success', __('common.bladder_updated'));
     }
 
     /**
@@ -107,17 +107,17 @@ class BladderController extends Controller
 
         if ($machinesUsingBladder) {
             return redirect()->route('bladders.index')
-                ->with('error', 'Cannot delete bladder. It is currently being used by one or more machines.');
+                ->with('error', __('common.bladder_delete_machine_use'));
         }
 
         // Check if bladder has any transactions
         if ($bladder->bladderTransactions()->exists()) {
             return redirect()->route('bladders.index')
-                ->with('error', 'Cannot delete bladder. It has associated transactions.');
+                ->with('error', __('common.bladder_delete_has_transactions'));
         }
 
         $bladder->delete();
         return redirect()->route('bladders.index')
-            ->with('success', 'Bladder deleted successfully.');
+            ->with('success', __('common.bladder_deleted'));
     }
 }

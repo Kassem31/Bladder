@@ -1,0 +1,108 @@
+<?php
+
+return [
+    // General
+    'welcome' => 'مرحباً',
+    
+    // Navigation
+    'dashboard' => 'لوحة القيادة',
+    'back_to_list' => 'العودة إلى القائمة',
+    'logout' => 'تسجيل الخروج',
+    'back_to' => 'العودة إلى :name',
+    // Common Actions
+    'add' => 'إضافة',
+    'edit' => 'تعديل',
+    'delete' => 'حذف',
+    'save' => 'حفظ',
+    'cancel' => 'إلغاء',
+    'show' => 'عرض',
+    'view' => 'مشاهدة',
+    'filter' => 'تصفية',
+    'clear_filters' => 'مسح التصفية',
+    'search' => 'بحث',
+    'export' => 'تصدير',
+    'import' => 'استيراد',    'submit' => 'إرسال',
+    'update' => 'تحديث',
+    'create' => 'إنشاء',
+    'back' => 'رجوع',
+    'clear' => 'مسح',    // Status
+    'active' => 'نشط',
+    'inactive' => 'غير نشط',
+    'available' => 'متاح',
+    'in_use' => 'قيد الاستخدام',
+    'maintenance' => 'صيانة',
+    'expired' => 'منتهي الصلاحية',
+    'working' => 'يعمل',
+    'stopped' => 'متوقف',
+    'ready' => 'جاهز',
+    'mounted' => 'مُركب',
+    'test' => 'اختبار',
+      // Common Fields
+    'name' => 'الاسم',
+    'display_name' => 'الاسم المعروض',
+    'code' => 'الكود',
+    'description' => 'الوصف',
+    'status' => 'الحالة',
+    'date' => 'التاريخ',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
+    'actions' => 'الإجراءات',
+    'notes' => 'ملاحظات',
+      // Messages
+    'success_created' => 'تم الإنشاء بنجاح!',
+    'success_updated' => 'تم التحديث بنجاح!',
+    'success_deleted' => 'تم الحذف بنجاح!',
+    'error_occurred' => 'حدث خطأ!',
+    'error' => 'خطأ',
+    
+    // Specific Success Messages
+    'bladder_created' => 'تم إنشاء المثانة بنجاح.',
+    'bladder_updated' => 'تم تحديث المثانة بنجاح.',
+    'bladder_deleted' => 'تم حذف المثانة بنجاح.',
+    'machine_created' => 'تم إنشاء الآلة بنجاح.',
+    'machine_updated' => 'تم تحديث الآلة بنجاح.',
+    'machine_deleted' => 'تم حذف الآلة بنجاح.',
+    'bladder_transaction_created' => 'تم إنشاء معاملة المثانة بنجاح.',
+    'bladder_transaction_updated' => 'تم تحديث معاملة المثانة بنجاح.',
+    'bladder_transaction_deleted' => 'تم حذف معاملة المثانة بنجاح.',
+    'finding_created' => 'تم إنشاء النتيجة بنجاح.',
+    'finding_updated' => 'تم تحديث النتيجة بنجاح.',
+    'finding_deleted' => 'تم حذف النتيجة بنجاح.',
+    'bladder_size_created' => 'تم إنشاء حجم المثانة بنجاح.',
+    'bladder_size_updated' => 'تم تحديث حجم المثانة بنجاح.',
+    'bladder_size_deleted' => 'تم حذف حجم المثانة بنجاح.',
+    'role_deleted' => 'تم حذف الدور بنجاح.',
+    'user_created' => 'تم إنشاء المستخدم بنجاح.',
+    'user_updated' => 'تم تحديث المستخدم بنجاح.',
+    'user_deleted' => 'تم حذف المستخدم بنجاح.',
+    
+    // Specific Error Messages
+    'bladder_delete_machine_use' => 'لا يمكن حذف المثانة. يتم استخدامها حالياً من قبل آلة أو أكثر.',
+    'bladder_delete_has_transactions' => 'لا يمكن حذف المثانة. لديها معاملات مرتبطة بها.',
+    'bladder_size_delete_in_use' => 'لا يمكن حذف حجم المثانة. يتم استخدامه حالياً من قبل مثانة أو أكثر.',
+    'finding_delete_in_use' => 'لا يمكن حذف النتيجة. يتم استخدامها حالياً من قبل نتائج صيانة.',
+    'transaction_delete_has_findings' => 'لا يمكن حذف معاملة المثانة. لديها نتائج صيانة مرتبطة بها.',
+    'transaction_delete_not_recent' => 'يمكن فقط حذف المعاملة الأحدث للمثانة.',
+    'invalid_transaction_sequence' => 'تسلسل المعاملة غير صحيح. المعاملة التالية المسموحة لهذه المثانة هي: :type',
+    'machine_both_sides_mounted' => 'هذه الآلة لديها مثانات مركبة على كلا الجانبين بالفعل.',
+    'machine_left_side_mounted' => 'هذه الآلة لديها مثانة مركبة على الجانب الأيسر بالفعل.',
+    'machine_right_side_mounted' => 'هذه الآلة لديها مثانة مركبة على الجانب الأيمن بالفعل.',
+    'are_you_sure' => 'هل أنت متأكد؟',
+    'delete_confirm_text' => 'لن تتمكن من استرجاع هذا!',
+    'confirm_delete' => 'هل أنت متأكد من أنك تريد حذف هذا العنصر؟',
+    'confirm_delete_message' => 'لن تتمكن من استرجاع هذا!',    'yes_delete' => 'نعم، احذفه!',
+    'no_data_available' => 'لا توجد بيانات متاحة',
+    'not_available' => 'غير متاح',
+    'close' => 'إغلاق',
+    'none' => 'لا شيء',
+
+    // Pagination
+    'showing_results' => 'عرض :first إلى :last من أصل :total نتيجة',
+    'per_page' => 'لكل صفحة',
+
+    // Language Switcher
+    'language' => 'اللغة',
+    'english' => 'English',
+    'arabic' => 'العربية',
+    
+];

@@ -29,13 +29,11 @@
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">
-
-            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0">            <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Observations</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.findings') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -50,7 +48,7 @@
                         <form method="GET" action="{{ route('findings.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-4 col-12 filter-column">
-                                    <input type="text" name="Description" class="form-control" placeholder="Filter by Description"
+                                    <input type="text" name="Description" class="form-control" placeholder = "{{ __('app.filter_by_description') }}"
                                         value="{{ request('Description') }}">
                                 </div>
                                 <div class="col-md-4 col-12 d-flex">
@@ -58,13 +56,12 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="table-responsive">
-                            <table id="findingsTable" class="table dt-table-hover" style="width:100%">
+                        <div class="table-responsive">                            <table id="findingsTable" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Icon</th>
-                                        <th>Description</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('app.icon') }}</th>
+                                        <th>{{ __('common.description') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,9 +70,8 @@
                                             <td class="text-center" data-th="Icon">
                                                 @if ($finding->IconClass)
                                                     <i class="{{ $finding->IconClass }}"
-                                                        style="font-size: 1.5rem; color: #0d6efd;"></i>
-                                                @else
-                                                    <span class="text-muted">No Icon</span>
+                                                        style="font-size: 1.5rem; color: #0d6efd;"></i>                                                @else
+                                                    <span class="text-muted">{{ __('app.no_icon') }}</span>
                                                 @endif
                                             </td>
                                             <td data-th="Description">{{ $finding->Description }}</td>
@@ -100,23 +96,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#findingsTable').DataTable({
-                lengthMenu: [
-                    [6, 10, 20, -1],
-                    [6, 10, 20, "All"]
-                ],
-                responsive: true,
-                order: [
-                    [1, 'asc']
-                ]
-            });
-        });
-    </script>
-    
-    <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script>
+@section('scripts')    
+    {{-- <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script> --}}
     <script src="{{ asset('src/plugins/src/font-icons/feather/feather.min.js') }}"></script>
     <script>
         feather.replace();
@@ -124,9 +105,9 @@
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script>
+    {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
     <script>
         document.querySelector('table').addEventListener('click', function(e) {

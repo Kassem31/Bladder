@@ -23,7 +23,7 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Roles</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.roles') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -37,10 +37,10 @@
                         <table id="zero-config" class="table dt-table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Display Name</th>
-                                    <th>Description</th>
-                                    <th>Actions</th>
+                                    <th>{{ __('common.name') }}</th>
+                                    <th>{{ __('common.display_name') }}</th>
+                                    <th>{{ __('common.description') }}</th>
+                                    <th>{{ __('common.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,15 +103,6 @@
     </script>
 
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
-
-    <script>
-        // Test if SweetAlert is loaded
-        console.log('SweetAlert loaded:', typeof Swal);
-        if (typeof Swal === 'undefined') {
-            console.error('SweetAlert is not loaded!');
-        }
-    </script>
 
     @if (session('success'))
         <script>
@@ -151,37 +142,30 @@
 
     <!-- DELETE BUTTON FUNCTIONALITY -->
     <script>
-        console.log('Delete button script loaded');
         
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, looking for delete buttons');
             const deleteButtons = document.querySelectorAll('.delete-button');
-            console.log('Found delete buttons:', deleteButtons.length);
             
             deleteButtons.forEach(button => {
-                console.log('Setting up delete button:', button);
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Delete button clicked');
                     
                     const deleteUrl = this.getAttribute('data-url');
-                    console.log('Delete URL:', deleteUrl);
                     
                     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        title: '{{ __('common.confirm_delete') }}',
+                        text: "{{ __('common.error_occurred') }}",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
+                        confirmButtonText: '{{ __('common.delete') }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            console.log('Delete confirmed');
                             // Create and submit the form to delete the role
                             const form = document.createElement('form');
                             form.method = 'POST';

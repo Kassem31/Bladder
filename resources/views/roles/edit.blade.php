@@ -4,7 +4,7 @@
     <div class="layout-px-spacing">
         <div class="row layout top-spacing">
             <div class="page-title">
-                <h3>Edit Role</h3>
+                <h3>{{ __('common.edit') }} {{ __('app.role') }}</h3>
             </div>
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                 <div class="widget-content widget-content-area br-8">
@@ -23,35 +23,35 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">{{ __('common.name') }}</label>
                             <input type="text" name="name" class="form-control" value="{{ $role->name }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="display_name">Display Name</label>
+                            <label for="display_name">{{ __('common.display_name') }}</label>
                             <input type="text" name="display_name" class="form-control"
                                 value="{{ $role->display_name }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label for="description">{{ __('common.description') }}</label>
                             <textarea name="description" class="form-control">{{ $role->description }}</textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="permissions">Permissions</label>
+                            <label for="permissions">{{ __('app.permissions') }}</label>
                             <div class="mb-3">
                                 <button type="button" class="btn btn-sm btn-success" onclick="checkAllPermissions()">
-                                    <i class="fas fa-check-square"></i> Check All
+                                    <i class="fas fa-check-square"></i> {{ __('app.check_all') }}
                                 </button>
                                 <button type="button" class="btn btn-sm btn-danger" onclick="clearAllPermissions()">
-                                    <i class="fas fa-square"></i> Clear All
+                                    <i class="fas fa-square"></i> {{ __('app.clear_all') }}
                                 </button>
                             </div>
                             @foreach ($permissions as $model => $modelPermissions)
                                 <div class="card mb-3 col-md-8">
                                     <div class="card-header">
-                                        {{ ucfirst($model) }} Permissions
+                                        {{ ucfirst($model) }} {{ __('app.permissions') }}
                                     </div>
                                     <div class="card-body">
                                         @foreach ($modelPermissions as $permission)
@@ -67,7 +67,7 @@
                             @endforeach
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
                     </form>
                 </div>
             </div>

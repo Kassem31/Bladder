@@ -2,9 +2,8 @@
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="page-title">
-                <h3>Add New Machine</h3>
+        <div class="row layout-top-spacing">            <div class="page-title">
+                <h3>{{ __('common.add') }} {{ __('app.machine') }}</h3>
             </div>
 
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -14,10 +13,10 @@
 
                         <form action="{{ route('machines.store') }}" method="POST" class="row g-3">
                             @csrf                            <div class="col-md-9">
-                                <label for="Code" class="form-label">Machine Code *</label>
+                                <label for="Code" class="form-label">{{ __('app.machine_code') }} *</label>
                                 <input type="text" class="form-control @error('Code') is-invalid @enderror"
                                     id="Code" name="Code" value="{{ old('Code') }}"
-                                    placeholder="Enter machine code" required>
+                                    placeholder="{{ __('app.machine_code') }}" required>
                                 @error('Code')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -25,14 +24,12 @@
 
                             <!-- Hidden inputs with null values -->
                             <input type="hidden" name="LeftBladderId" value="">
-                            <input type="hidden" name="RightBladderId" value="">
-
-                            <div class="col-12">
+                            <input type="hidden" name="RightBladderId" value="">                            <div class="col-12">
                                 <button type="submit" class="btn btn-primary px-5">
-                                    <i class="bx bx-save me-1"></i>Save Machine
+                                    <i class="bx bx-save me-1"></i>{{ __('common.save') }} {{ __('app.machine') }}
                                 </button>
                                 <a href="{{ route('machines.index') }}" class="btn btn-secondary px-5 ms-2">
-                                    <i class="bx bx-x me-1"></i>Cancel
+                                    <i class="bx bx-x me-1"></i>{{ __('common.cancel') }}
                                 </a>
                             </div>
                         </form>

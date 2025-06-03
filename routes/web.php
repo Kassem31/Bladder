@@ -24,6 +24,7 @@ use App\Http\Controllers\BladderController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\BladderTransactionController;
 use App\Http\Controllers\FindingController;
+use App\Http\Controllers\LanguageController;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 
@@ -32,6 +33,9 @@ use App\Models\User;
 // });
 
 Route::get('/', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
+
+// Language switching route
+Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

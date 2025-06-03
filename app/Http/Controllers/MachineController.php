@@ -65,7 +65,7 @@ class MachineController extends Controller
         Machine::create($request->validated());
 
         return redirect()->route('machines.index')
-                         ->with('success', 'Machine created successfully.');
+                         ->with('success', __('common.machine_created'));
     }
 
     /**
@@ -96,7 +96,7 @@ class MachineController extends Controller
         $machine->update($request->validated());
 
         return redirect()->route('machines.index')
-                         ->with('success', 'Machine updated successfully.');
+                         ->with('success', __('common.machine_updated'));
     }
 
     /**
@@ -106,13 +106,14 @@ class MachineController extends Controller
     {
         // Check if machine has any bladder transactions
         if ($machine->bladderTransactions()->exists()) {
-            return redirect()->route('machines.index')
-                ->with('error', 'Cannot delete machine. It has associated bladder transactions.');
+            // delete all bladder transactions associated with this machine
+            $machine->bladderTransactions()->delete();
+            // delete the machine
         }
 
         $machine->delete();
 
         return redirect()->route('machines.index')
-                         ->with('success', 'Machine deleted successfully.');
+                         ->with('success', __('common.machine_deleted'));
     }
 }

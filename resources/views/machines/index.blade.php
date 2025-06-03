@@ -20,13 +20,11 @@
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">
-
-            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0"> <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Machines</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.machines') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -41,17 +39,22 @@
                         <form method="GET" action="{{ route('machines.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-4 col-12 filter-column">
-                                    <input type="text" name="Code" class="form-control" placeholder="Filter by Machine Code"
+                                    <input type="text" name="Code" class="form-control"
+                                        placeholder="{{ __('app.filter_by_machine_code') }}"
                                         value="{{ request('Code') }}">
-                                </div>                                <div class="col-md-4 col-12 filter-column">
+                                </div>
+                                <div class="col-md-4 col-12 filter-column">
                                     <select name="Status" class="form-control">
-                                        <option value="">All Statuses</option>
-                                        <option value="working" {{ request('Status') == 'working' ? 'selected' : '' }}>Working</option>
-                                        <option value="stopped" {{ request('Status') == 'stopped' ? 'selected' : '' }}>Stopped</option>
+                                        <option value="">{{ __('app.all_statuses') }}</option>
+                                        <option value="working" {{ request('Status') == 'working' ? 'selected' : '' }}>
+                                            {{ __('common.working') }}</option>
+                                        <option value="stopped" {{ request('Status') == 'stopped' ? 'selected' : '' }}>
+                                            {{ __('common.stopped') }}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 col-12 d-flex">
                                     <x-filter-button />
+                                    <x-clear-filter-button />
                                 </div>
                             </div>
                         </form>
@@ -59,31 +62,34 @@
                             <table id="machinesTable" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Machine Code</th>
-                                        <th>Status</th>
-                                        <th>Left Bladder</th>
-                                        <th>Right Bladder</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('app.machine_code') }}</th>
+                                        <th>{{ __('common.status') }}</th>
+                                        <th>{{ __('app.left_bladder') }}</th>
+                                        <th>{{ __('app.right_bladder') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($machines as $machine)
                                         <tr>
-                                            <td data-th="Machine Code">{{ $machine->Code }}</td>                                            <td data-th="Status">
+                                            <td data-th="Machine Code">{{ $machine->Code }}</td>
+                                            <td data-th="Status">
                                                 <span class="badge bg-{{ $machine->is_working ? 'success' : 'danger' }}">
                                                     {{ $machine->status_text }}
                                                 </span>
                                             </td>
                                             <td data-th="Left Bladder">
                                                 @if ($machine->leftBladder)
-                                                    <span class="badge bg-info">{{ $machine->leftBladder->BladderCode }}</span>
+                                                    <span
+                                                        class="badge bg-info">{{ $machine->leftBladder->BladderCode }}</span>
                                                 @else
                                                     <span class="text-muted">No Bladder</span>
                                                 @endif
                                             </td>
                                             <td data-th="Right Bladder">
                                                 @if ($machine->rightBladder)
-                                                    <span class="badge bg-info">{{ $machine->rightBladder->BladderCode }}</span>
+                                                    <span
+                                                        class="badge bg-info">{{ $machine->rightBladder->BladderCode }}</span>
                                                 @else
                                                     <span class="text-muted">No Bladder</span>
                                                 @endif
@@ -93,7 +99,8 @@
                                                     <x-show-button route="machines.show" :param="$machine->Id" name="machine" />
                                                     <x-edit-button route="machines.edit" :param="$machine->Id" name="machine" />
                                                     <div style="margin-top: 0.07rem">
-                                                        <x-delete-button route="machines.destroy" :param="$machine->Id" name="machine" />
+                                                        <x-delete-button route="machines.destroy" :param="$machine->Id"
+                                                            name="machine" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -107,11 +114,10 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#machinesTable').DataTable({
                 lengthMenu: [
@@ -124,14 +130,33 @@
                 ]
             });
         });
-    </script>
+    </script> --}}
+    <script>
+        // Clear all filters function
+        function clearFilters() {
+            // Get the form
+            const form = document.querySelector('form[method="GET"]');
 
+            // Clear all form inputs
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'date') {
+                    input.value = '';
+                } else if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                }
+            });
+
+            // Submit the form to clear filters
+            form.submit();
+        }
+    </script>
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script>
+    {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
     <script>
         document.querySelector('table').addEventListener('click', function(e) {
@@ -172,7 +197,8 @@
                     }
                 });
             }
-        });    </script>
+        });
+    </script>
 
     @if (session('success'))
         <script>

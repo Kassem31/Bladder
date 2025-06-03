@@ -97,9 +97,30 @@ class BladderTransaction extends Model
         $lastTransaction = self::where('BladderId', $bladderId)
             ->orderByDesc('CreatedAt')
             ->first();
-            
-        $lastType = $lastTransaction ? $lastTransaction->TransactionType : null;
-        return self::TRANSACTION_SEQUENCE[$lastType] ?? 'Dismount';
+        
+        // If there's a previous transaction, follow normal sequence
+        if ($lastTransaction) {
+            $lastType = $lastTransaction->TransactionType;
+            return self::TRANSACTION_SEQUENCE[$lastType] ?? 'Dismount';
+        }
+        
+        // If no transactions, check bladder state
+        $bladder = Bladder::find($bladderId);
+        if (!$bladder) {
+            return 'Dismount'; // Default, though this shouldn't happen
+        }
+        
+        // Special handling based on bladder state when no transactions exist
+        switch ($bladder->Status) {
+            case 'ready':
+            case 'test':
+                return 'Mount';
+            case 'maintenance':
+                return 'Test';
+            case 'mounted':
+            default:
+                return 'Dismount'; // Default path if no special case applies
+        }
     }
     
     /**

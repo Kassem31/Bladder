@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Green Tire</title>
+    <title>Bladder</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('src/assets/img/logo/logo.jpg') }}" />
     <link href="{{ asset('layouts/collapsible-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('layouts/collapsible-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
@@ -21,7 +21,7 @@
 
     <style>
         body.form {
-            background-image: url('{{ asset('src/assets/img/background.jpeg') }}');
+            background-image: url('{{ asset('src/assets/img/Bladder-bg.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -44,7 +44,7 @@
 
                     <div
                         class="col-xxl-4 col-xl-5 col-lg-5 col-md-8 col-12 d-flex flex-column align-self-center mx-auto">
-                        <div class="card mt-3 mb-3" style="background-color: #9ccb9c; opacity: 0.85">
+                        <div class="card mt-3 mb-3" style="background-color: #fafaf3; opacity: 0.85">
                             <div class="card-body">
 
                                 <div class="row">

@@ -47,9 +47,8 @@
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="page-title">
-                <h3>Add New Observation</h3>
+        <div class="row layout-top-spacing">            <div class="page-title">
+                <h3>{{ __('common.add') }} {{ __('app.finding') }}</h3>
             </div>
 
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -59,7 +58,7 @@
 
                         <form action="{{ route('findings.store') }}" method="POST" class="row g-3">
                             @csrf <div class="col-md-6">
-                                <label for="IconClass" class="form-label">Icon</label>
+                                <label for="IconClass" class="form-label">{{ __('app.icon') }}</label>
                                 <div class="icon-select-container">
                                     <input type="hidden" id="IconClass" name="IconClass" value="{{ old('IconClass') }}"
                                         class="@error('IconClass') is-invalid @enderror">
@@ -264,21 +263,21 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="Description" class="form-label">Description *</label>
+                                <label for="Description" class="form-label">{{ __('app.observation_details') }} *</label>
                                 <input type="text" class="form-control @error('Description') is-invalid @enderror"
-                                    id="Description" name="Description" value="{{ old('Description') }}"
-                                    placeholder="Enter finding description" required>
+                                    id="Description" name="Description"
+                                    value="{{ old('Description') }}"
+                                    placeholder="{{ __('app.enter_finding_description') }}" required>
                                 @error('Description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary px-5">
-                                    <i class="bx bx-save me-1"></i>Save Finding
+                            <div class="col-12">                                <button type="submit" class="btn btn-primary px-5">
+                                    <i class="bx bx-save me-1"></i>{{ __('common.save') }} {{ __('app.finding') }}
                                 </button>
                                 <a href="{{ route('findings.index') }}" class="btn btn-secondary px-5 ms-2">
-                                    <i class="bx bx-x me-1"></i>Cancel
+                                    <i class="bx bx-x me-1"></i>{{ __('common.cancel') }}
                                 </a>
                             </div>
                         </form>

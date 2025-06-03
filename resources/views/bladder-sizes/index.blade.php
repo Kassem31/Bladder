@@ -20,13 +20,11 @@
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">
-
-            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0"> <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Bladder Sizes</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.bladder_sizes') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -41,8 +39,8 @@
                         <form method="GET" action="{{ route('bladder-sizes.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-4 col-12 filter-column">
-                                    <input type="text" name="Name" class="form-control" placeholder="Filter by Name"
-                                        value="{{ request('Name') }}">
+                                    <input type="text" name="Name" class="form-control"
+                                        placeholder="{{ __('app.filter_by_name') }}" value="{{ request('Name') }}">
                                 </div>
                                 <div class="col-md-4 col-12 d-flex">
                                     <x-filter-button />
@@ -53,8 +51,8 @@
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('common.name') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,11 +90,12 @@
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script>
+    {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
+ --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
-    <script>
+    {{-- <script>
         document.querySelector('.widget-content .mixin').addEventListener('click', function() {
             const Toast = Swal.mixin({
                 toast: true,
@@ -115,7 +114,7 @@
                 title: 'Signed in successfully'
             })
         })
-    </script>
+    </script> --}}
 
     <script>
         document.querySelector('table').addEventListener('click', function(e) {
@@ -157,7 +156,8 @@
                 });
             }
         });
-    </script>    @if (session('success'))
+    </script>
+    @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;

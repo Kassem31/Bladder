@@ -20,13 +20,11 @@
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">
-
-            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0"> <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Bladders</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.bladders') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -42,11 +40,12 @@
                             <div class="row">
                                 <div class="col-md-3 col-12 filter-column">
                                     <input type="text" name="BladderCode" class="form-control"
-                                        placeholder="Filter by Bladder Code" value="{{ request('BladderCode') }}">
+                                        placeholder="{{ __('app.filter_by_bladder_code') }}"
+                                        value="{{ request('BladderCode') }}">
                                 </div>
                                 <div class="col-md-3 col-12 filter-column">
                                     <select name="BladderSizeId" class="form-control">
-                                        <option value="">All Bladder Sizes</option>
+                                        <option value="">{{ __('app.all_bladder_sizes') }}</option>
                                         @foreach ($bladderSizes as $size)
                                             <option value="{{ $size->Id }}"
                                                 {{ request('BladderSizeId') == $size->Id ? 'selected' : '' }}>
@@ -57,44 +56,51 @@
                                 </div>
                                 <div class="col-md-3 col-12 filter-column">
                                     <select name="Status" class="form-control">
-                                        <option value="">All Statuses</option>
-                                        <option value="Ready" {{ request('Status') == 'Ready' ? 'selected' : '' }}>Ready
+                                        <option value="">{{ __('app.all_statuses') }}</option>
+                                        <option value="Ready" {{ request('Status') == 'Ready' ? 'selected' : '' }}>
+                                            {{ __('common.ready') }}
                                         </option>
                                         <option value="Maintenance"
-                                            {{ request('Status') == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
+                                            {{ request('Status') == 'Maintenance' ? 'selected' : '' }}>
+                                            {{ __('common.maintenance') }}</option>
                                         <option value="Mounted" {{ request('Status') == 'Mounted' ? 'selected' : '' }}>
-                                            Mounted</option>
-                                        <option value="test" {{ request('Status') == 'test' ? 'selected' : '' }}>Test
+                                            {{ __('common.mounted') }}</option>
+                                        <option value="test" {{ request('Status') == 'test' ? 'selected' : '' }}>
+                                            {{ __('app.test') }}
                                         </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-5 col-5 filter-column">
-                                    <label for="ExpiryDateFrom" class="form-label text-muted small">Expiry Date From</label>
+                                    <label for="ExpiryDateFrom"
+                                        class="form-label text-muted small">{{ __('app.expiry_date') }}
+                                        {{ __('app.transaction_date_from') }}</label>
                                     <input type="date" name="ExpiryDateFrom" class="form-control"
                                         value="{{ request('ExpiryDateFrom') }}">
                                 </div>
                                 <div class="col-md-5 col-5 filter-column">
-                                    <label for="ExpiryDateTo" class="form-label text-muted small">Expiry Date To</label>
+                                    <label for="ExpiryDateTo"
+                                        class="form-label text-muted small">{{ __('app.expiry_date') }}
+                                        {{ __('app.transaction_date_to') }}</label>
                                     <input type="date" name="ExpiryDateTo" class="form-control"
                                         value="{{ request('ExpiryDateTo') }}">
                                 </div>
                             </div>
+                            <div class="col-md-3 col-12 d-flex gap-2 mb-3" style="margin-left: 0.5rem;">
+                                <x-filter-button />
+                                <x-clear-filter-button />
+                            </div>
                         </form>
-                        <div class="col-md-3 col-12 d-flex gap-2 mb-3" style="margin-left: 0.5rem;">
-                            <x-filter-button />
-                            <x-clear-filter-button />
-                        </div>
                         <div class="table-responsive">
                             <table id="bladdersTable" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Bladder Code</th>
-                                        <th>Bladder Size</th>
-                                        <th>Expiry Date</th>
-                                        <th>Status</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('app.bladder_code') }}</th>
+                                        <th>{{ __('app.bladder_size') }}</th>
+                                        <th>{{ __('app.expiry_date') }}</th>
+                                        <th>{{ __('common.status') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -151,21 +157,6 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#bladdersTable').DataTable({
-                lengthMenu: [
-                    [6, 10, 20, -1],
-                    [6, 10, 20, "All"]
-                ],
-                responsive: true,
-                order: [
-                    [0, 'asc']
-                ]
-            });
-        });
-    </script>
-
-    <script>
         // Clear all filters function
         function clearFilters() {
             // Get the form
@@ -189,9 +180,10 @@
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
     <script>
         document.querySelector('table').addEventListener('click', function(e) {
@@ -232,7 +224,8 @@
                     }
                 });
             }
-        });    </script>
+        });
+    </script>
 
     @if (session('success'))
         <script>

@@ -7,79 +7,88 @@
     <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    @if(app()->getLocale() === 'ar')
+    <style>
+        .rtl-content {
+            direction: rtl;
+            text-align: right;
+        }
+        .rtl-content .col-sm-3 h6 {
+            text-align: left;
+        }
+        .rtl-content .btn {
+            margin-left: 0;
+            margin-right: 0.5rem;
+        }
+        .rtl-content .btn:first-child {
+            margin-right: 0;
+        }
+    </style>
+    @endif
 @endsection
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="page-title">
-                <h3>Bladder Details</h3>
-            </div>
-
-            <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+        <div class="row layout-top-spacing {{ app()->getLocale() === 'ar' ? 'text-right' : '' }}">            <div class="page-title">
+                <h3>{{ __('app.bladder_details') }}</h3>
+            </div>            <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                 <div class="widget-content widget-content-area br-8">
-                    <div class="card-body p-5">
-                        <hr>
-
-                        <div class="row mb-3">
+                    <div class="card-body p-5 {{ app()->getLocale() === 'ar' ? 'rtl-content' : '' }}">
+                        <hr>                        <div class="row mb-3 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Bladder Code:</h6>
+                                <h6 class="mb-0">{{ __('app.bladder_code') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 {{ $bladder->BladderCode }}
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
+                        </div>                        <div class="row mb-3 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Bladder Size:</h6>
+                                <h6 class="mb-0">{{ __('app.bladder_size') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ $bladder->bladderSize->Name ?? 'N/A' }}
+                                {{ $bladder->bladderSize->Name ?? __('common.not_available') }}
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
+                        </div>                        <div class="row mb-3 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Status:</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary"> <span
+                                <h6 class="mb-0">{{ __('common.status') }}:</h6>
+                            </div>                            <div class="col-sm-9 text-secondary"> <span
                                     class="badge bg-{{ $bladder->Status === 'available' ? 'success' : ($bladder->Status === 'in_use' ? 'warning' : 'danger') }}">
-                                    {{ ucfirst(str_replace('_', ' ', $bladder->Status)) }}
+                                    {{ __('common.'.$bladder->Status) }}
                                 </span>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
+                        </div>                        <div class="row mb-3 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Expiry Date:</h6>
+                                <h6 class="mb-0">{{ __('app.expiry_date') }}:</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
-                                @if ($bladder->ExpiryDate)
-                                    {{ $bladder->ExpiryDate->format('F j, Y') }}
+                            <div class="col-sm-9 text-secondary">                                @if ($bladder->ExpiryDate)
+                                    @if(app()->getLocale() == 'ar')
+                                        {{ $bladder->ExpiryDate->locale('ar')->isoFormat('DD MMMM YYYY') }}
+                                    @else
+                                        {{ $bladder->ExpiryDate->format('F j, Y') }}
+                                    @endif
                                     @if ($bladder->ExpiryDate->isPast())
-                                        <span class="badge bg-danger ms-2">Expired</span>
+                                        <span class="badge bg-danger ms-2">{{ __('common.expired') }}</span>
                                     @elseif($bladder->ExpiryDate->diffInDays() <= 30)
-                                        <span class="badge bg-warning ms-2">Expiring Soon</span>
+                                        <span class="badge bg-warning ms-2">{{ __('app.expiring_soon') }}</span>
                                     @endif
                                 @else
-                                    N/A
+                                    {{ __('common.not_available') }}
                                 @endif
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Expiry Notification:</h6>
+                                <h6 class="mb-0">{{ __('app.expiry_notification') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary"> <span
                                     class="badge bg-{{ $bladder->ExpiryNotificationSent ? 'success' : 'secondary' }}">
                                     {{ $bladder->ExpiryNotificationSent ? 'Sent' : 'Not Sent' }}
                                 </span>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        @if ($bladder->bladderTransactions->count() > 0)
+                        {{-- @if ($bladder->bladderTransactions->count() > 0)
                             <hr>
                             <h6 class="mb-3">Transaction History</h6>
                             <div class="table-responsive">
@@ -103,23 +112,22 @@
                                     <small class="text-muted">Showing 5 most recent transactions</small>
                                 @endif
                             </div>
-                        @endif
+                        @endif --}}
 
                         <hr>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <a href="{{ route('bladders.edit', $bladder) }}" class="btn btn-primary">
-                                    <i class="bx bx-edit me-1"></i>Edit
+                            <div class="col-sm-12">                                <a href="{{ route('bladders.edit', $bladder) }}" class="btn btn-primary">
+                                    <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
                                 </a>
                                 <a href="{{ route('bladders.index') }}" class="btn btn-secondary ms-2">
-                                    <i class="bx bx-arrow-back me-1"></i>Back to List
+                                    <i class="bx bx-arrow-back me-1"></i>{{ __('common.back_to_list') }}
                                 </a>                                <form action="{{ route('bladders.destroy', $bladder) }}" method="POST"
                                     class="d-inline ms-2">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger delete-button"
                                         data-url="{{ route('bladders.destroy', $bladder) }}">
-                                        <i class="bx bx-trash me-1"></i>Delete
+                                        <i class="bx bx-trash me-1"></i>{{ __('common.delete') }}
                                     </button>
                                 </form>
                             </div>
@@ -132,7 +140,7 @@
 
 @section('scripts')
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Direct event listener on delete buttons
@@ -142,16 +150,15 @@
                 button.addEventListener('click', function(e) {
                     const deleteUrl = this.getAttribute('data-url');
                     const isDarkMode = window.matchMedia && window.matchMedia(
-                        '(prefers-color-scheme: dark)').matches;
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        '(prefers-color-scheme: dark)').matches;                    Swal.fire({
+                        title: "{{ __('common.are_you_sure') }}",
+                        text: "{{ __('common.delete_confirm_text') }}",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
+                        confirmButtonText: "{{ __('common.yes_delete') }}",
+                        cancelButtonText: "{{ __('common.cancel') }}",
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

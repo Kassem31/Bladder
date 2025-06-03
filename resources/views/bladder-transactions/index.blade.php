@@ -5,17 +5,16 @@
     <style>
         .transaction-flow {
             margin: 1rem 0;
-        }
 
-        .transaction-step {
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-        }
+            <table id="bladderTransactionsTable" class="table dt-table-hover" style="width:100%"><thead><tr><th>{{ __('app.transaction_type') }}</th><th>{{ __('app.bladder') }}</th><th>{{ __('app.machine') }}</th><th>{{ __('app.transaction_date') }}</th><th class="text-center no-sort">{{ __('common.actions') }}</th></tr></thead>.transaction-step {
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+            }
 
-        .transaction-step .badge {
-            font-size: 0.9rem;
-            padding: 0.5rem 0.75rem;
-        }
+            .transaction-step .badge {
+                font-size: 0.9rem;
+                padding: 0.5rem 0.75rem;
+            }
     </style>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
@@ -28,7 +27,8 @@
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet"
+        type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
@@ -36,13 +36,11 @@
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">
-
-            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0"> <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Bladder Transactions</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ __('app.bladder_transactions') }}</a></li>
                     </ol>
                 </nav>
             </div>
@@ -53,27 +51,27 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <i class="bx bx-plus-square"></i> Create Transaction
+                            <i class="bx bx-plus-square"></i> {{ __('app.create_transaction') }}
                         </button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="{{ route('bladder-transactions.create-dismount') }}">
-                                    <i class="bx bxs-minus-square text-warning"></i> Dismount Transaction
+                                    <i class="bx bxs-minus-square text-warning"></i> {{ __('app.dismount_transaction') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('bladder-transactions.create-maintenance') }}">
-                                    <i class="bx bx-wrench text-info"></i> Maintenance Transaction
+                                    <i class="bx bx-wrench text-info"></i> {{ __('app.maintenance_transaction') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('bladder-transactions.create-test') }}">
-                                    <i class="bx bx-test-tube text-primary"></i> Test Transaction
+                                    <i class="bx bx-test-tube text-primary"></i> {{ __('app.test_transaction') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('bladder-transactions.create-mount') }}">
-                                    <i class="bx bx-plus-circle text-success"></i> Mount Transaction
+                                    <i class="bx bx-plus-circle text-success"></i> {{ __('app.mount_transaction') }}
                                 </a>
                             </li>
                         </ul>
@@ -81,38 +79,46 @@
                 </div>
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
-                    <div class="widget-content widget-content-area br-8">                        <form method="GET" action="{{ route('bladder-transactions.index') }}" class="mb-3">
+                    <div class="widget-content widget-content-area br-8">
+                        <form method="GET" action="{{ route('bladder-transactions.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-3 col-12 filter-column">
                                     <select name="TransactionType" id="TransactionTypeFilter" class="form-control">
-                                        <option value="">All Types</option>
+                                        <option value="">{{ __('app.all_transaction_types') }}</option>
                                         <option value="Mount"
-                                            {{ request('TransactionType') == 'Mount' ? 'selected' : '' }}>Mount</option>
+                                            {{ request('TransactionType') == 'Mount' ? 'selected' : '' }}>
+                                            {{ __('app.mount') }}</option>
                                         <option value="Dismount"
-                                            {{ request('TransactionType') == 'Dismount' ? 'selected' : '' }}>Dismount
+                                            {{ request('TransactionType') == 'Dismount' ? 'selected' : '' }}>
+                                            {{ __('app.dismount') }}
                                         </option>
                                         <option value="Test"
-                                            {{ request('TransactionType') == 'Test' ? 'selected' : '' }}>Test</option>
+                                            {{ request('TransactionType') == 'Test' ? 'selected' : '' }}>
+                                            {{ __('app.test') }}</option>
                                         <option value="Maintenance"
-                                            {{ request('TransactionType') == 'Maintenance' ? 'selected' : '' }}>Maintenance
+                                            {{ request('TransactionType') == 'Maintenance' ? 'selected' : '' }}>
+                                            {{ __('common.maintenance') }}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-12 filter-column">
                                     <input type="text" name="BladderCode" class="form-control"
-                                        placeholder="Filter by Bladder Code" value="{{ request('BladderCode') }}">
+                                        placeholder="{{ __('app.filter_by_bladder_code') }}"
+                                        value="{{ request('BladderCode') }}">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-5 col-5 filter-column">
-                                    <label for="DateFrom" class="form-label text-muted small">Transaction Date From</label>
-                                    <input type="date" name="DateFrom" class="form-control" 
-                                    value="{{ request('DateFrom') }}">
+                                    <label for="DateFrom"
+                                        class="form-label text-muted small">{{ __('app.transaction_date_from') }}</label>
+                                    <input type="date" name="DateFrom" class="form-control"
+                                        value="{{ request('DateFrom') }}">
                                 </div>
                                 <div class="col-md-5 col-5 filter-column">
-                                    <label for="DateTo" class="form-label text-muted small">Transaction Date To</label>
-                                    <input type="date" name="DateTo" class="form-control" 
-                                    value="{{ request('DateTo') }}">
+                                    <label for="DateTo"
+                                        class="form-label text-muted small">{{ __('app.transaction_date_to') }}</label>
+                                    <input type="date" name="DateTo" class="form-control"
+                                        value="{{ request('DateTo') }}">
                                 </div>
                             </div>
                             <div class="col-md-3 col-12 d-flex gap-2" style="margin-left: 0.5rem;">
@@ -124,11 +130,11 @@
                             <table id="transactionsTable" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Transaction Type</th>
-                                        <th>Bladder</th>
-                                        <th>Machine</th>
-                                        <th>Transaction Date</th>
-                                        <th class="text-center no-sort">Actions</th>
+                                        <th>{{ __('app.transaction_type') }}</th>
+                                        <th>{{ __('app.bladder') }}</th>
+                                        <th>{{ __('app.machine') }}</th>
+                                        <th>{{ __('app.transaction_date') }}</th>
+                                        <th class="text-center no-sort">{{ __('common.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,15 +158,16 @@
                                             <td data-th="Machine">{{ $transaction->machine->Code ?? 'N/A' }}</td>
                                             <td data-th="Created At">
                                                 {{ $transaction->CreatedAt ? \Carbon\Carbon::parse($transaction->CreatedAt)->format('F j, Y') : 'N/A' }}
-                                            </td>                                            <td class="text-center" data-th="Actions">
+                                            </td>
+                                            <td class="text-center" data-th="Actions">
                                                 <div class="d-flex flex-wrap justify-content-center button-group gap-1">
                                                     <x-show-button route="bladder-transactions.show" :param="$transaction->Id"
                                                         name="bladder_transaction" />
-                                                    @if(in_array($transaction->Id, $latestTransactionIds))
-                                                    <div style="margin-top: 0.07rem">
-                                                        <x-delete-button route="bladder-transactions.destroy"
-                                                            :param="$transaction->Id" name="bladder_transaction" />
-                                                    </div>
+                                                    @if (in_array($transaction->Id, $latestTransactionIds))
+                                                        <div style="margin-top: 0.07rem">
+                                                            <x-delete-button route="bladder-transactions.destroy"
+                                                                :param="$transaction->Id" name="bladder_transaction" />
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </td>
@@ -177,27 +184,13 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#transactionsTable').DataTable({
-                lengthMenu: [
-                    [6, 10, 20, -1],
-                    [6, 10, 20, "All"]
-                ],
-                responsive: true,
-                order: [
-                    [0, 'desc']
-                ]
-            });
-        });
-    </script>
-
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
     <script>
         document.querySelector('table').addEventListener('click', function(e) {
@@ -238,7 +231,7 @@
                     }
                 });
             }
-        });        // Direction filter visibility
+        }); // Direction filter visibility
         const transactionTypeFilter = document.getElementById('TransactionTypeFilter');
         const directionFilter = document.querySelector('.direction-filter');
 
@@ -257,7 +250,7 @@
         function clearFilters() {
             // Get the form
             const form = document.querySelector('form[method="GET"]');
-            
+
             // Clear all form inputs
             const inputs = form.querySelectorAll('input, select');
             inputs.forEach(input => {
@@ -267,12 +260,13 @@
                     input.selectedIndex = 0;
                 }
             });
-            
+
             // Hide direction filter if visible
             directionFilter.style.display = 'none';
-            
+
             // Submit the form to clear filters
-            form.submit();        }
+            form.submit();
+        }
     </script>
 
     <script>

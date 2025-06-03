@@ -14,7 +14,7 @@
                             <line x1="9" y1="9" x2="9.01" y2="9"></line>
                             <line x1="15" y1="9" x2="15.01" y2="9"></line>
                         </svg>
-                        <h5 style="font-size: 2.5rem;" class="alert-heading mb-0 text-center">Welcome, {{ Auth::user()->name }}!</h5>
+                        <h5 style="font-size: 2.5rem;" class="alert-heading mb-0 text-center">{{ __('common.welcome') }}, {{ Auth::user()->name }}!</h5>
                     </div>
                 </div>
                 <style>

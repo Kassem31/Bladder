@@ -45,7 +45,7 @@
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            <span>Dashboard</span>
+                            <span>{{ __('common.dashboard') }}</span>
                         </div>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                             class="dropdown-toggle">
                             <div class="">
                                 {!! $menu->svg_content !!}
-                                <span style="font-size: smaller">{{ $menu->name }}</span>
+                                <span style="font-size: smaller">{{ $menu->translated_name }}</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -78,7 +78,7 @@
                                 <li class="{{ $currentRouteBase == explode('.', $submenu->route)[0] ? 'active' : '' }}">
                                     {{-- @permission($submenu->permission) --}}
                                     <!-- Assuming you have permission field -->
-                                    <a href="{{ route($submenu->route) }}">{{ $submenu->name }}</a>
+                                    <a href="{{ route($submenu->route) }}">{{ $submenu->translated_name }}</a>
                                     {{-- @endpermission --}}
                                 </li>
                             @endforeach

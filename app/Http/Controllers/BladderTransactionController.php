@@ -112,17 +112,26 @@ class BladderTransactionController extends Controller
             ->where('bt.TransactionType', '=', 'Mount')
             ->pluck('bt.BladderId');
             
-        // Also get bladders with no transactions
+        // Get all bladder IDs
         $all_bladder_ids = Bladder::pluck('Id');
         $bladders_with_transactions = \DB::table('BladderTransactions')
             ->select('BladderId')
             ->distinct()
             ->pluck('BladderId');
             
-        $new_bladder_ids = $all_bladder_ids->diff($bladders_with_transactions);
+        $bladders_without_transactions = $all_bladder_ids->diff($bladders_with_transactions);
+        
+        // For bladders with no transactions, only include those with "mounted" status
+        // or default status (not "ready", "test", or "maintenance")
+        $new_eligible_bladders = Bladder::whereIn('Id', $bladders_without_transactions)
+            ->where(function($query) {
+                $query->where('Status', 'mounted')
+                      ->orWhereNotIn('Status', ['ready', 'test', 'maintenance']);
+            })
+            ->pluck('Id');
         
         // Combine both sets of eligible bladders
-        $eligible_bladder_ids = $eligible_bladder_ids->concat($new_bladder_ids);
+        $eligible_bladder_ids = $eligible_bladder_ids->concat($new_eligible_bladders);
         $bladders = Bladder::whereIn('Id', $eligible_bladder_ids)->get();
 
                 foreach ($bladders as $bladder) {
@@ -162,8 +171,28 @@ class BladderTransactionController extends Controller
             })
             ->where('bt.TransactionType', '=', 'Dismount')
             ->pluck('bt.BladderId');
+        
+        // Get all bladder IDs
+        $all_bladder_ids = Bladder::pluck('Id');
+        // Get bladders with any transactions
+        $bladders_with_transactions = \DB::table('BladderTransactions')
+            ->select('BladderId')
+            ->distinct()
+            ->pluck('BladderId');
+        // Find bladders without transactions
+        $bladders_without_transactions = $all_bladder_ids->diff($bladders_with_transactions);
+        
+        // For bladders without transactions, include those with available status
+        // but not those with ready, test, or maintenance status
+        $available_bladders = Bladder::whereIn('Id', $bladders_without_transactions)
+            ->where('Status', 'available')
+            ->whereNotIn('Status', ['ready', 'test', 'maintenance', 'mounted'])
+            ->pluck('Id');
+        
+        // Combine both sets of eligible bladders
+        $all_eligible_bladder_ids = $eligible_bladder_ids->concat($available_bladders);
             
-        $bladders = Bladder::whereIn('Id', $eligible_bladder_ids)->get();
+        $bladders = Bladder::whereIn('Id', $all_eligible_bladder_ids)->get();
         
         return view('bladder-transactions.create-maintenance', compact('bladders', 'machines', 'findings'));
     }
@@ -187,8 +216,25 @@ class BladderTransactionController extends Controller
             })
             ->where('bt.TransactionType', '=', 'Maintenance')
             ->pluck('bt.BladderId');
-            
-        $bladders = Bladder::whereIn('Id', $eligible_bladder_ids)->get();
+        
+        // Get all bladder IDs
+        $all_bladder_ids = Bladder::pluck('Id');
+        // Get bladders with any transactions
+        $bladders_with_transactions = \DB::table('BladderTransactions')
+            ->select('BladderId')
+            ->distinct()
+            ->pluck('BladderId');
+        // Find bladders without transactions
+        $bladders_without_transactions = $all_bladder_ids->diff($bladders_with_transactions);
+        
+        // Get bladders with maintenance status and no transactions
+        $maintenance_bladders = Bladder::whereIn('Id', $bladders_without_transactions)
+            ->where('Status', 'maintenance')
+            ->pluck('Id');
+        
+        // Combine both sets of eligible bladders
+        $all_eligible_bladder_ids = $eligible_bladder_ids->concat($maintenance_bladders);
+        $bladders = Bladder::whereIn('Id', $all_eligible_bladder_ids)->get();
         
         return view('bladder-transactions.create-test', compact('bladders', 'machines'));
     }
@@ -212,8 +258,25 @@ class BladderTransactionController extends Controller
             })
             ->where('bt.TransactionType', '=', 'Test')
             ->pluck('bt.BladderId');
-            
-        $bladders = Bladder::whereIn('Id', $eligible_bladder_ids)->get();
+        
+        // Get all bladder IDs
+        $all_bladder_ids = Bladder::pluck('Id');
+        // Get bladders with any transactions
+        $bladders_with_transactions = \DB::table('BladderTransactions')
+            ->select('BladderId')
+            ->distinct()
+            ->pluck('BladderId');
+        // Find bladders without transactions
+        $bladders_without_transactions = $all_bladder_ids->diff($bladders_with_transactions);
+        
+        // Get bladders with ready or test status and no transactions
+        $ready_or_test_bladders = Bladder::whereIn('Id', $bladders_without_transactions)
+            ->whereIn('Status', ['ready', 'test'])
+            ->pluck('Id');
+        
+        // Combine both sets of eligible bladders
+        $all_eligible_bladder_ids = $eligible_bladder_ids->concat($ready_or_test_bladders);
+        $bladders = Bladder::whereIn('Id', $all_eligible_bladder_ids)->get();
         
         return view('bladder-transactions.create-mount', compact('bladders', 'machines'));
     }
@@ -227,6 +290,17 @@ class BladderTransactionController extends Controller
         
         // Always set CreatedAt to the current time as string
         $validated['CreatedAt'] = now()->format('Y-m-d H:i:s');
+        
+        // Check if this transaction is valid in the workflow sequence
+        $bladderId = $validated['BladderId'];
+        $transactionType = $validated['TransactionType'];
+        
+        $nextAllowedType = BladderTransaction::getNextAllowedTransactionType($bladderId);
+        if ($nextAllowedType !== $transactionType) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', __('common.invalid_transaction_sequence', ['type' => $nextAllowedType]));
+        }
         
         // Special handling for Mount transactions
         $transactionType = $validated['TransactionType'];
@@ -254,20 +328,20 @@ class BladderTransactionController extends Controller
             if ($machine->Full || ($machine->LeftBladderId && $machine->RightBladderId)) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'This machine already has bladders mounted on both sides.');
+                    ->with('error', __('common.machine_both_sides_mounted'));
             }
             
             // Check if the specified direction already has a bladder
             if ($direction === 'Left' && $machine->LeftBladderId) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'This machine already has a bladder mounted on the left side.');
+                    ->with('error', __('common.machine_left_side_mounted'));
             }
             
             if ($direction === 'Right' && $machine->RightBladderId) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'This machine already has a bladder mounted on the right side.');
+                    ->with('error', __('common.machine_right_side_mounted'));
             }
             
             // Update the machine with the new bladder
@@ -321,6 +395,25 @@ class BladderTransactionController extends Controller
             $bladder->save();
         }
         
+        // Update bladder status based on transaction type
+        $bladder = Bladder::find($validated['BladderId']);
+        switch ($transactionType) {
+            case 'Maintenance':
+                $bladder->Status = 'maintenance';
+                break;
+            case 'Test':
+                $bladder->Status = 'test';
+                break;
+            case 'Mount':
+                $bladder->Status = 'mounted';
+                break;
+            case 'Dismount':
+            default:
+                $bladder->Status = 'available';
+                break;
+        }
+        $bladder->save();
+        
         // Store the transaction
         $transaction = BladderTransaction::create($validated);
         // If it's a maintenance transaction and findings are selected, store them
@@ -337,7 +430,7 @@ class BladderTransactionController extends Controller
         }
 
         return redirect()->route('bladder-transactions.index')
-                         ->with('success', 'Bladder transaction created successfully.');
+                         ->with('success', __('common.bladder_transaction_created'));
     }
 
     /**
@@ -371,7 +464,7 @@ class BladderTransactionController extends Controller
         $bladderTransaction->update($request->validated());
 
         return redirect()->route('bladder-transactions.index')
-                         ->with('success', 'Bladder transaction updated successfully.');
+                         ->with('success', __('common.bladder_transaction_updated'));
     }
 
     /**
@@ -382,18 +475,18 @@ class BladderTransactionController extends Controller
         // Check if bladder transaction has any maintenance findings
         if ($bladderTransaction->maintenanceFindings()->exists()) {
             return redirect()->route('bladder-transactions.index')
-                ->with('error', 'Cannot delete bladder transaction. It has associated maintenance findings.');
+                ->with('error', __('common.transaction_delete_has_findings'));
         }
 
         // Check if this is the latest transaction for this bladder
         if (!$bladderTransaction->isLatestTransaction()) {
             return redirect()->route('bladder-transactions.index')
-                ->with('error', 'Only the most recent transaction for a bladder can be deleted.');
+                ->with('error', __('common.transaction_delete_not_recent'));
         }
 
         $bladderTransaction->delete();
 
         return redirect()->route('bladder-transactions.index')
-                         ->with('success', 'Bladder transaction deleted successfully.');
+                         ->with('success', __('common.bladder_transaction_deleted'));
     }
 }

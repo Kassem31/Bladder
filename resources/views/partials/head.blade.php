@@ -26,6 +26,47 @@
 {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
 <!-- END GLOBAL MANDATORY STYLES -->
 
+<!-- RTL Support for Arabic -->
+@if(app()->getLocale() == 'ar')
+<style>
+    body[dir="rtl"] {
+        text-align: right;
+    }
+    
+    body[dir="rtl"] .sidebar-wrapper {
+        right: 0;
+        left: auto;
+    }
+    
+    body[dir="rtl"] .sidebar-wrapper .sidebar-content {
+        direction: rtl;
+    }
+    
+    body[dir="rtl"] #content {
+        margin-right: 250px;
+        margin-left: 0;
+    }
+    
+    body[dir="rtl"] .navbar-item {
+        flex-direction: row-reverse;
+    }
+    
+    body[dir="rtl"] .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+    
+    body[dir="rtl"] .table th,
+    body[dir="rtl"] .table td {
+        text-align: right;
+    }
+    
+    body[dir="rtl"] .btn {
+        text-align: center;
+    }
+</style>
+@endif
+
 <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 {{-- <link href="{{ asset('src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css"> --}}
 {{-- <link href="{{ asset('src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" /> --}}

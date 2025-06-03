@@ -3,8 +3,8 @@
         @csrf
         @method('DELETE')
             <button type="button" class="btn btn-danger btn-sm delete-button" data-url="{{ route($route, $param) }}"
-                title="Delete {{ ucfirst($name) }}">
-                Delete
+                title="{{ __('common.delete') }} {{ ucfirst($name) }}">
+                {{ __('common.delete') }}
             </button>
     </form>
 @endpermission

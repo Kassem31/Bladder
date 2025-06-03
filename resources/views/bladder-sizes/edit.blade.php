@@ -8,13 +8,13 @@
     <link href="{{asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
-@section('title', 'Edit Bladder Size')
+@section('title', __('common.edit') . ' ' . __('app.bladder_size'))
 
 @section('content')
     <div class="layout-px-spacing">
         <div class="row layout-top-spacing">
             <div class="page-title">
-                <h3>Edit Bladder Size</h3>
+                <h3>{{ __('common.edit') }} {{ __('app.bladder_size') }}</h3>
             </div>
 
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -24,15 +24,14 @@
                         <form action="{{ route('bladder-sizes.update', $bladderSize->Id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            
-                            <div class="row mb-3">
+                              <div class="row mb-3">
                                 <div class="col-sm-1 mt-2">
-                                    <h6 class="mb-0">Name:</h6>
+                                    <h6 class="mb-0">{{ __('common.name') }}:</h6>
                                 </div>
                                 <div class="col-sm-9" style="margin-left: -2.5rem;">
                                     <input type="text" class="form-control @error('Name') is-invalid @enderror"
                                         id="Name" name="Name" value="{{ old('Name', $bladderSize->Name) }}"
-                                        placeholder="Enter bladder size name" required>
+                                        placeholder="{{ __('app.bladder_size') }}" required>
                                     @error('Name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -43,9 +42,10 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="bx bx-save me-1"></i>Update
-                                    </button>                                    <a href="{{ route('bladder-sizes.index') }}" class="btn btn-secondary ms-2">
-                                        <i class="bx bx-arrow-back me-1"></i>Back to List
+                                        <i class="bx bx-save me-1"></i>{{ __('common.update') }}
+                                    </button>
+                                    <a href="{{ route('bladder-sizes.index') }}" class="btn btn-secondary ms-2">
+                                        <i class="bx bx-arrow-back me-1"></i>{{ __('common.back_to_list') }}
                                     </a>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
 
 @section('scripts')
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>    <script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}    <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.delete-button').forEach(button => {
                 button.addEventListener('click', function() {

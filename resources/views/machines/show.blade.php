@@ -11,9 +11,8 @@
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="page-title">
-                <h3>Machine Details</h3>
+        <div class="row layout-top-spacing">            <div class="page-title">
+                <h3>{{ __('app.machine_details') }}</h3>
             </div>
 
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -23,14 +22,14 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Machine Code:</h6>
+                                <h6 class="mb-0">{{ __('app.machine_code') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 {{ $machine->Code }}
                             </div>
                         </div>                        <div class="row mb-3">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Status:</h6>
+                                <h6 class="mb-0">{{ __('app.status') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">                                <span class="badge bg-{{ $machine->is_working ? 'success' : 'danger' }}">
                                     {{ $machine->status_text }}
@@ -40,7 +39,7 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Left Bladder:</h6>
+                                <h6 class="mb-0">{{ __('app.left_bladder') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 @if ($machine->leftBladder)
@@ -49,16 +48,15 @@
                                         {{ $machine->leftBladder->BladderCode }}
                                         <span
                                             class="badge bg-info ms-1">{{ $machine->leftBladder->bladderSize->Name ?? 'N/A' }}</span>
-                                    </a>
-                                @else
-                                    <span class="text-muted">No Bladder Assigned</span>
+                                    </a>                                @else
+                                    <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
                                 @endif
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Right Bladder:</h6>
+                                <h6 class="mb-0">{{ __('app.right_bladder') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 @if ($machine->rightBladder)
@@ -69,7 +67,7 @@
                                             class="badge bg-info ms-1">{{ $machine->rightBladder->bladderSize->Name ?? 'N/A' }}</span>
                                     </a>
                                 @else
-                                    <span class="text-muted">No Bladder Assigned</span>
+                                    <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -77,7 +75,7 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <a href="{{ route('machines.edit', $machine) }}" class="btn btn-primary">
-                                    <i class="bx bxs-edit me-1"></i>Edit Machine
+                                    <i class="bx bxs-edit me-1"></i>{{ __('common.edit') }} {{ __('app.machine') }}
                                 </a>
                 <form action="{{ route('machines.destroy', $machine) }}" method="POST"
                                     class="d-inline ms-2">
@@ -85,7 +83,7 @@
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger delete-button"
                                         data-url="{{ route('machines.destroy', $machine) }}">
-                                        <i class="bx bx-trash me-1"></i>Delete Machine
+                                        <i class="bx bx-trash me-1"></i>{{ __('common.delete') }} {{ __('app.machine') }}
                                     </button>
                                 </form>
                             </div>
@@ -143,7 +141,7 @@
 
 @section('scripts')
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Direct event listener on delete buttons

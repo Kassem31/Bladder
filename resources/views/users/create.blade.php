@@ -5,7 +5,7 @@
     <div class="layout-px-spacing">
         <div class="row layout-top-spacing">
             <div class="page-title">
-                <h3>Create User</h3>
+                <h3>{{ __('common.create') }} {{ __('app.user') }}</h3>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -26,28 +26,28 @@
                 <form action="{{ route('profile.storeUser') }}" method="POST">
                     @csrf
                     <div class="form-group mb-4">
-                        <label for="name">Name</label>
-                        <input id="name" type="text" name="name" placeholder="Enter Name" class="form-control"
+                        <label for="name">{{ __('common.name') }}</label>
+                        <input id="name" type="text" name="name" placeholder="{{ __('common.name') }}" class="form-control"
                             required="">
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"
+                        <label for="email">{{ __('app.email') }}:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="{{ __('app.email') }}"
                             value="{{ old('email') }}">
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="is_active">Is Active:</label>
+                        <label for="is_active">{{ __('app.is_active') }}:</label>
                         <div class="responsive-checkbox-wrapper">
                             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
                                 {{ old('is_active') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">User account is active</label>
+                            <label class="form-check-label" for="is_active">{{ __('app.is_active') }}</label>
                         </div>
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="role">Role:</label>
+                        <label for="role">{{ __('app.role') }}:</label>
                         <select class="form-control" id="role_select" name="role_id" class="form-control"
                             placeholder="Select a role..." autocomplete="off">
                             @foreach ($roles as $role)
@@ -60,8 +60,8 @@
                     </div>
 
                     <div class="d-flex flex-column flex-md-row gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary">Create</button>
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">{{ __('common.create') }}</button>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('common.cancel') }}</a>
                     </div>
                 </form>
             </div>

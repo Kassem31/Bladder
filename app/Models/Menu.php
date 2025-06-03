@@ -10,7 +10,7 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'route', 'parent_id', 'order', 'permission'];
+    protected $fillable = ['name', 'route', 'parent_id', 'order', 'permission', 'translation_key'];
 
     public function children()
     {
@@ -40,5 +40,14 @@ class Menu extends Model
     {
         $path = public_path($this->svg);
         return File::exists($path) ? File::get($path) : '';
+    }
+    
+    public function getTranslatedNameAttribute()
+    {
+        if (!empty($this->translation_key)) {
+            return __('app.' . $this->translation_key);
+        }
+        
+        return $this->name;
     }
 }

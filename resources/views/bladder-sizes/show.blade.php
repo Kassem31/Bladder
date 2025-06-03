@@ -11,18 +11,16 @@
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="page-title">
-                <h3>Bladder Size Details</h3>
+        <div class="row layout-top-spacing">            <div class="page-title">
+                <h3>{{ __('app.bladder_size_details') }}</h3>
             </div>
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                     <div class="widget-content widget-content-area br-8">
                         <div class="card-body p-5">
                             <hr>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Name:</h6>
+                            <div class="row mb-3">                                <div class="col-sm-3">
+                                    <h6 class="mb-0">{{ __('common.name') }}:</h6>
                                 </div>
                                 <div class="col-sm-9 text-primary">
                                     {{ $bladderSize->Name }}
@@ -30,31 +28,27 @@
                             </div>
 
                             @if ($bladderSize->bladders->count() > 0)
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Associated Bladders:</h6>
+                                <div class="row mb-3">                                <div class="col-sm-3">
+                                        <h6 class="mb-0">{{ __('app.associated_bladders') }}:</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <span class="badge bg-primary">{{ $bladderSize->bladders->count() }} bladders</span>
+                                        <span class="badge bg-primary">{{ __('app.bladders_count', ['count' => $bladderSize->bladders->count()]) }}</span>
                                     </div>
                                 </div>
                             @endif
 
                             <hr>
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <a href="{{ route('bladder-sizes.edit', $bladderSize->Id) }}" class="btn btn-primary">
-                                        <i class="bx bx-edit me-1"></i>Edit
-                                    </a>
-                                    <a href="{{ route('bladder-sizes.index') }}" class="btn btn-secondary ms-2">
-                                        <i class="bx bx-arrow-back me-1"></i>Back to List
-                                    </a>                                    <form action="{{ route('bladder-sizes.destroy', $bladderSize->Id) }}" method="POST"
+                                <div class="col-sm-12">                                    <a href="{{ route('bladder-sizes.edit', $bladderSize->Id) }}" class="btn btn-primary">
+                                        <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
+                                    </a>                                    <a href="{{ route('bladder-sizes.index') }}" class="btn btn-secondary ms-2">
+                                        <i class="bx bx-arrow-back me-1"></i>{{ __('common.back_to_list') }}
+                                    </a><form action="{{ route('bladder-sizes.destroy', $bladderSize->Id) }}" method="POST"
                                         class="d-inline ms-2">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger delete-button"
+                                        @method('DELETE')                                        <button type="button" class="btn btn-danger delete-button"
                                             data-url="{{ route('bladder-sizes.destroy', $bladderSize->Id) }}">
-                                            <i class="bx bx-trash me-1"></i>Delete
+                                            <i class="bx bx-trash me-1"></i>{{ __('common.delete') }}
                                         </button>
                                     </form>
                                 </div>
@@ -67,7 +61,7 @@
 
 @section('scripts')
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Direct event listener on delete buttons
@@ -77,16 +71,15 @@
                 button.addEventListener('click', function(e) {
                     const deleteUrl = this.getAttribute('data-url');
                     const isDarkMode = window.matchMedia && window.matchMedia(
-                        '(prefers-color-scheme: dark)').matches;
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        '(prefers-color-scheme: dark)').matches;                    Swal.fire({
+                        title: '{{ __('common.confirm_delete') }}',
+                        text: "{{ __('common.confirm_delete_message') }}",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
+                        confirmButtonText: '{{ __('common.yes_delete') }}',
+                        cancelButtonText: '{{ __('common.cancel') }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

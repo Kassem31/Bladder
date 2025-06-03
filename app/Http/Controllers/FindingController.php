@@ -43,7 +43,7 @@ class FindingController extends Controller
         Finding::create($request->validated());
 
         return redirect()->route('findings.index')
-                         ->with('success', 'Finding created successfully.');
+                         ->with('success', __('common.finding_created'));
     }
 
     /**
@@ -71,7 +71,7 @@ class FindingController extends Controller
         $finding->update($request->validated());
 
         return redirect()->route('findings.index')
-                         ->with('success', 'Finding updated successfully.');
+                         ->with('success', __('common.finding_updated'));
     }
 
     /**
@@ -82,12 +82,12 @@ class FindingController extends Controller
         // Check if finding is being used by any maintenance findings
         if ($finding->maintenanceFindings()->exists()) {
             return redirect()->route('findings.index')
-                ->with('error', 'Cannot delete finding. It is currently being used by one or more maintenance findings.');
+                ->with('error', __('common.finding_delete_in_use'));
         }
 
         $finding->delete();
 
         return redirect()->route('findings.index')
-                         ->with('success', 'Finding deleted successfully.');
+                         ->with('success', __('common.finding_deleted'));
     }
 }
