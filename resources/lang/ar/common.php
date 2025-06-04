@@ -3,12 +3,12 @@
 return [
     // General
     'welcome' => 'مرحباً',
-    
+
     // Navigation
     'dashboard' => 'لوحة القيادة',
     'back_to_list' => 'العودة إلى القائمة',
     'logout' => 'تسجيل الخروج',
-    'back_to' => 'العودة إلى :name',
+    'back_to' => 'العودة إلى',
     // Common Actions
     'add' => 'إضافة',
     'edit' => 'تعديل',
@@ -21,11 +21,14 @@ return [
     'clear_filters' => 'مسح التصفية',
     'search' => 'بحث',
     'export' => 'تصدير',
-    'import' => 'استيراد',    'submit' => 'إرسال',
+    'import' => 'استيراد',
+    'submit' => 'إرسال',
     'update' => 'تحديث',
     'create' => 'إنشاء',
-    'back' => 'رجوع',    'clear' => 'مسح',    
-    
+    'back' => 'رجوع',
+    'clear' => 'مسح',
+    'reset_password' => 'إعادة تعيين كلمة المرور',
+
     // Status
     'active' => 'نشط',
     'inactive' => 'غير نشط',
@@ -41,7 +44,7 @@ return [
     'ready' => 'جاهز',
     'mounted' => 'مُركب',
     'test' => 'اختبار',
-      // Common Fields
+    // Common Fields
     'name' => 'الاسم',
     'display_name' => 'الاسم المعروض',
     'code' => 'الكود',
@@ -52,13 +55,13 @@ return [
     'updated_at' => 'تاريخ التحديث',
     'actions' => 'الإجراءات',
     'notes' => 'ملاحظات',
-      // Messages
+    // Messages
     'success_created' => 'تم الإنشاء بنجاح!',
     'success_updated' => 'تم التحديث بنجاح!',
     'success_deleted' => 'تم الحذف بنجاح!',
     'error_occurred' => 'حدث خطأ!',
     'error' => 'خطأ',
-    
+
     // Specific Success Messages
     'bladder_created' => 'تم إنشاء البلادر بنجاح.',
     'bladder_updated' => 'تم تحديث البلادر بنجاح.',
@@ -79,7 +82,7 @@ return [
     'user_created' => 'تم إنشاء المستخدم بنجاح.',
     'user_updated' => 'تم تحديث المستخدم بنجاح.',
     'user_deleted' => 'تم حذف المستخدم بنجاح.',
-    
+
     // Specific Error Messages
     'bladder_delete_machine_use' => 'لا يمكن حذف البلادر. يتم استخدامها حالياً من قبل آلة أو أكثر.',
     'bladder_delete_has_transactions' => 'لا يمكن حذف البلادر. لديها معاملات مرتبطة بها.',
@@ -94,7 +97,8 @@ return [
     'are_you_sure' => 'هل أنت متأكد؟',
     'delete_confirm_text' => 'لن تتمكن من استرجاع هذا!',
     'confirm_delete' => 'هل أنت متأكد من أنك تريد حذف هذا العنصر؟',
-    'confirm_delete_message' => 'لن تتمكن من استرجاع هذا!',    'yes_delete' => 'نعم، احذفه!',
+    'confirm_delete_message' => 'لن تتمكن من استرجاع هذا!',
+    'yes_delete' => 'نعم، احذفه!',
     'no_data_available' => 'لا توجد بيانات متاحة',
     'not_available' => 'غير متاح',
     'close' => 'إغلاق',
@@ -102,11 +106,23 @@ return [
 
     // Pagination
     'showing_results' => 'عرض :first إلى :last من أصل :total نتيجة',
-    'per_page' => 'لكل صفحة',
-
-    // Language Switcher
+    'per_page' => 'لكل صفحة',    // Language Switcher
     'language' => 'اللغة',
     'english' => 'English',
-    'arabic' => 'العربية',
-    
+    'arabic' => 'العربية',    // Password Related
+    'current_password' => 'كلمة المرور الحالية',
+    'new_password' => 'كلمة المرور الجديدة',
+    'confirm_new_password' => 'تأكيد كلمة المرور الجديدة',
+    'password_reset_success' => 'تم إعادة تعيين كلمة المرور بنجاح!',
+    'current_password_incorrect' => 'كلمة المرور الحالية غير صحيحة',
+
+    // Authentication
+    'sign_in' => 'تسجيل الدخول',
+    'email' => 'البريد الإلكتروني',
+    'password' => 'كلمة المرور',
+    'remember_me' => 'تذكرني',
+    'forgot_password' => 'نسيت كلمة المرور؟',
+    'sign_in_button' => 'تسجيل الدخول',
+    'login_instructions' => 'أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول',
+
 ];

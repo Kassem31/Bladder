@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('src/plugins/src/font-icons/fontawesome/css/regular.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/plugins/src/font-icons/fontawesome/css/fontawesome.css') }}">
-    <style>
+    <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.min.css') }}">    <style>
         .icon-select-container {
             position: relative;
         }
@@ -12,42 +11,114 @@
             display: none;
             position: absolute;
             width: 100%;
-            max-height: 250px;
-            overflow-y: auto;
+            max-height: 400px;
             border: 1px solid #ced4da;
-            border-radius: 0.25rem;
+            border-radius: 0.375rem;
             background: white;
             z-index: 1000;
             margin-top: 2px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .icon-select-dropdown.show {
             display: block;
         }
 
-        .icon-option {
-            padding: 8px 12px;
+        .icon-search-container {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .icon-search-container input {
+            padding-right: 35px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
             cursor: pointer;
-            display: inline-block;
-            width: 60px;
+        }
+
+        .icon-grid-container {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 6px;
+        }
+
+        .icon-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 4px;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
             text-align: center;
-            margin: 4px;
-            border-radius: 4px;
+            min-height: 60px;
         }
 
         .icon-option:hover {
             background-color: #f8f9fa;
+            border-color: #dee2e6;
         }
 
         .icon-option.selected {
-            background-color: #e9ecef;
+            background-color: #e7f3ff;
+            border-color: #0d6efd;
+        }
+
+        .icon-option.hidden {
+            display: none !important;
+        }
+
+        .icon-name {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            color: #6c757d;
+            word-break: break-word;
+            line-height: 1.2;
+        }
+
+        .icon-option i {
+            margin-bottom: 2px;
+        }
+
+        /* Scrollbar styling */
+        .icon-grid-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .icon-grid-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .icon-grid-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .icon-grid-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
 @endsection
 
 @section('content')
     <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">            <div class="page-title">
+        <div class="row layout-top-spacing">
+            <div class="page-title">
                 <h3>{{ __('common.add') }} {{ __('app.finding') }}</h3>
             </div>
 
@@ -68,194 +139,11 @@
                                                 <i class="{{ old('IconClass') }}"
                                                     style="font-size: 1.2rem; color: #0d6efd;"></i>
                                             @else
-                                                <span class="text-muted">{{ __("app.select_icon") }}</span>
+                                                <span class="text-muted">{{ __('app.select_icon') }}</span>
                                             @endif
                                         </span>
                                         <i class="bx bx-chevron-down ms-auto"></i>
-                                    </div>
-                                    <div class="icon-select-dropdown" id="iconSelectDropdown">
-                                        <div class="icon-option" data-value="">
-                                            <span class="text-muted">None</span>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-address-book' ? 'selected' : '' }}"
-                                            data-value="far fa-address-book">
-                                            <i class="far fa-address-book" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-bell' ? 'selected' : '' }}"
-                                            data-value="far fa-bell">
-                                            <i class="far fa-bell" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-bookmark' ? 'selected' : '' }}"
-                                            data-value="far fa-bookmark">
-                                            <i class="far fa-bookmark" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-calendar' ? 'selected' : '' }}"
-                                            data-value="far fa-calendar">
-                                            <i class="far fa-calendar" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-chart-bar' ? 'selected' : '' }}"
-                                            data-value="far fa-chart-bar">
-                                            <i class="far fa-chart-bar" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-clipboard' ? 'selected' : '' }}"
-                                            data-value="far fa-clipboard">
-                                            <i class="far fa-clipboard" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-clone' ? 'selected' : '' }}"
-                                            data-value="far fa-clone">
-                                            <i class="far fa-clone" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-comment-dots' ? 'selected' : '' }}"
-                                            data-value="far fa-comment-dots">
-                                            <i class="far fa-comment-dots" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-compass' ? 'selected' : '' }}"
-                                            data-value="far fa-compass">
-                                            <i class="far fa-compass" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-copy' ? 'selected' : '' }}"
-                                            data-value="far fa-copy">
-                                            <i class="far fa-copy" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-edit' ? 'selected' : '' }}"
-                                            data-value="far fa-edit">
-                                            <i class="far fa-edit" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-envelope' ? 'selected' : '' }}"
-                                            data-value="far fa-envelope">
-                                            <i class="far fa-envelope" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-eye' ? 'selected' : '' }}"
-                                            data-value="far fa-eye">
-                                            <i class="far fa-eye" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-file' ? 'selected' : '' }}"
-                                            data-value="far fa-file">
-                                            <i class="far fa-file" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-flag' ? 'selected' : '' }}"
-                                            data-value="far fa-flag">
-                                            <i class="far fa-flag" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-folder' ? 'selected' : '' }}"
-                                            data-value="far fa-folder">
-                                            <i class="far fa-folder" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-gem' ? 'selected' : '' }}"
-                                            data-value="far fa-gem">
-                                            <i class="far fa-gem" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-heart' ? 'selected' : '' }}"
-                                            data-value="far fa-heart">
-                                            <i class="far fa-heart" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-image' ? 'selected' : '' }}"
-                                            data-value="far fa-image">
-                                            <i class="far fa-image" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-map' ? 'selected' : '' }}"
-                                            data-value="far fa-map">
-                                            <i class="far fa-map" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-paper-plane' ? 'selected' : '' }}"
-                                            data-value="far fa-paper-plane">
-                                            <i class="far fa-paper-plane" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-save' ? 'selected' : '' }}"
-                                            data-value="far fa-save">
-                                            <i class="far fa-save" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-smile' ? 'selected' : '' }}"
-                                            data-value="far fa-smile">
-                                            <i class="far fa-smile" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-star' ? 'selected' : '' }}"
-                                            data-value="far fa-star">
-                                            <i class="far fa-star" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-sticky-note' ? 'selected' : '' }}"
-                                            data-value="far fa-sticky-note">
-                                            <i class="far fa-sticky-note" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-times-circle' ? 'selected' : '' }}"
-                                            data-value="far fa-times-circle">
-                                            <i class="far fa-times-circle" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-user' ? 'selected' : '' }}"
-                                            data-value="far fa-user">
-                                            <i class="far fa-user" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-trash-alt' ? 'selected' : '' }}"
-                                            data-value="far fa-trash-alt">
-                                            <i class="far fa-trash-alt" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-registered' ? 'selected' : '' }}"
-                                            data-value="far fa-registered">
-                                            <i class="far fa-registered" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-keyboard' ? 'selected' : '' }}"
-                                            data-value="far fa-keyboard">
-                                            <i class="far fa-keyboard" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-hourglass' ? 'selected' : '' }}"
-                                            data-value="far fa-hourglass">
-                                            <i class="far fa-hourglass" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-dot-circle' ? 'selected' : '' }}"
-                                            data-value="far fa-dot-circle">
-                                            <i class="far fa-dot-circle" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-copyright' ? 'selected' : '' }}"
-                                            data-value="far fa-copyright">
-                                            <i class="far fa-copyright" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-clock' ? 'selected' : '' }}"
-                                            data-value="far fa-clock">
-                                            <i class="far fa-clock" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-building' ? 'selected' : '' }}"
-                                            data-value="far fa-building">
-                                            <i class="far fa-building" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-file-code' ? 'selected' : '' }}"
-                                            data-value="far fa-file-code">
-                                            <i class="far fa-file-code" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-hdd' ? 'selected' : '' }}"
-                                            data-value="far fa-hdd">
-                                            <i class="far fa-hdd" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-life-ring' ? 'selected' : '' }}"
-                                            data-value="far fa-life-ring">
-                                            <i class="far fa-life-ring" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-money-bill-alt' ? 'selected' : '' }}"
-                                            data-value="far fa-money-bill-alt">
-                                            <i class="far fa-money-bill-alt"
-                                                style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-lightbulb' ? 'selected' : '' }}"
-                                            data-value="far fa-lightbulb">
-                                            <i class="far fa-lightbulb" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-question-circle' ? 'selected' : '' }}"
-                                            data-value="far fa-question-circle">
-                                            <i class="far fa-question-circle"
-                                                style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-square' ? 'selected' : '' }}"
-                                            data-value="far fa-square">
-                                            <i class="far fa-square" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-list-alt' ? 'selected' : '' }}"
-                                            data-value="far fa-list-alt">
-                                            <i class="far fa-list-alt" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                        <div class="icon-option {{ old('IconClass') == 'far fa-thumbs-up' ? 'selected' : '' }}"
-                                            data-value="far fa-thumbs-up">
-                                            <i class="far fa-thumbs-up" style="font-size: 1.2rem; color: #0d6efd;"></i>
-                                        </div>
-                                    </div>
+                                    </div>                                    @include('findings.partials.icon-picker')
                                 </div>
                                 @error('IconClass')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -265,15 +153,14 @@
                             <div class="col-md-6">
                                 <label for="Description" class="form-label">{{ __('app.observation_details') }} *</label>
                                 <input type="text" class="form-control @error('Description') is-invalid @enderror"
-                                    id="Description" name="Description"
-                                    value="{{ old('Description') }}"
+                                    id="Description" name="Description" value="{{ old('Description') }}"
                                     placeholder="{{ __('app.enter_finding_description') }}" required>
                                 @error('Description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-12">                                <button type="submit" class="btn btn-primary px-5">
+                            <div class="col-12"> <button type="submit" class="btn btn-primary px-5">
                                     <i class="bx bx-save me-1"></i>{{ __('common.save') }} {{ __('app.finding') }}
                                 </button>
                                 <a href="{{ route('findings.index') }}" class="btn btn-secondary px-5 ms-2">
@@ -288,13 +175,14 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
+@section('scripts')    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const iconClassInput = document.getElementById('IconClass');
             const iconSelectToggle = document.getElementById('iconSelectToggle');
             const iconSelectDropdown = document.getElementById('iconSelectDropdown');
             const selectedIconDisplay = document.getElementById('selectedIconDisplay');
+            const iconSearchInput = document.getElementById('iconSearchInput');
+            const searchIcon = document.querySelector('.search-icon');
             const iconOptions = document.querySelectorAll('.icon-option');
 
             // Create preview container
@@ -309,13 +197,74 @@
             // Toggle dropdown when clicking the select box
             iconSelectToggle.addEventListener('click', function() {
                 iconSelectDropdown.classList.toggle('show');
+                if (iconSelectDropdown.classList.contains('show')) {
+                    setTimeout(() => iconSearchInput.focus(), 100);
+                }
             });
 
             // Close dropdown when clicking outside
             document.addEventListener('click', function(event) {
-                if (!iconSelectToggle.contains(event.target) && !iconSelectDropdown.contains(event
-                        .target)) {
+                if (!iconSelectToggle.contains(event.target) && !iconSelectDropdown.contains(event.target)) {
                     iconSelectDropdown.classList.remove('show');
+                }
+            });
+
+            // Search functionality
+            iconSearchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                let visibleCount = 0;
+                
+                iconOptions.forEach(option => {
+                    const searchData = option.getAttribute('data-search');
+                    if (!searchData) return; // Skip the "None" option
+                    
+                    if (searchData.toLowerCase().includes(searchTerm)) {
+                        option.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        option.classList.add('hidden');
+                    }
+                });
+
+                // Show message if no icons found
+                const gridContainer = document.getElementById('iconGridContainer');
+                let noResultsMsg = gridContainer.querySelector('.no-results-message');
+                
+                if (visibleCount === 0 && searchTerm.length > 0) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.className = 'no-results-message text-center text-muted p-4';
+                        noResultsMsg.innerHTML = '<i class="bi bi-search"></i><br>No icons found matching "' + searchTerm + '"';
+                        gridContainer.appendChild(noResultsMsg);
+                    }
+                    noResultsMsg.style.display = 'block';
+                } else if (noResultsMsg) {
+                    noResultsMsg.style.display = 'none';
+                }
+            });
+
+            // Clear search functionality
+            searchIcon.addEventListener('click', function() {
+                iconSearchInput.value = '';
+                iconOptions.forEach(option => {
+                    option.classList.remove('hidden');
+                });
+                const noResultsMsg = document.querySelector('.no-results-message');
+                if (noResultsMsg) {
+                    noResultsMsg.style.display = 'none';
+                }
+                iconSearchInput.focus();
+            });
+
+            // Handle Enter key in search
+            iconSearchInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    // Select first visible icon
+                    const firstVisible = document.querySelector('.icon-option:not(.hidden)[data-search]');
+                    if (firstVisible) {
+                        firstVisible.click();
+                    }
                 }
             });
 
@@ -331,7 +280,7 @@
                             `<i class="${value}" style="font-size: 1.2rem; color: #0d6efd;"></i>`;
                     } else {
                         selectedIconDisplay.innerHTML =
-                            '<span class="text-muted">Select an icon...</span>';
+                            '<span class="text-muted">{{ __('app.select_icon') }}</span>';
                     }
 
                     // Update visual selection
@@ -343,6 +292,10 @@
 
                     // Update preview
                     updatePreview();
+
+                    // Clear search
+                    iconSearchInput.value = '';
+                    iconOptions.forEach(opt => opt.classList.remove('hidden'));
                 });
             });
 
@@ -350,7 +303,9 @@
                 const selectedValue = iconClassInput.value;
                 if (selectedValue) {
                     previewContainer.innerHTML =
-                        `<i class="${selectedValue}" style="font-size: 2rem; color: #0d6efd;"></i>`;
+                        `<div class="text-center"><i class="${selectedValue}" style="font-size: 2rem; color: #0d6efd;"></i><br><small class="text-muted">${selectedValue}</small></div>`;
+                } else {
+                    previewContainer.innerHTML = '<div class="text-center text-muted">{{ __('app.icon_preview_will_appear_here') }}</div>';
                 }
             }
         });

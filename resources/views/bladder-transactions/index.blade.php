@@ -240,13 +240,13 @@
 
         transactionTypeFilter.addEventListener('change', function() {
             const selectedType = this.value;
-            if (selectedType === 'Mount' || selectedType === 'Dismount') {
-                directionFilter.style.display = 'block';
-            } else {
-                directionFilter.style.display = 'none';
-                // Reset direction filter when not applicable
-                document.querySelector('select[name="Direction"]').value = '';
-            }
+            // if (selectedType === 'Mount' || selectedType === 'Dismount') {
+            //     // directionFilter.style.display = 'block';
+            // } else {
+            //     // directionFilter.style.display = 'none';
+            //     // Reset direction filter when not applicable
+            //     // document.querySelector('select[name="Direction"]').value = '';
+            // }
         });
 
         // Clear all filters function
@@ -265,7 +265,7 @@
             });
 
             // Hide direction filter if visible
-            directionFilter.style.display = 'none';            // Submit the form to clear filters
+            // directionFilter.style.display = 'none';            // Submit the form to clear filters
             form.submit();
         }
 

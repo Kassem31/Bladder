@@ -63,9 +63,17 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function listUsers()
+    public function listUsers(Request $request)
     {
-        $users = User::with('roles')->where('id' , "!=" , auth()->user()->id)->where('is_super_admin',0)->get();
+        if( $request['name']){
+            $users = User::with('roles')
+                ->where('name', 'like', '%' . $request['name'] . '%')
+                ->where('id' , "!=" , auth()->user()->id)
+                ->where('is_super_admin',0)
+                ->get();
+        } else {
+            $users = User::with('roles')->where('id' , "!=" , auth()->user()->id)->where('is_super_admin',0)->get();
+        }
         return view('users.index', compact('users'));
     }
 
@@ -180,14 +188,14 @@ class ProfileController extends Controller
 
         if (!Hash::check($request->current_password, $user->password)) {
             return redirect()->route('profile.showResetPasswordForm')
-                             ->withErrors(['current_password' => 'Current password is incorrect'])
+                             ->withErrors(['current_password' => __('common.current_password_incorrect')])
                              ->withInput();
         }
 
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect()->route('profile.showResetPasswordForm')->with('success', 'Password reset successfully.');
+        return redirect()->route('profile.showResetPasswordForm')->with('success', __('common.password_reset_success'));
     }
 
     public function logout(Request $request)

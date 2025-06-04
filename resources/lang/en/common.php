@@ -25,6 +25,7 @@ return [
     'update' => 'Update',
     'create' => 'Create',
     'clear' => 'Clear',
+    'reset_password' => 'Reset Password',
       // Status
     'active' => 'Active',
     'inactive' => 'Inactive',
@@ -99,11 +100,24 @@ return [
     // Pagination
     'showing_results' => 'Showing :first to :last of :total results',
     'per_page' => 'Per page',
-    
-    // Language Switcher
+      // Language Switcher
     'language' => 'Language',
     'english' => 'English',
     'arabic' => 'العربية',
     'back' => 'Back',
-    'back_to' => 'Back to :name',
+    'back_to' => 'Back to',    // Password Related
+    'current_password' => 'Current Password',
+    'new_password' => 'New Password',
+    'confirm_new_password' => 'Confirm New Password',
+    'password_reset_success' => 'Password reset successfully!',
+    'current_password_incorrect' => 'Current password is incorrect',
+
+    // Authentication
+    'sign_in' => 'Sign In',
+    'email' => 'Email',
+    'password' => 'Password',
+    'remember_me' => 'Remember me',
+    'forgot_password' => 'Forgot your password?',
+    'sign_in_button' => 'SIGN IN',
+    'login_instructions' => 'Enter your email and password to login',
 ];

@@ -12,8 +12,9 @@ return [
     'expiry_notification' => 'Expiry Notification',
     'expiry_notification_sent' => 'Expiry Notification Sent',
     'not_sent' => 'Not Sent',
-    'sent' => 'Sent',
-    'filter_by_bladder_code' => 'Filter by Bladder Code',
+    'sent' => 'Sent',    'filter_by_bladder_code' => 'Filter by Bladder Code',
+    'filter_by_bladder' => 'Filter by Bladder',
+    'all_bladders' => 'All Bladders',
     'all_bladder_sizes' => 'All Bladder Sizes',
     'expiring_soon' => 'Expiring Soon',
     'no_bladder_assigned' => 'No Bladder Assigned',
@@ -40,6 +41,8 @@ return [
     'filter_by_machine_code' => 'Filter by Machine Code',
     'all_statuses' => 'All Statuses',
     'select_icon' => 'Select Icon',
+    'machine_details' => 'Machine Details',
+    'icon_preview_will_appear_here' => 'Icon preview will appear here',
 
       // Transactions
     'bladder_transactions' => 'Bladder Transactions',
@@ -83,6 +86,8 @@ return [
     'role' => 'Role',
     'is_active' => 'Is Active',
     'filter_by_name' => 'Filter by Name',
+    'name' => 'Name',
+
       // Roles
     'roles' => 'Roles',
     'role' => 'Role',

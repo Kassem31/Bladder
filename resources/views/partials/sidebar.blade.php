@@ -12,7 +12,9 @@
                             {{-- <img src="{{ asset('src/default-logo.png') }}" class="navbar-logo" alt="logo"> --}}
                             <img src="{{ asset('/src/assets/img/prometeon-icon.png') }}" class="navbar-logo"
                                 alt="logo">
+                            @if (app()->getLocale() == 'en')
                                 <span class="mobile-hidden-xs">rometeon</span>
+                            @endif
                     </div>
                     <div class="nav-item theme-text">
                         <a href="{{ route('dashboard') }}" class="nav-link"></a>
@@ -75,7 +77,8 @@
                         <ul class="collapse submenu list-unstyled" id="menu_{{ $menu->id }}"
                             data-bs-parent="#accordionExample">
                             @foreach ($menu->children as $submenu)
-                                <li class="{{ $currentRouteBase == explode('.', $submenu->route)[0] ? 'active' : '' }}">
+                                <li
+                                    class="{{ $currentRouteBase == explode('.', $submenu->route)[0] ? 'active' : '' }}">
                                     {{-- @permission($submenu->permission) --}}
                                     <!-- Assuming you have permission field -->
                                     <a href="{{ route($submenu->route) }}">{{ $submenu->translated_name }}</a>

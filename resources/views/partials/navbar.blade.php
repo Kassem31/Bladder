@@ -1,8 +1,8 @@
 <!--  BEGIN NAVBAR  -->
     <div class="header-container container-xxl">
-        <header class="header navbar navbar-expand-sm expand-header">
+        <header class="header navbar navbar-expand-sm expand-header @if(app()->getLocale() == 'ar') rtl-navbar @else ltr-navbar @endif">
 
-            <a href="javascript:void(0);" class="sidebarCollapse" aria-label="Toggle sidebar">
+            <a href="javascript:void(0);" class="sidebarCollapse @if(app()->getLocale() == 'ar') order-3 @endif" aria-label="Toggle sidebar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-menu">
@@ -12,7 +12,7 @@
                 </svg>
             </a>
 
-            <span class="navbar-brand-sm mobile-only">
+            <span class="navbar-brand-sm mobile-only @if(app()->getLocale() == 'ar') order-1 @endif">
                 <img src="{{ asset('/src/assets/img/prometeon-icon.png') }}" alt="logo" height="24">
             </span>
 
@@ -38,7 +38,7 @@
                 <span class="badge badge-secondary">Ctrl + /</span>
             </div> --}}
 
-            <ul class="navbar-item flex-row ms-lg-auto ms-0">
+            <ul class="navbar-item flex-row @if(app()->getLocale() == 'ar') me-lg-auto me-0 order-2 @else ms-lg-auto ms-0 @endif">
 
                 <li class="nav-item dropdown language-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="language-dropdown"
@@ -49,14 +49,14 @@
                             <img src="{{ asset('src/assets/img/1x1/us.svg') }}" class="flag-width" alt="English">
                         @endif
                     </a>
-                    <div class="dropdown-menu position-absolute" aria-labelledby="language-dropdown">
-                        <a class="dropdown-item d-flex" href="{{ route('language.switch', 'en') }}">
+                    <div class="dropdown-menu position-absolute @if(app()->getLocale() == 'ar') dropdown-menu-start @else dropdown-menu-end @endif" aria-labelledby="language-dropdown">
+                        <a class="dropdown-item d-flex @if(app()->getLocale() == 'ar') flex-row-reverse @endif" href="{{ route('language.switch', 'en') }}">
                             <img src="{{ asset('src/assets/img/1x1/us.svg') }}" class="flag-width" alt="English">
-                            <span class="align-self-center">&nbsp;{{ __('common.english') }}</span>
+                            <span class="align-self-center" @if(app()->getLocale() == 'ar') style="padding-left: 0.5rem" @endif>&nbsp;{{ __('common.english') }}</span>
                         </a>
-                        <a class="dropdown-item d-flex" href="{{ route('language.switch', 'ar') }}">
+                        <a class="dropdown-item d-flex @if(app()->getLocale() == 'ar') flex-row-reverse @endif" href="{{ route('language.switch', 'ar') }}">
                             <img src="{{ asset('src/assets/img/eg.svg') }}" class="flag-width" alt="Arabic">
-                            <span class="align-self-center">&nbsp;{{ __('common.arabic') }}</span>
+                            <span class="align-self-center" @if(app()->getLocale() == 'ar') style="padding-left: 0.5rem" @endif>&nbsp;{{ __('common.arabic') }}</span>
                         </a>
                     </div>
                 </li>
@@ -301,14 +301,14 @@
                         </div>
                     </a>
 
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+                    <ul class="dropdown-menu @if(app()->getLocale() == 'ar') dropdown-menu-start @else dropdown-menu-end @endif" aria-labelledby="userProfileDropdown">
                         <li>
                             <div class="user-profile-section px-3 py-2">
-                                <div class="media mx-auto">
-                                    <div class="emoji me-2">
+                                <div class="media mx-auto @if(app()->getLocale() == 'ar') flex-row-reverse @endif">
+                                    <div class="emoji @if(app()->getLocale() == 'ar') ms-2 @else me-2 @endif">
                                         &#x1F44B;
                                     </div>
-                                    <div class="media-body">
+                                    <div class="media-body @if(app()->getLocale() == 'ar') text-end @endif">
                                         <h5>{{ Auth::user()->name }}</h5>
                                         <p>{{ Auth::user()->role->name ?? 'Admin' }}</p>
                                     </div>
@@ -329,14 +329,14 @@
                         </div>
                         --}}
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile.showResetPasswordForm') }}">
+                            <a class="dropdown-item @if(app()->getLocale() == 'ar') d-flex flex-row-reverse @endif" href="{{ route('profile.showResetPasswordForm') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock @if(app()->getLocale() == 'ar') ms-2 @else me-2 @endif">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2">
                                     </rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                </svg> <span> Reset Password</span>
+                                </svg> <span>{{ __('common.reset_password') }}</span>
                             </a>
                         </li>
                         {{-- <div class="dropdown-item">
@@ -363,15 +363,15 @@
                             </a>
                         </div> --}}
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile.logout') }}"
+                            <a class="dropdown-item @if(app()->getLocale() == 'ar') d-flex flex-row-reverse @endif" href="{{ route('profile.logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out @if(app()->getLocale() == 'ar') ms-2 @else me-2 @endif">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                                     <polyline points="16 17 21 12 16 7"></polyline>
                                     <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg> <span>Log Out</span>
+                                </svg> <span>{{ __('common.logout') }}</span>
                             </a>
                             <form id="logout-form" action="{{ route('profile.logout') }}" method="POST"
                                 style="display: none;">

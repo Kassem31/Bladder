@@ -30,6 +30,18 @@ class MachineController extends Controller
             $query->where('Code', 'like', "%{$request->Code}%");
         }
         
+        // Filter by bladder code (left or right) - text search
+        if ($request->filled('BladderCode')) {
+            $bladderCode = $request->BladderCode;
+            $query->where(function($q) use ($bladderCode) {
+                $q->whereHas('leftBladder', function($subQuery) use ($bladderCode) {
+                    $subQuery->where('BladderCode', 'like', "%{$bladderCode}%");
+                })->orWhereHas('rightBladder', function($subQuery) use ($bladderCode) {
+                    $subQuery->where('BladderCode', 'like', "%{$bladderCode}%");
+                });
+            });
+        }
+        
         // Filter by status (working/stopped)
         if ($request->filled('Status')) {
             if ($request->Status === 'working') {

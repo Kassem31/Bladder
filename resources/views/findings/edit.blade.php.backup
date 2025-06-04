@@ -1,0 +1,374 @@
+@extends('layouts.app')
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.min.css') }}">
+    <style>
+        .icon-select-container {
+            position: relative;
+        }
+
+        .icon-select-dropdown {
+            display: none;
+            position: absolute;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            background: white;
+            z-index: 1000;
+            margin-top: 2px;
+        }
+
+        .icon-select-dropdown.show {
+            display: block;
+        }
+
+        .icon-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            display: inline-block;
+            width: 60px;
+            text-align: center;
+            margin: 4px;
+            border-radius: 4px;
+        }
+
+        .icon-option:hover {
+            background-color: #f8f9fa;
+        }
+
+        .icon-option.selected {
+            background-color: #e9ecef;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div class="layout-px-spacing">
+        <div class="row layout-top-spacing">            <div class="page-title">
+                <h3>{{ __('common.edit') }} {{ __('app.finding') }}</h3>
+            </div>
+
+                <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                        <div class="card-body p-5">
+                            <hr>
+
+                            <form action="{{ route('findings.update', $finding) }}" method="POST" class="row g-3">
+                                @csrf
+                                @method('PUT') <div class="col-md-6">
+                                    <label for="IconClass" class="form-label">{{ __('app.icon') }}</label>
+                                    <div class="icon-select-container">
+                                        <input type="hidden" id="IconClass" name="IconClass"
+                                            value="{{ old('IconClass', $finding->IconClass) }}"
+                                            class="@error('IconClass') is-invalid @enderror">
+                                        <div class="form-control d-flex align-items-center" id="iconSelectToggle">
+                                            <span id="selectedIconDisplay">
+                                                @if (old('IconClass', $finding->IconClass))
+                                                    <i class="{{ old('IconClass', $finding->IconClass) }}"
+                                                        style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                                @else
+                                                    <span class="text-muted">{{ __("app.select_icon") }}</span>
+                                                @endif
+                                            </span>
+                                            <i class="bx bx-chevron-down ms-auto"></i>
+                                        </div>                                        <div class="icon-select-dropdown" id="iconSelectDropdown">
+                                            <div class="icon-option" data-value="">
+                                                <span class="text-muted">None</span>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-journal-bookmark' ? 'selected' : '' }}"
+                                                data-value="bi bi-journal-bookmark">
+                                                <i class="bi bi-journal-bookmark"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-bell' ? 'selected' : '' }}"
+                                                data-value="bi bi-bell">
+                                                <i class="bi bi-bell" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-bookmark' ? 'selected' : '' }}"
+                                                data-value="bi bi-bookmark">
+                                                <i class="bi bi-bookmark" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-calendar' ? 'selected' : '' }}"
+                                                data-value="bi bi-calendar">
+                                                <i class="bi bi-calendar" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-bar-chart' ? 'selected' : '' }}"
+                                                data-value="bi bi-bar-chart">
+                                                <i class="bi bi-bar-chart" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-clipboard' ? 'selected' : '' }}"
+                                                data-value="bi bi-clipboard">
+                                                <i class="bi bi-clipboard" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-files' ? 'selected' : '' }}"
+                                                data-value="bi bi-files">
+                                                <i class="bi bi-files" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-chat-dots' ? 'selected' : '' }}"
+                                                data-value="bi bi-chat-dots">
+                                                <i class="bi bi-chat-dots"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-compass' ? 'selected' : '' }}"
+                                                data-value="bi bi-compass">
+                                                <i class="bi bi-compass" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-clipboard-check' ? 'selected' : '' }}"
+                                                data-value="bi bi-clipboard-check">
+                                                <i class="bi bi-clipboard-check" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-pencil' ? 'selected' : '' }}"
+                                                data-value="bi bi-pencil">
+                                                <i class="bi bi-pencil" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-envelope' ? 'selected' : '' }}"
+                                                data-value="bi bi-envelope">
+                                                <i class="bi bi-envelope" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-eye' ? 'selected' : '' }}"
+                                                data-value="bi bi-eye">
+                                                <i class="bi bi-eye" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-file-earmark' ? 'selected' : '' }}"
+                                                data-value="bi bi-file-earmark">
+                                                <i class="bi bi-file-earmark" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-flag' ? 'selected' : '' }}"
+                                                data-value="bi bi-flag">
+                                                <i class="bi bi-flag" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-folder' ? 'selected' : '' }}"
+                                                data-value="bi bi-folder">
+                                                <i class="bi bi-folder" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-gem' ? 'selected' : '' }}"
+                                                data-value="bi bi-gem">
+                                                <i class="bi bi-gem" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-heart' ? 'selected' : '' }}"
+                                                data-value="bi bi-heart">
+                                                <i class="bi bi-heart" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-image' ? 'selected' : '' }}"
+                                                data-value="bi bi-image">
+                                                <i class="bi bi-image" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-geo-alt' ? 'selected' : '' }}"
+                                                data-value="bi bi-geo-alt">
+                                                <i class="bi bi-geo-alt" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-send' ? 'selected' : '' }}"
+                                                data-value="bi bi-send">
+                                                <i class="bi bi-send"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-save' ? 'selected' : '' }}"
+                                                data-value="bi bi-save">
+                                                <i class="bi bi-save" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-emoji-smile' ? 'selected' : '' }}"
+                                                data-value="bi bi-emoji-smile">
+                                                <i class="bi bi-emoji-smile" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-star' ? 'selected' : '' }}"
+                                                data-value="bi bi-star">
+                                                <i class="bi bi-star" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-sticky' ? 'selected' : '' }}"
+                                                data-value="bi bi-sticky">
+                                                <i class="bi bi-sticky"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-x-circle' ? 'selected' : '' }}"
+                                                data-value="bi bi-x-circle">
+                                                <i class="bi bi-x-circle"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-person' ? 'selected' : '' }}"
+                                                data-value="bi bi-person">
+                                                <i class="bi bi-person" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-trash' ? 'selected' : '' }}"
+                                                data-value="bi bi-trash">
+                                                <i class="bi bi-trash"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-r-circle' ? 'selected' : '' }}"
+                                                data-value="bi bi-r-circle">
+                                                <i class="bi bi-r-circle"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-keyboard' ? 'selected' : '' }}"
+                                                data-value="bi bi-keyboard">
+                                                <i class="bi bi-keyboard" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-hourglass' ? 'selected' : '' }}"
+                                                data-value="bi bi-hourglass">
+                                                <i class="bi bi-hourglass"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-circle' ? 'selected' : '' }}"
+                                                data-value="bi bi-circle">
+                                                <i class="bi bi-circle"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-c-circle' ? 'selected' : '' }}"
+                                                data-value="bi bi-c-circle">
+                                                <i class="bi bi-c-circle"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-clock' ? 'selected' : '' }}"
+                                                data-value="bi bi-clock">
+                                                <i class="bi bi-clock" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-building' ? 'selected' : '' }}"
+                                                data-value="bi bi-building">
+                                                <i class="bi bi-building" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-file-earmark-code' ? 'selected' : '' }}"
+                                                data-value="bi bi-file-earmark-code">
+                                                <i class="bi bi-file-earmark-code"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-hdd' ? 'selected' : '' }}"
+                                                data-value="bi bi-hdd">
+                                                <i class="bi bi-hdd" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-life-preserver' ? 'selected' : '' }}"
+                                                data-value="bi bi-life-preserver">
+                                                <i class="bi bi-life-preserver"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-cash' ? 'selected' : '' }}"
+                                                data-value="bi bi-cash">
+                                                <i class="bi bi-cash"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-lightbulb' ? 'selected' : '' }}"
+                                                data-value="bi bi-lightbulb">
+                                                <i class="bi bi-lightbulb"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-question-circle' ? 'selected' : '' }}"
+                                                data-value="bi bi-question-circle">
+                                                <i class="bi bi-question-circle"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-square' ? 'selected' : '' }}"
+                                                data-value="bi bi-square">
+                                                <i class="bi bi-square" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-list-check' ? 'selected' : '' }}"
+                                                data-value="bi bi-list-check">
+                                                <i class="bi bi-list-check" style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                            <div class="icon-option {{ old('IconClass', $finding->IconClass) == 'bi bi-hand-thumbs-up' ? 'selected' : '' }}"
+                                                data-value="bi bi-hand-thumbs-up">
+                                                <i class="bi bi-hand-thumbs-up"
+                                                    style="font-size: 1.2rem; color: #0d6efd;"></i>
+                                            </div>
+                                        </div>
+                                    </div> @error('IconClass')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="Description" class="form-label">{{ __('app.observation_details') }} *</label>
+                                    <input type="text" class="form-control @error('Description') is-invalid @enderror"
+                                        id="Description" name="Description"
+                                        value="{{ old('Description', $finding->Description) }}"
+                                        placeholder="{{ __('app.enter_finding_description') }}" required>
+                                    @error('Description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12">                                    <button type="submit" class="btn btn-primary px-5">
+                                        <i class="bx bx-save me-1"></i>{{ __('common.update') }} {{ __('app.finding') }}
+                                    </button>
+                                    <a href="{{ route('findings.index') }}" class="btn btn-secondary px-5 ms-2">
+                                        <i class="bx bx-x me-1"></i>{{ __('common.cancel') }}
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const iconClassInput = document.getElementById('IconClass');
+            const iconSelectToggle = document.getElementById('iconSelectToggle');
+            const iconSelectDropdown = document.getElementById('iconSelectDropdown');
+            const selectedIconDisplay = document.getElementById('selectedIconDisplay');
+            const iconOptions = document.querySelectorAll('.icon-option');
+
+            // Create preview container
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'mt-2 p-2 rounded';
+            previewContainer.style.minHeight = '60px';
+            previewContainer.innerHTML = '<span class="text-muted">Icon preview will appear here</span>';
+            iconClassInput.parentNode.insertBefore(previewContainer, null);
+
+            // Initial preview
+            updatePreview();
+
+            // Toggle dropdown when clicking the select box
+            iconSelectToggle.addEventListener('click', function() {
+                iconSelectDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!iconSelectToggle.contains(event.target) && !iconSelectDropdown.contains(event
+                        .target)) {
+                    iconSelectDropdown.classList.remove('show');
+                }
+            });
+
+            // Handle selection of an icon
+            iconOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    iconClassInput.value = value;
+
+                    // Update the displayed icon
+                    if (value) {
+                        selectedIconDisplay.innerHTML =
+                            `<i class="${value}" style="font-size: 1.2rem; color: #0d6efd;"></i>`;
+                    } else {
+                        selectedIconDisplay.innerHTML =
+                            '<span class="text-muted">{{ __("app.select_icon") }}</span>';
+                    }
+
+                    // Update visual selection
+                    iconOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Close dropdown
+                    iconSelectDropdown.classList.remove('show');
+
+                    // Update preview
+                    updatePreview();
+                });
+            });
+
+            function updatePreview() {
+                const selectedValue = iconClassInput.value;
+                if (selectedValue) {
+                    previewContainer.innerHTML =
+                        `<i class="${selectedValue}" style="font-size: 2rem; color: #0d6efd;"></i>`;
+                }
+            }
+        });
+    </script>
+@endsection

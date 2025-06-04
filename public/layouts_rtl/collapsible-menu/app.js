@@ -78,9 +78,9 @@ var App = function () {
                         if (document.querySelector('.main-container').classList.contains('sidebar-closed')) {
                             if (e === 'mouseenter') {
                                 document.querySelector('li.menu .submenu').classList.remove('show');
-                                document.querySelector('li.menu.active .submenu').classList.add('recent-submenu');
-                                document.querySelector('li.menu.active').querySelector('.collapse.submenu.recent-submenu').classList.add('show');
-                                document.querySelector('.collapse.submenu.recent-submenu').parentNode.querySelector('.dropdown-toggle').setAttribute('aria-expanded', 'true');
+                                // document.querySelector('li.menu.active .submenu').classList.add('recent-submenu');
+                                // document.querySelector('li.menu.active').querySelector('.collapse.submenu.recent-submenu').classList.add('show');
+                                // document.querySelector('.collapse.submenu.recent-submenu').parentNode.querySelector('.dropdown-toggle').setAttribute('aria-expanded', 'true');
                             } else if (e === 'mouseleave') {
                                 getMenuList = document.querySelectorAll('li.menu');
                                 getMenuList.forEach(element => {
@@ -317,7 +317,7 @@ var App = function () {
         onCheckandChangeSidebarActiveClass: function () {
             if (document.body.classList.contains('alt-menu')) {
                 if (document.querySelector('.sidebar-wrapper [aria-expanded="true"]')) {
-                    document.querySelector('.sidebar-wrapper li.menu.active [aria-expanded="true"]').setAttribute('aria-expanded', 'false');
+                    // document.querySelector('.sidebar-wrapper li.menu.active [aria-expanded="true"]').setAttribute('aria-expanded', 'false');
                 }
             }
         },

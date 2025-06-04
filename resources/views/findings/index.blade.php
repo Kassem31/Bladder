@@ -4,7 +4,10 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('src/plugins/src/font-icons/fontawesome/css/regular.css') }}">
     <link rel="stylesheet" href="{{ asset('src/plugins/src/font-icons/fontawesome/css/fontawesome.css') }}">
-
+    
+    {{-- <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.min.css') }}">
+    
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('src/assets/css/light/components/font-icons.css') }}" rel="stylesheet" type="text/css">
 
@@ -20,17 +23,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/assets/css/filter-column.css') }}">
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet"
+        type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <!-- RTL Support -->
-    <link href="{{ asset('src/assets/css/rtl-support.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('src/assets/css/rtl-support.css') }}" rel="stylesheet" type="text/css" /> --}}
 @endsection
 
 
 @section('content')
     <div class="layout-px-spacing">
 
-        <div class="middle-content container-xxl p-0">            <!-- BREADCRUMB -->
+        <div class="middle-content container-xxl p-0"> <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -42,14 +47,15 @@
 
             <div class="row layout-top-spacing">
 
-                <x-add-button model="findings" name="finding" displayName="observation"/>
+                <x-add-button model="findings" name="finding" displayName="observation" />
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                     <div class="widget-content widget-content-area br-8">
                         <form method="GET" action="{{ route('findings.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-4 col-12 filter-column">
-                                    <input type="text" name="Description" class="form-control" placeholder = "{{ __('app.filter_by_description') }}"
+                                    <input type="text" name="Description" class="form-control"
+                                        placeholder = "{{ __('app.filter_by_description') }}"
                                         value="{{ request('Description') }}">
                                 </div>
                                 <div class="col-md-4 col-12 d-flex">
@@ -57,7 +63,8 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="table-responsive">                            <table id="findingsTable" class="table dt-table-hover" style="width:100%">
+                        <div class="table-responsive">
+                            <table id="findingsTable" class="table dt-table-hover" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>{{ __('app.icon') }}</th>
@@ -71,7 +78,8 @@
                                             <td class="text-center" data-th="Icon">
                                                 @if ($finding->IconClass)
                                                     <i class="{{ $finding->IconClass }}"
-                                                        style="font-size: 1.5rem; color: #0d6efd;"></i>                                                @else
+                                                        style="font-size: 1.5rem; color: #0d6efd;"></i>
+                                                @else
                                                     <span class="text-muted">{{ __('app.no_icon') }}</span>
                                                 @endif
                                             </td>
@@ -81,7 +89,8 @@
                                                     <x-show-button route="findings.show" :param="$finding->Id" name="finding" />
                                                     <x-edit-button route="findings.edit" :param="$finding->Id" name="finding" />
                                                     <div style="margin-top: 0.07rem">
-                                                        <x-delete-button route="findings.destroy" :param="$finding->Id" name="finding" />
+                                                        <x-delete-button route="findings.destroy" :param="$finding->Id"
+                                                            name="finding" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -102,7 +111,7 @@
     </div>
 @endsection
 
-@section('scripts')    
+@section('scripts')
     {{-- <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script> --}}
     <script>
         // Clear all filters function
@@ -118,7 +127,7 @@
                 } else if (input.tagName === 'SELECT') {
                     input.selectedIndex = 0;
                 }
-            });            // Submit the form to clear filters
+            }); // Submit the form to clear filters
             form.submit();
         }
 
@@ -126,17 +135,17 @@
         function updateDirection() {
             const currentLocale = document.documentElement.lang;
             const direction = currentLocale === 'ar' ? 'rtl' : 'ltr';
-            
+
             // Update document direction
             document.documentElement.dir = direction;
             document.body.dir = direction;
-            
+
             // Update table direction
             const table = document.querySelector('#zero-config');
             if (table) {
                 table.style.direction = direction;
             }
-            
+
             // Reinitialize DataTable if it exists
             if (typeof $.fn.DataTable !== 'undefined') {
                 const dataTable = $('#zero-config').DataTable();
@@ -150,13 +159,14 @@
         // Initialize DataTable with RTL support
         function initializeDataTable() {
             const isRTL = document.documentElement.dir === 'rtl';
-            
+
             $('#zero-config').DataTable({
                 responsive: true,
                 language: {
                     search: isRTL ? "بحث:" : "Search:",
                     lengthMenu: isRTL ? "عرض _MENU_ عنصر" : "Show _MENU_ entries",
-                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" : "Showing _START_ to _END_ of _TOTAL_ entries",
+                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" :
+                        "Showing _START_ to _END_ of _TOTAL_ entries",
                     infoEmpty: isRTL ? "عرض 0 إلى 0 من 0 عنصر" : "Showing 0 to 0 of 0 entries",
                     infoFiltered: isRTL ? "(مرشح من _MAX_ إجمالي العناصر)" : "(filtered from _MAX_ total entries)",
                     paginate: {
@@ -167,13 +177,13 @@
                     },
                     emptyTable: isRTL ? "لا توجد بيانات متاحة في الجدول" : "No data available in table"
                 },
-                columnDefs: [
-                    {
-                        targets: 'no-sort',
-                        orderable: false
-                    }
+                columnDefs: [{
+                    targets: 'no-sort',
+                    orderable: false
+                }],
+                order: [
+                    [0, 'asc']
                 ],
-                order: [[0, 'asc']],
                 pageLength: 10,
                 dom: 'frtip'
             });
@@ -182,7 +192,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateDirection();
-            
+
             // Listen for language changes (if you have a language switcher)
             document.addEventListener('languageChanged', function() {
                 updateDirection();
@@ -199,23 +209,25 @@
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    {{-- <script src="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.json') }}"></script> --}}
     {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
-    <script>        document.querySelector('table').addEventListener('click', function(e) {
+    <script>
+        document.querySelector('table').addEventListener('click', function(e) {
             if (e.target.classList.contains('delete-button')) {
                 const deleteUrl = e.target.getAttribute('data-url');
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';
-                
+
                 Swal.fire({
-                    title: '{{ __("common.are_you_sure") }}',
-                    text: '{{ __("common.delete_confirm_text") }}',
+                    title: '{{ __('common.are_you_sure') }}',
+                    text: '{{ __('common.delete_confirm_text') }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: '{{ __("common.yes_delete") }}',
-                    cancelButtonText: '{{ __("common.cancel") }}',
+                    confirmButtonText: '{{ __('common.yes_delete') }}',
+                    cancelButtonText: '{{ __('common.cancel') }}',
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000',
                     customClass: {
@@ -246,9 +258,11 @@
                     }
                 });
             }
-        });    </script>
+        });
+    </script>
 
-    @if (session('success'))        <script>
+    @if (session('success'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';
@@ -287,7 +301,8 @@
         </script>
     @endif
 
-    @if (session('error'))        <script>
+    @if (session('error'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';

@@ -87,43 +87,43 @@ class StoreBladderTransactionRequest extends FormRequest
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $this->validateTransactionSequence($validator);
-        });
-    }
+    // public function withValidator($validator)
+    // {
+    //     $validator->after(function ($validator) {
+    //         $this->validateTransactionSequence($validator);
+    //     });
+    // }
     
-    /**
-     * Validate that the transaction follows the required sequence:
-     * Dismount → Maintenance → Test → Mount
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    protected function validateTransactionSequence($validator)
-    {
-        $bladderId = $this->input('BladderId');
-        $requestedTransactionType = $this->input('TransactionType');
+    // /**
+    //  * Validate that the transaction follows the required sequence:
+    //  * Dismount → Maintenance → Test → Mount
+    //  *
+    //  * @param  \Illuminate\Validation\Validator  $validator
+    //  * @return void
+    //  */
+    // protected function validateTransactionSequence($validator)
+    // {
+    //     $bladderId = $this->input('BladderId');
+    //     $requestedTransactionType = $this->input('TransactionType');
         
-        if (!$bladderId || !$requestedTransactionType) {
-            return;
-        }
+    //     if (!$bladderId || !$requestedTransactionType) {
+    //         return;
+    //     }
         
-        // Get the last transaction for this bladder
-        $lastTransaction = BladderTransaction::where('BladderId', $bladderId)
-            ->orderByDesc('CreatedAt')
-            ->first();
+    //     // Get the last transaction for this bladder
+    //     $lastTransaction = BladderTransaction::where('BladderId', $bladderId)
+    //         ->orderByDesc('CreatedAt')
+    //         ->first();
             
-        $lastTransactionType = $lastTransaction ? $lastTransaction->TransactionType : null;
-        $expectedNextType = self::TRANSACTION_SEQUENCE[$lastTransactionType] ?? null;
+    //     $lastTransactionType = $lastTransaction ? $lastTransaction->TransactionType : null;
+    //     $expectedNextType = self::TRANSACTION_SEQUENCE[$lastTransactionType] ?? null;
         
-        if ($requestedTransactionType !== $expectedNextType) {
-            $message = $lastTransactionType 
-                ? "Invalid transaction sequence. After a '{$lastTransactionType}' transaction, the next transaction must be '{$expectedNextType}'." 
-                : "For a new bladder, the first transaction must be 'Dismount'.";
+    //     if ($requestedTransactionType !== $expectedNextType) {
+    //         $message = $lastTransactionType 
+    //             ? "Invalid transaction sequence. After a '{$lastTransactionType}' transaction, the next transaction must be '{$expectedNextType}'." 
+    //             : "For a new bladder, the first transaction must be 'Dismount'.";
                 
-            $validator->errors()->add('TransactionType', $message);
-        }
-    }
+    //         $validator->errors()->add('TransactionType', $message);
+    //     }
+    // }
 }

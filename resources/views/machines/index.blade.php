@@ -36,15 +36,18 @@
                 <x-add-button model="machines" name="machine" />
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
-                    <div class="widget-content widget-content-area br-8">
-                        <form method="GET" action="{{ route('machines.index') }}" class="mb-3">
+                    <div class="widget-content widget-content-area br-8">                        <form method="GET" action="{{ route('machines.index') }}" class="mb-3">
                             <div class="row">
-                                <div class="col-md-4 col-12 filter-column">
+                                <div class="col-md-3 col-12 filter-column">
                                     <input type="text" name="Code" class="form-control"
                                         placeholder="{{ __('app.filter_by_machine_code') }}"
                                         value="{{ request('Code') }}">
+                                </div>                                <div class="col-md-3 col-12 filter-column">
+                                    <input type="text" name="BladderCode" class="form-control"
+                                        placeholder="{{ __('app.filter_by_bladder') }}"
+                                        value="{{ request('BladderCode') }}">
                                 </div>
-                                <div class="col-md-4 col-12 filter-column">
+                                <div class="col-md-3 col-12 filter-column">
                                     <select name="Status" class="form-control">
                                         <option value="">{{ __('app.all_statuses') }}</option>
                                         <option value="working" {{ request('Status') == 'working' ? 'selected' : '' }}>
@@ -53,7 +56,7 @@
                                             {{ __('common.stopped') }}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 col-12 d-flex">
+                                <div class="col-md-3 col-12 d-flex">
                                     <x-filter-button />
                                     <x-clear-filter-button />
                                 </div>
@@ -78,13 +81,12 @@
                                                 <span class="badge bg-{{ $machine->is_working ? 'success' : 'danger' }}">
                                                     {{ $machine->status_text }}
                                                 </span>
-                                            </td>
-                                            <td data-th="Left Bladder">
+                                            </td>                                            <td data-th="Left Bladder">
                                                 @if ($machine->leftBladder)
                                                     <span
                                                         class="badge bg-info">{{ $machine->leftBladder->BladderCode }}</span>
                                                 @else
-                                                    <span class="text-muted">No Bladder</span>
+                                                    <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
                                                 @endif
                                             </td>
                                             <td data-th="Right Bladder">
@@ -92,7 +94,7 @@
                                                     <span
                                                         class="badge bg-info">{{ $machine->rightBladder->BladderCode }}</span>
                                                 @else
-                                                    <span class="text-muted">No Bladder</span>
+                                                    <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
                                                 @endif
                                             </td>
                                             <td class="text-center" data-th="Actions">
