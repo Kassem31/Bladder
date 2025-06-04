@@ -79,6 +79,11 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center">
+                            {{ $bladderSizes->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,11 +92,30 @@
 @endsection
 
 @section('scripts')
+    <script>
+        // Clear all filters function
+        function clearFilters() {
+            // Get the form
+            const form = document.querySelector('form[method="GET"]');
+
+            // Clear all form inputs
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'date') {
+                    input.value = '';
+                } else if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                }
+            });
+
+            // Submit the form to clear filters
+            form.submit();
+        }
+    </script>
     <script src="{{ asset('src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
- --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
     {{-- {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
@@ -120,16 +144,15 @@
         document.querySelector('table').addEventListener('click', function(e) {
             if (e.target.classList.contains('delete-button')) {
                 const deleteUrl = e.target.getAttribute('data-url');
-                const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;                Swal.fire({
+                    title: '{{ __("common.are_you_sure") }}',
+                    text: '{{ __("common.delete_confirm_text") }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: '{{ __("common.yes_delete") }}',
+                    cancelButtonText: '{{ __("common.cancel") }}',
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000'
                 }).then((result) => {

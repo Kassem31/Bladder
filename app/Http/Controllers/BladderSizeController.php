@@ -19,7 +19,7 @@ class BladderSizeController extends Controller
             $query->where('Name', 'LIKE', '%' . $request->Name . '%');
         }
 
-        $bladderSizes = $query->get();
+        $bladderSizes = $query->paginate(10)->withQueryString();
         return view('bladder-sizes.index', compact('bladderSizes'));
     }
 
@@ -38,7 +38,7 @@ class BladderSizeController extends Controller
     {
         BladderSize::create($request->validated());
         return redirect()->route('bladder-sizes.index')
-            ->with('success', 'Bladder size created successfully.');
+            ->with('success', __('common.bladder_size_created'));
     }
 
     /**
@@ -64,7 +64,7 @@ class BladderSizeController extends Controller
     {
         $bladderSize->update($request->validated());
         return redirect()->route('bladder-sizes.index')
-            ->with('success', 'Bladder size updated successfully.');
+            ->with('success', __('common.bladder_size_updated'));
     }
 
     /**
@@ -75,11 +75,11 @@ class BladderSizeController extends Controller
         // Check if bladder size is being used by any bladders
         if ($bladderSize->bladders()->exists()) {
             return redirect()->route('bladder-sizes.index')
-                ->with('error', 'Cannot delete bladder size. It is currently being used by one or more bladders.');
+                ->with('error', __('common.bladder_size_delete_in_use'));
         }
 
         $bladderSize->delete();
         return redirect()->route('bladder-sizes.index')
-            ->with('success', 'Bladder size deleted successfully.');
+            ->with('success', __('common.bladder_size_deleted'));
     }
 }

@@ -70,7 +70,7 @@
                                                     <i class="{{ old('IconClass', $finding->IconClass) }}"
                                                         style="font-size: 1.2rem; color: #0d6efd;"></i>
                                                 @else
-                                                    <span class="text-muted">Select an icon...</span>
+                                                    <span class="text-muted">{{ __("app.select_icon") }}</span>
                                                 @endif
                                             </span>
                                             <i class="bx bx-chevron-down ms-auto"></i>
@@ -348,7 +348,7 @@
                             `<i class="${value}" style="font-size: 1.2rem; color: #0d6efd;"></i>`;
                     } else {
                         selectedIconDisplay.innerHTML =
-                            '<span class="text-muted">Select an icon...</span>';
+                            '<span class="text-muted">{{ __("app.select_icon") }}</span>';
                     }
 
                     // Update visual selection
@@ -368,8 +368,6 @@
                 if (selectedValue) {
                     previewContainer.innerHTML =
                         `<i class="${selectedValue}" style="font-size: 2rem; color: #0d6efd;"></i>`;
-                } else {
-                    previewContainer.innerHTML = '<span class="text-muted">Select an icon to preview</span>';
                 }
             }
         });

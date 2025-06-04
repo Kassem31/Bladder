@@ -107,23 +107,23 @@
                                     @foreach ($bladders as $bladder)
                                         <tr>
                                             <td data-th="Bladder Code">{{ $bladder->BladderCode }}</td>
-                                            <td data-th="Bladder Size">{{ $bladder->bladderSize->Name ?? 'N/A' }}</td>
+                                            <td data-th="Bladder Size">{{ $bladder->bladderSize->Name ?? __('common.not_available') }}</td>
                                             <td data-th="Expiry Date">
                                                 @if ($bladder->ExpiryDate)
                                                     {{ $bladder->ExpiryDate->format('Y-m-d') }}
                                                     @if ($bladder->ExpiryDate->isPast())
-                                                        <span class="badge bg-danger ms-1">Expired</span>
+                                                        <span
+                                                            class="badge bg-danger ms-1">{{ __('common.expired') }}</span>
                                                     @elseif($bladder->ExpiryDate->diffInDays() <= 30)
-                                                        <span class="badge bg-warning ms-1">Expiring Soon</span>
-                                                    @endif
-                                                @else
-                                                    N/A
+                                                        <span
+                                                            class="badge bg-warning ms-1">{{ __('app.expiring_soon') }}</span>
+                                                    @endif                                                @else
+                                                    {{ __('common.not_available') }}
                                                 @endif
-                                            </td>
-                                            <td data-th="Status">
+                                            </td>                                            <td data-th="Status">
                                                 <span
                                                     class="badge bg-{{ $bladder->Status === 'available' ? 'success' : ($bladder->Status === 'in_use' ? 'warning' : 'danger') }}">
-                                                    {{ ucfirst(str_replace('_', ' ', $bladder->Status)) }}
+                                                    {{ __('common.' . strtolower(str_replace(' ', '_', $bladder->Status))) }}
                                                 </span>
                                             </td>
                                             <td class="text-center" data-th="Actions">
@@ -190,15 +190,15 @@
             if (e.target.classList.contains('delete-button')) {
                 const deleteUrl = e.target.getAttribute('data-url');
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __('common.are_you_sure') }}',
+                    text: '{{ __('common.delete_confirm_text') }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: '{{ __('common.yes_delete') }}',
+                    cancelButtonText: '{{ __('common.cancel') }}',
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000'
                 }).then((result) => {

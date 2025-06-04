@@ -22,7 +22,7 @@ class FindingController extends Controller
 
         }
 
-        $findings = $query->paginate(10);
+        $findings = $query->paginate(10)->withQueryString();
 
         return view('findings.index', compact('findings'));
     }

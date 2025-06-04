@@ -155,13 +155,14 @@
                     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
                     Swal.fire({
-                        title: '{{ __('common.confirm_delete') }}',
-                        text: "{{ __('common.error_occurred') }}",
+                        title: '{{ __("common.are_you_sure") }}',
+                        text: '{{ __("common.delete_confirm_text") }}',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: '{{ __('common.delete') }}',
+                        confirmButtonText: '{{ __("common.yes_delete") }}',
+                        cancelButtonText: '{{ __("common.cancel") }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

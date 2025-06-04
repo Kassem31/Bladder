@@ -20,9 +20,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/assets/css/filter-column.css') }}">
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- RTL Support -->
+    <link href="{{ asset('src/assets/css/rtl-support.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 
@@ -89,6 +90,11 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center">
+                            {{ $findings->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,6 +104,92 @@
 
 @section('scripts')    
     {{-- <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script> --}}
+    <script>
+        // Clear all filters function
+        function clearFilters() {
+            // Get the form
+            const form = document.querySelector('form[method="GET"]');
+
+            // Clear all form inputs
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'date') {
+                    input.value = '';
+                } else if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                }
+            });            // Submit the form to clear filters
+            form.submit();
+        }
+
+        // RTL/LTR handling function
+        function updateDirection() {
+            const currentLocale = document.documentElement.lang;
+            const direction = currentLocale === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update document direction
+            document.documentElement.dir = direction;
+            document.body.dir = direction;
+            
+            // Update table direction
+            const table = document.querySelector('#zero-config');
+            if (table) {
+                table.style.direction = direction;
+            }
+            
+            // Reinitialize DataTable if it exists
+            if (typeof $.fn.DataTable !== 'undefined') {
+                const dataTable = $('#zero-config').DataTable();
+                if (dataTable) {
+                    dataTable.destroy();
+                    initializeDataTable();
+                }
+            }
+        }
+
+        // Initialize DataTable with RTL support
+        function initializeDataTable() {
+            const isRTL = document.documentElement.dir === 'rtl';
+            
+            $('#zero-config').DataTable({
+                responsive: true,
+                language: {
+                    search: isRTL ? "بحث:" : "Search:",
+                    lengthMenu: isRTL ? "عرض _MENU_ عنصر" : "Show _MENU_ entries",
+                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" : "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: isRTL ? "عرض 0 إلى 0 من 0 عنصر" : "Showing 0 to 0 of 0 entries",
+                    infoFiltered: isRTL ? "(مرشح من _MAX_ إجمالي العناصر)" : "(filtered from _MAX_ total entries)",
+                    paginate: {
+                        first: isRTL ? "الأول" : "First",
+                        last: isRTL ? "الأخير" : "Last",
+                        next: isRTL ? "التالي" : "Next",
+                        previous: isRTL ? "السابق" : "Previous"
+                    },
+                    emptyTable: isRTL ? "لا توجد بيانات متاحة في الجدول" : "No data available in table"
+                },
+                columnDefs: [
+                    {
+                        targets: 'no-sort',
+                        orderable: false
+                    }
+                ],
+                order: [[0, 'asc']],
+                pageLength: 10,
+                dom: 'frtip'
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDirection();
+            
+            // Listen for language changes (if you have a language switcher)
+            document.addEventListener('languageChanged', function() {
+                updateDirection();
+            });
+        });
+    </script>
+
     <script src="{{ asset('src/plugins/src/font-icons/feather/feather.min.js') }}"></script>
     <script>
         feather.replace();
@@ -109,22 +201,28 @@
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
     {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
-    <script>
-        document.querySelector('table').addEventListener('click', function(e) {
+    <script>        document.querySelector('table').addEventListener('click', function(e) {
             if (e.target.classList.contains('delete-button')) {
                 const deleteUrl = e.target.getAttribute('data-url');
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
+                const isRTL = document.documentElement.dir === 'rtl';
+                
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __("common.are_you_sure") }}',
+                    text: '{{ __("common.delete_confirm_text") }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: '{{ __("common.yes_delete") }}',
+                    cancelButtonText: '{{ __("common.cancel") }}',
                     background: isDarkMode ? '#333' : '#fff',
-                    color: isDarkMode ? '#fff' : '#000'
+                    color: isDarkMode ? '#fff' : '#000',
+                    customClass: {
+                        popup: isRTL ? 'swal2-rtl' : 'swal2-ltr',
+                        title: isRTL ? 'swal2-title-rtl' : 'swal2-title-ltr',
+                        content: isRTL ? 'swal2-content-rtl' : 'swal2-content-ltr'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const form = document.createElement('form');
@@ -150,19 +248,22 @@
             }
         });    </script>
 
-    @if (session('success'))
-        <script>
+    @if (session('success'))        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isRTL = document.documentElement.dir === 'rtl';
 
                 const ToastSuccess = Swal.mixin({
                     toast: true,
-                    position: 'bottom-end',
+                    position: isRTL ? 'bottom-start' : 'bottom-end',
                     showConfirmButton: false,
                     timer: 4000,
                     timerProgressBar: true,
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000',
+                    customClass: {
+                        popup: isRTL ? 'swal2-toast-rtl' : 'swal2-toast-ltr'
+                    },
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -186,16 +287,19 @@
         </script>
     @endif
 
-    @if (session('error'))
-        <script>
+    @if (session('error'))        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isRTL = document.documentElement.dir === 'rtl';
 
                 Swal.fire({
                     icon: 'error',
                     title: '{{ session('error') }}',
                     background: isDarkMode ? '#333' : '#fff',
-                    color: isDarkMode ? '#fff' : '#000'
+                    color: isDarkMode ? '#fff' : '#000',
+                    customClass: {
+                        popup: isRTL ? 'swal2-rtl' : 'swal2-ltr'
+                    }
                 });
             });
         </script>

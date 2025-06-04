@@ -100,11 +100,11 @@ class BladderTransactionController extends Controller
     public function createDismount()
     {        
         // Get bladders with no transactions or last transaction = "Mount"
-        $latest = \DB::table('BladderTransactions')
-            ->select('BladderId', \DB::raw('MAX(CreatedAt) as MaxDate'))
+        $latest = DB::table('BladderTransactions')
+            ->select('BladderId', DB::raw('MAX(CreatedAt) as MaxDate'))
             ->groupBy('BladderId');
             
-        $eligible_bladder_ids = \DB::table('BladderTransactions as bt')
+        $eligible_bladder_ids = DB::table('BladderTransactions as bt')
             ->joinSub($latest, 'latest', function ($join) {
                 $join->on('bt.BladderId', '=', 'latest.BladderId')
                     ->on('bt.CreatedAt', '=', 'latest.MaxDate');
@@ -114,7 +114,7 @@ class BladderTransactionController extends Controller
             
         // Get all bladder IDs
         $all_bladder_ids = Bladder::pluck('Id');
-        $bladders_with_transactions = \DB::table('BladderTransactions')
+        $bladders_with_transactions = DB::table('BladderTransactions')
             ->select('BladderId')
             ->distinct()
             ->pluck('BladderId');
@@ -160,11 +160,11 @@ class BladderTransactionController extends Controller
         $findings = \App\Models\Finding::all();
         
         // Get bladders where the last transaction is "Dismount"
-        $latest = \DB::table('BladderTransactions')
-            ->select('BladderId', \DB::raw('MAX(CreatedAt) as MaxDate'))
+        $latest = DB::table('BladderTransactions')
+            ->select('BladderId', DB::raw('MAX(CreatedAt) as MaxDate'))
             ->groupBy('BladderId');
             
-        $eligible_bladder_ids = \DB::table('BladderTransactions as bt')
+        $eligible_bladder_ids = DB::table('BladderTransactions as bt')
             ->joinSub($latest, 'latest', function ($join) {
                 $join->on('bt.BladderId', '=', 'latest.BladderId')
                     ->on('bt.CreatedAt', '=', 'latest.MaxDate');
@@ -175,7 +175,7 @@ class BladderTransactionController extends Controller
         // Get all bladder IDs
         $all_bladder_ids = Bladder::pluck('Id');
         // Get bladders with any transactions
-        $bladders_with_transactions = \DB::table('BladderTransactions')
+        $bladders_with_transactions = DB::table('BladderTransactions')
             ->select('BladderId')
             ->distinct()
             ->pluck('BladderId');
@@ -205,11 +205,11 @@ class BladderTransactionController extends Controller
         $machines = Machine::all();
         
         // Get bladders where the last transaction is "Maintenance"
-        $latest = \DB::table('BladderTransactions')
-            ->select('BladderId', \DB::raw('MAX(CreatedAt) as MaxDate'))
+        $latest = DB::table('BladderTransactions')
+            ->select('BladderId', DB::raw('MAX(CreatedAt) as MaxDate'))
             ->groupBy('BladderId');
             
-        $eligible_bladder_ids = \DB::table('BladderTransactions as bt')
+        $eligible_bladder_ids = DB::table('BladderTransactions as bt')
             ->joinSub($latest, 'latest', function ($join) {
                 $join->on('bt.BladderId', '=', 'latest.BladderId')
                     ->on('bt.CreatedAt', '=', 'latest.MaxDate');
@@ -220,7 +220,7 @@ class BladderTransactionController extends Controller
         // Get all bladder IDs
         $all_bladder_ids = Bladder::pluck('Id');
         // Get bladders with any transactions
-        $bladders_with_transactions = \DB::table('BladderTransactions')
+        $bladders_with_transactions = DB::table('BladderTransactions')
             ->select('BladderId')
             ->distinct()
             ->pluck('BladderId');
@@ -247,11 +247,11 @@ class BladderTransactionController extends Controller
         $machines = Machine::all();
         
         // Get bladders where the last transaction is "Test"
-        $latest = \DB::table('BladderTransactions')
-            ->select('BladderId', \DB::raw('MAX(CreatedAt) as MaxDate'))
+        $latest = DB::table('BladderTransactions')
+            ->select('BladderId', DB::raw('MAX(CreatedAt) as MaxDate'))
             ->groupBy('BladderId');
             
-        $eligible_bladder_ids = \DB::table('BladderTransactions as bt')
+        $eligible_bladder_ids = DB::table('BladderTransactions as bt')
             ->joinSub($latest, 'latest', function ($join) {
                 $join->on('bt.BladderId', '=', 'latest.BladderId')
                     ->on('bt.CreatedAt', '=', 'latest.MaxDate');
@@ -262,7 +262,7 @@ class BladderTransactionController extends Controller
         // Get all bladder IDs
         $all_bladder_ids = Bladder::pluck('Id');
         // Get bladders with any transactions
-        $bladders_with_transactions = \DB::table('BladderTransactions')
+        $bladders_with_transactions = DB::table('BladderTransactions')
             ->select('BladderId')
             ->distinct()
             ->pluck('BladderId');
@@ -313,12 +313,10 @@ class BladderTransactionController extends Controller
         // For non-Mount transactions, use default discriminator if not provided
         if ($transactionType !== 'Mount' && empty($validated['Discriminator'])) {
             $validated['Discriminator'] = $transactionType . ' Transaction';
-        }
-        
-        // For Mount transactions, check direction and availability
+        }        // For Mount transactions, check direction and availability
         if ($transactionType === 'Mount') {
             // Direction will be handled as Discriminator in the database
-            $direction = $request->Direction;
+            $direction = $request['Direction'];
             $validated['Discriminator'] = $direction;
             
             $machineId = $validated['MachineId'];
@@ -415,9 +413,8 @@ class BladderTransactionController extends Controller
         $bladder->save();
         
         // Store the transaction
-        $transaction = BladderTransaction::create($validated);
-        // If it's a maintenance transaction and findings are selected, store them
-        if ($transactionType === 'Maintenance' && $request->has('findings')) {
+        $transaction = BladderTransaction::create($validated);        // If it's a maintenance transaction and findings are selected, store them
+        if ($transactionType === 'Maintenance' && isset($request['findings']) && !empty($request['findings'])) {
             $findings = $request['findings'];
             
             // Create maintenance findings records

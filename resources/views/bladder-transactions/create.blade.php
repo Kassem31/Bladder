@@ -54,7 +54,7 @@
                                     <option value="">Select Bladder</option>
                                     @foreach($bladders as $bladder)
                                         <option value="{{ $bladder->Id }}" {{ old('BladderId') == $bladder->Id ? 'selected' : '' }}>
-                                            {{ $bladder->BladderCode }} ({{ $bladder->bladderSize->Name ?? 'N/A' }})
+                                            {{ $bladder->BladderCode }} ({{ $bladder->bladderSize->Name ?? __('common.not_available') }})
                                         </option>
                                     @endforeach
                                 </select>

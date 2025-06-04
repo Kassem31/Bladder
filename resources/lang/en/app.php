@@ -18,11 +18,18 @@ return [
     'expiring_soon' => 'Expiring Soon',
     'no_bladder_assigned' => 'No Bladder Assigned',
     'transaction_history' => 'Transaction History',
-    'showing_recent_transactions' => 'Showing :count most recent transactions',
-    'ready' => 'Ready',
+    'showing_recent_transactions' => 'Showing :count most recent transactions',    'ready' => 'Ready',
     'mounted' => 'Mounted',
-    'status' => 'Status',    'bladder_information' => 'Bladder Information',
+    'maintenance' => 'Maintenance',
+    'test' => 'Test',
+    'status' => 'Status','bladder_information' => 'Bladder Information',
     'bladder_details' => 'Bladder Details',
+    'Mount'       => 'Mount', 
+    'Dismount'    => 'Dismount',
+    'Test'        => 'Test',
+    'Maintenance' => 'Maintenance',
+    'enter_bladder_code' => 'Enter Bladder Code',
+    'select_bladder_size' => 'Select Bladder Size',
     
     // Machines
     'machines' => 'Machines',
@@ -32,6 +39,8 @@ return [
     'right_bladder' => 'Right Bladder',
     'filter_by_machine_code' => 'Filter by Machine Code',
     'all_statuses' => 'All Statuses',
+    'select_icon' => 'Select Icon',
+
       // Transactions
     'bladder_transactions' => 'Bladder Transactions',
     'bladder_transaction' => 'Bladder Transaction',

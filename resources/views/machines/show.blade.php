@@ -47,7 +47,7 @@
                                         class="text-decoration-none">
                                         {{ $machine->leftBladder->BladderCode }}
                                         <span
-                                            class="badge bg-info ms-1">{{ $machine->leftBladder->bladderSize->Name ?? 'N/A' }}</span>
+                                            class="badge bg-info ms-1">{{ $machine->leftBladder->bladderSize->Name ?? __('common.not_available') }}</span>
                                     </a>                                @else
                                     <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
                                 @endif
@@ -64,7 +64,7 @@
                                         class="text-decoration-none">
                                         {{ $machine->rightBladder->BladderCode }}
                                         <span
-                                            class="badge bg-info ms-1">{{ $machine->rightBladder->bladderSize->Name ?? 'N/A' }}</span>
+                                            class="badge bg-info ms-1">{{ $machine->rightBladder->bladderSize->Name ?? __('common.not_available') }}</span>
                                     </a>
                                 @else
                                     <span class="text-muted">{{ __('app.no_bladder_assigned') }}</span>
@@ -119,9 +119,8 @@
                                                     class="badge bg-{{ $transaction->TransactionType === 'Install' ? 'success' : ($transaction->TransactionType === 'Remove' ? 'warning' : 'info') }}">
                                                     {{ $transaction->TransactionType }}
                                                 </span>
-                                            </td>
-                                            <td>{{ $transaction->bladder->BladderCode ?? 'N/A' }}</td>
-                                            <td>{{ $transaction->created_at ? $transaction->created_at->format('Y-m-d H:i') : 'N/A' }}
+                                            </td>                                            <td>{{ $transaction->bladder->BladderCode ?? __('common.not_available') }}</td>
+                                            <td>{{ $transaction->created_at ? $transaction->created_at->format('Y-m-d H:i') : __('common.not_available') }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -151,16 +150,15 @@
                 button.addEventListener('click', function(e) {
                     const deleteUrl = this.getAttribute('data-url');
                     const isDarkMode = window.matchMedia && window.matchMedia(
-                        '(prefers-color-scheme: dark)').matches;
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        '(prefers-color-scheme: dark)').matches;                    Swal.fire({
+                        title: '{{ __("common.are_you_sure") }}',
+                        text: '{{ __("common.delete_confirm_text") }}',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
+                        confirmButtonText: '{{ __("common.yes_delete") }}',
+                        cancelButtonText: '{{ __("common.cancel") }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

@@ -5,16 +5,14 @@
     <style>
         .transaction-flow {
             margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
 
-            <table id="bladderTransactionsTable" class="table dt-table-hover" style="width:100%"><thead><tr><th>{{ __('app.transaction_type') }}</th><th>{{ __('app.bladder') }}</th><th>{{ __('app.machine') }}</th><th>{{ __('app.transaction_date') }}</th><th class="text-center no-sort">{{ __('common.actions') }}</th></tr></thead>.transaction-step {
-                padding: 0.5rem 1rem;
-                border-radius: 4px;
-            }
-
-            .transaction-step .badge {
-                font-size: 0.9rem;
-                padding: 0.5rem 0.75rem;
-            }
+        .transaction-step .badge {
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+        }
     </style>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
@@ -26,10 +24,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/assets/css/filter-column.css') }}">
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- RTL Support -->
+    <link href="{{ asset('src/assets/css/rtl-support.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 
@@ -151,7 +149,7 @@
                                                     };
                                                 @endphp
                                                 <span class="badge bg-{{ $badgeColor }}">
-                                                    {{ $transaction->TransactionType }}
+                                                    {{ __('app.' . $transaction->TransactionType) }}</span>
                                                 </span>
                                             </td>
                                             <td data-th="Bladder">{{ $transaction->bladder->BladderCode ?? 'N/A' }}</td>
@@ -176,6 +174,11 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center">
+                            {{ $bladderTransactions->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,7 +191,6 @@
     <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
-
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
     {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
@@ -199,13 +201,14 @@
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '{{ __('common.are_you_sure') }}',
+                    text: '{{ __('common.delete_confirm_text') }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: '{{ __('common.yes_delete') }}',
+                    cancelButtonText: '{{ __('common.cancel') }}',
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000'
                 }).then((result) => {
@@ -262,68 +265,94 @@
             });
 
             // Hide direction filter if visible
-            directionFilter.style.display = 'none';
-
-            // Submit the form to clear filters
+            directionFilter.style.display = 'none';            // Submit the form to clear filters
             form.submit();
         }
-    </script>
 
-    <script>
-        document.querySelector('table').addEventListener('click', function(e) {
-            if (e.target.classList.contains('delete-button')) {
-                const deleteUrl = e.target.getAttribute('data-url');
-                const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
-                    background: isDarkMode ? '#333' : '#fff',
-                    color: isDarkMode ? '#fff' : '#000'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = deleteUrl;
-
-                        const csrfToken = document.createElement('input');
-                        csrfToken.type = 'hidden';
-                        csrfToken.name = '_token';
-                        csrfToken.value = '{{ csrf_token() }}';
-
-                        const methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'DELETE';
-
-                        form.appendChild(csrfToken);
-                        form.appendChild(methodInput);
-                        document.body.appendChild(form);
-                        form.submit();
-                    }
-                });
+        // RTL/LTR handling function
+        function updateDirection() {
+            const currentLocale = document.documentElement.lang;
+            const direction = currentLocale === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update document direction
+            document.documentElement.dir = direction;
+            document.body.dir = direction;
+            
+            // Update table direction
+            const table = document.querySelector('#zero-config');
+            if (table) {
+                table.style.direction = direction;
             }
+            
+            // Reinitialize DataTable if it exists
+            if (typeof $.fn.DataTable !== 'undefined') {
+                const dataTable = $('#zero-config').DataTable();
+                if (dataTable) {
+                    dataTable.destroy();
+                    initializeDataTable();
+                }
+            }
+        }
+
+        // Initialize DataTable with RTL support
+        function initializeDataTable() {
+            const isRTL = document.documentElement.dir === 'rtl';
+            
+            $('#zero-config').DataTable({
+                responsive: true,
+                language: {
+                    search: isRTL ? "بحث:" : "Search:",
+                    lengthMenu: isRTL ? "عرض _MENU_ عنصر" : "Show _MENU_ entries",
+                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" : "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: isRTL ? "عرض 0 إلى 0 من 0 عنصر" : "Showing 0 to 0 of 0 entries",
+                    infoFiltered: isRTL ? "(مرشح من _MAX_ إجمالي العناصر)" : "(filtered from _MAX_ total entries)",
+                    paginate: {
+                        first: isRTL ? "الأول" : "First",
+                        last: isRTL ? "الأخير" : "Last",
+                        next: isRTL ? "التالي" : "Next",
+                        previous: isRTL ? "السابق" : "Previous"
+                    },
+                    emptyTable: isRTL ? "لا توجد بيانات متاحة في الجدول" : "No data available in table"
+                },
+                columnDefs: [
+                    {
+                        targets: 'no-sort',
+                        orderable: false
+                    }
+                ],
+                order: [[0, 'asc']],
+                pageLength: 10,
+                dom: 'frtip'
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDirection();
+            
+            // Listen for language changes (if you have a language switcher)
+            document.addEventListener('languageChanged', function() {
+                updateDirection();
+            });
         });
     </script>
 
-    @if (session('success'))
-        <script>
+    @if (session('success'))        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isRTL = document.documentElement.dir === 'rtl';
 
                 const ToastSuccess = Swal.mixin({
                     toast: true,
-                    position: 'bottom-end',
+                    position: isRTL ? 'bottom-start' : 'bottom-end',
                     showConfirmButton: false,
                     timer: 4000,
                     timerProgressBar: true,
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000',
+                    customClass: {
+                        popup: isRTL ? 'swal2-toast-rtl' : 'swal2-toast-ltr'
+                    },
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -347,16 +376,19 @@
         </script>
     @endif
 
-    @if (session('error'))
-        <script>
+    @if (session('error'))        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isRTL = document.documentElement.dir === 'rtl';
 
                 Swal.fire({
                     icon: 'error',
                     title: '{{ session('error') }}',
                     background: isDarkMode ? '#333' : '#fff',
-                    color: isDarkMode ? '#fff' : '#000'
+                    color: isDarkMode ? '#fff' : '#000',
+                    customClass: {
+                        popup: isRTL ? 'swal2-rtl' : 'swal2-ltr'
+                    }
                 });
             });
         </script>

@@ -105,7 +105,7 @@ class ProfileController extends Controller
 
         DB::commit();
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.index')->with('success', __('common.user_created'));
     }
 
     public function showUser(User $user)
@@ -149,13 +149,13 @@ class ProfileController extends Controller
 
         DB::commit();
 
-        return redirect()->route('users.index', $user)->with('success', 'User updated successfully.');
+        return redirect()->route('users.index', $user)->with('success', __('common.user_updated'));
     }
 
     public function destroyUser(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', __('common.user_deleted'));
     }
 
     public function showResetPasswordForm()

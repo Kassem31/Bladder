@@ -50,8 +50,11 @@ return [
     'expiring_soon' => 'تنتهي صلاحيتها قريباً',
     'no_bladder_assigned' => 'لا توجد بلادر مخصصة',
     'transaction_history' => 'تاريخ المعاملات',
-    'showing_recent_transactions' => 'عرض آخر :count معاملة',    'bladder_information' => 'معلومات البلادر',
-    'bladder_details' => 'تفاصيل البلادر',
+    'showing_recent_transactions' => 'عرض آخر :count معاملة',    'bladder_information' => 'معلومات البلادر',    'bladder_details' => 'تفاصيل البلادر',
+    'ready' => 'جاهز',
+    'mounted' => 'مُركب',
+    'maintenance' => 'صيانة',
+    'test' => 'اختبار',
     
     // Machines
     'machines' => 'الآلات',
@@ -64,6 +67,7 @@ return [
     'status' => 'الحالة',
     'machine_details' => 'تفاصيل الآلة',
     'none' => 'لا شيء',
+    'select_icon' => 'اختر أيقونة',
     
     // Transactions
     'bladder_transactions' => 'معاملات البلادرات',
@@ -124,6 +128,12 @@ return [
       // Menu Items (for dynamic menu translation)
     'bladder_management' => 'إدارة البلادرات',
     'user_management' => 'إدارة المستخدمين',
+    'Mount' => 'تركيب',
+    'Dismount' => 'إزالة',
+    'Test' => 'اختبار',
+    'Maintenance' => 'صيانة',
+    'enter_bladder_code' => 'أدخل رمز البلادر',
+    'select_bladder_size' => 'اختر حجم البلادر',
     
     // Main Menu Items
     'menu_users_management' => 'إدارة المستخدمين',

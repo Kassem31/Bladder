@@ -12,7 +12,7 @@ class Machine extends Model
     public $timestamps = false;
 
     protected $table = 'Machines';
-    
+
     protected $primaryKey = 'Id';
 
     /**
@@ -59,7 +59,7 @@ class Machine extends Model
     {
         return $this->hasMany(BladderTransaction::class, 'MachineId');
     }
-    
+
     /**
      * Check if the machine is working (has both left and right bladders).
      */
@@ -67,7 +67,7 @@ class Machine extends Model
     {
         return !is_null($this->LeftBladderId) && !is_null($this->RightBladderId);
     }
-    
+
     /**
      * Check if the machine is stopped (missing one or both bladders).
      */
@@ -75,7 +75,7 @@ class Machine extends Model
     {
         return is_null($this->LeftBladderId) || is_null($this->RightBladderId);
     }
-    
+
     /**
      * Override the getFull attribute to ensure it always reflects the current state.
      */
@@ -84,7 +84,7 @@ class Machine extends Model
         // Always calculate based on current bladder assignments
         return !is_null($this->LeftBladderId) && !is_null($this->RightBladderId);
     }
-    
+
     /**
      * Before saving, update the Full attribute based on bladder assignments.
      */
@@ -94,7 +94,7 @@ class Machine extends Model
             $machine->Full = !is_null($machine->LeftBladderId) && !is_null($machine->RightBladderId);
         });
     }
-    
+
     /**
      * Get the status text for the machine.
      *
@@ -102,6 +102,6 @@ class Machine extends Model
      */
     public function getStatusTextAttribute()
     {
-        return $this->is_working ? 'Working' : 'Stopped';
+        return $this->is_working ? __('common.working') : __('common.stopped');
     }
 }

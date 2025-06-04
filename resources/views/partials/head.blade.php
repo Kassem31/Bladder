@@ -19,7 +19,7 @@
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
 <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet"> -->
 <link href="{{ asset('src/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"> --}}
 <link href="{{ asset('layouts/collapsible-menu/css/light/plugins.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('layouts/collapsible-menu/css/dark/plugins.css') }}" rel="stylesheet" type="text/css" />
 {{-- <link href="{{ asset('src/assets/css/navbar-fix.css') }}" rel="stylesheet" type="text/css" /> --}}
@@ -27,7 +27,7 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 
 <!-- RTL Support for Arabic -->
-@if(app()->getLocale() == 'ar')
+{{-- @if(app()->getLocale() == 'ar')
 <style>
     body[dir="rtl"] {
         text-align: right;
@@ -65,7 +65,7 @@
         text-align: center;
     }
 </style>
-@endif
+@endif --}}
 
 <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 {{-- <link href="{{ asset('src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css"> --}}

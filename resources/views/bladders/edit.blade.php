@@ -45,7 +45,7 @@
                                 <label for="Status" class="form-label">{{ __('app.status') }} *</label>
                                 <select class="form-select @error('Status') is-invalid @enderror" id="Status"
                                     name="Status" required>
-                                    <option value="">{{ __('app.select_status') }}</option>
+                                    <option value="">{{ __('app.status') }}</option>
                                     <option value="ready"
                                         {{ old('Status', $bladder->Status) == 'ready' ? 'selected' : '' }}>{{ __('app.ready') }}
                                     </option>

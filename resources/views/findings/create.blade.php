@@ -68,7 +68,7 @@
                                                 <i class="{{ old('IconClass') }}"
                                                     style="font-size: 1.2rem; color: #0d6efd;"></i>
                                             @else
-                                                <span class="text-muted">Select an icon...</span>
+                                                <span class="text-muted">{{ __("app.select_icon") }}</span>
                                             @endif
                                         </span>
                                         <i class="bx bx-chevron-down ms-auto"></i>
@@ -301,7 +301,6 @@
             const previewContainer = document.createElement('div');
             previewContainer.className = 'mt-2 p-2 rounded';
             previewContainer.style.minHeight = '60px';
-            previewContainer.innerHTML = '<span class="text-muted">Icon preview will appear here</span>';
             iconClassInput.parentNode.insertBefore(previewContainer, null);
 
             // Initial preview
@@ -352,8 +351,6 @@
                 if (selectedValue) {
                     previewContainer.innerHTML =
                         `<i class="${selectedValue}" style="font-size: 2rem; color: #0d6efd;"></i>`;
-                } else {
-                    previewContainer.innerHTML = '<span class="text-muted">Select an icon to preview</span>';
                 }
             }
         });
