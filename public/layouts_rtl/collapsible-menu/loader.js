@@ -68,15 +68,15 @@ window.addEventListener("load", function(){
         if (getParseObject.settings.layout.darkMode) {
             ifStarterKit = document.body.getAttribute('page') === 'starter-pack' ? true : false;
             document.body.classList.add('dark');
-            if (ifStarterKit) {
-                if (document.querySelector('.navbar-logo')) {
-                    document.querySelector('.navbar-logo').setAttribute('src', '../../src/assets/img/logo.svg')
-                }
-            } else {
-                if (document.querySelector('.navbar-logo')) {
-                    document.querySelector('.navbar-logo').setAttribute('src', getParseObject.settings.layout.logo.darkLogo)
-                }
-            }
+            // if (ifStarterKit) {
+            //     if (document.querySelector('.navbar-logo')) {
+            //         document.querySelector('.navbar-logo').setAttribute('src', '../../src/assets/img/logo.svg')
+            //     }
+            // } else {
+            //     if (document.querySelector('.navbar-logo')) {
+            //         document.querySelector('.navbar-logo').setAttribute('src', getParseObject.settings.layout.logo.darkLogo)
+            //     }
+            // }
         }
     } else {
         localStorage.setItem("theme", JSON.stringify(corkThemeObject));
