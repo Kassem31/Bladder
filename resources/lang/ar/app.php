@@ -138,7 +138,6 @@ return [
     'Maintenance' => 'صيانة',
     'enter_bladder_code' => 'أدخل رمز البلادر',
     'select_bladder_size' => 'اختر حجم البلادر',
-    'icon_preview_will_appear_here' => 'ستظهر معاينة الأيقونة هنا',
     
     // Main Menu Items
     'menu_users_management' => 'إدارة المستخدمين',

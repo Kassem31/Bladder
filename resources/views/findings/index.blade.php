@@ -209,7 +209,7 @@
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     {{--     {{-- <script src="{{ asset('src/plugins/src/table/datatable/extensions/responsive/responsive.min.js') }}"></script> --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    {{-- <script src="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.json') }}"></script> --}}
+    <script src="{{ asset('src_rtl/assets/img/bootstrap-icons/bootstrap-icons.json') }}"></script>
     {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
     <script>

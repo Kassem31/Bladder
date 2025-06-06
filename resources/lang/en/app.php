@@ -42,7 +42,6 @@ return [
     'all_statuses' => 'All Statuses',
     'select_icon' => 'Select Icon',
     'machine_details' => 'Machine Details',
-    'icon_preview_will_appear_here' => 'Icon preview will appear here',
 
       // Transactions
     'bladder_transactions' => 'Bladder Transactions',
