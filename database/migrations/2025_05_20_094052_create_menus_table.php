@@ -26,7 +26,10 @@ return new class extends Migration
                 ->on('menus')
                 ->onDelete('NO ACTION')
                 ->onUpdate('NO ACTION');
+            
+            $table->string('translation_key')->nullable()->after('name');
         });
+
     }
 
     /**

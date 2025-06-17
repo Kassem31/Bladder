@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="shadow-bottom"></div>
-            <ul class="list-unstyled menu-categories" id="accordionExample">
+            <ul class="list-unstyled menu-categories" id="accordionExampleP">
 
                 @php
                     $currentRoute = Route::currentRouteName();
