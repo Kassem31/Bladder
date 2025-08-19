@@ -22,6 +22,11 @@
                 </li>
             @endif
 
+            {{-- First Page Link --}}
+            @if ($paginator->currentPage() > 3)
+                <li class="page-item"><a class="page-link" href="{{ $paginator->url(1) }}">1</a></li>
+            @endif
+            
             {{-- Pagination Elements --}}
             @foreach ($elements as $element)
                 {{-- "Three Dots" Separator --}}
@@ -40,6 +45,11 @@
                     @endforeach
                 @endif
             @endforeach
+            
+            {{-- Last Page Link --}}
+            @if ($paginator->currentPage() < $paginator->lastPage() - 2)
+                <li class="page-item"><a class="page-link" href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a></li>
+            @endif
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())

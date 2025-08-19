@@ -25,6 +25,8 @@ class PermissionsTableSeeder extends Seeder
             'create_role',
             'delete_role',
 
+            'list_master-data',
+
             'list_machines',
             'show_machines',
             'create_machines',
@@ -47,7 +49,13 @@ class PermissionsTableSeeder extends Seeder
             'show_findings',
             'create_findings',
             'edit_findings',
-            'delete_findings',            
+            'delete_findings',
+
+            'list_bladder-transactions',
+            'show_bladder-transactions',
+            'create_bladder-transactions',
+            'edit_bladder-transactions',
+            'delete_bladder-transactions',
         ];
 
         foreach ($permissions as $permission) {

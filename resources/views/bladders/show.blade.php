@@ -122,23 +122,21 @@
                                     <small class="text-muted">Showing 5 most recent transactions</small>
                                 @endif
                             </div>
-                        @endif --}}
-
-                        <hr>
+                        @endif --}}                        <hr>
                         <div class="row">
-                            <div class="col-sm-12"> <a href="{{ route('bladders.edit', $bladder) }}"
-                                    class="btn btn-primary">
-                                    <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
-                                </a>
-                                <a href="{{ route('bladders.index') }}" class="btn btn-secondary ms-2">
+                            <div class="col-12 mb-2">
+                                <a href="{{ route('bladders.index') }}" class="btn btn-secondary w-100">
                                     <i class="bx bx-arrow-back me-1"></i>{{ __('common.back_to_list') }}
                                 </a>
-                                <form action="{{ route('bladders.destroy', $bladder) }}" method="POST"
-                                    class="d-inline ms-2">
+                            </div>
+                            <div class="col-12 d-flex flex-wrap justify-content-between gap-2">
+                                <a href="{{ route('bladders.edit', $bladder) }}" class="btn btn-primary flex-grow-1">
+                                    <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
+                                </a>
+                                <form action="{{ route('bladders.destroy', $bladder) }}" method="POST" class="m-0 flex-grow-1">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-danger delete-button"
-                                        data-url="{{ route('bladders.destroy', $bladder) }}">
+                                    <button type="button" class="btn btn-danger delete-button w-100" data-url="{{ route('bladders.destroy', $bladder) }}">
                                         <i class="bx bx-trash me-1"></i>{{ __('common.delete') }}
                                     </button>
                                 </form>

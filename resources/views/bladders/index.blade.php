@@ -2,6 +2,47 @@
 
 
 @section('styles')
+    <style>
+        /* Custom pagination styles */
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            justify-content: center;
+        }
+        
+        .pagination .page-item {
+            margin: 0 1px;
+        }
+        
+        .pagination .page-link {
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            border-radius: 4px;
+        }
+        
+        /* Ensure mobile responsive pagination */
+        @media (max-width: 576px) {
+            .pagination {
+                gap: 0.1rem;
+            }
+            
+            .pagination .page-item {
+                margin: 0;
+            }
+            
+            .pagination .page-link {
+                min-width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+                padding: 0.25rem;
+            }
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
@@ -142,11 +183,15 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-
-                        <!-- Pagination Links -->
+                        </div>                        <!-- Pagination Links -->
                         <div class="d-flex justify-content-center">
-                            {{ $bladders->links() }}
+                            {{ $bladders->onEachSide(2)->links('vendor.pagination.custom') }}
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <p class="text-muted">
+                                {{ __('Showing') }} {{ $bladders->firstItem() ?? 0 }} {{ __('to') }} 
+                                {{ $bladders->lastItem() ?? 0 }} {{ __('of') }} {{ $bladders->total() }} {{ __('entries') }}
+                            </p>
                         </div>
                     </div>
                 </div>
