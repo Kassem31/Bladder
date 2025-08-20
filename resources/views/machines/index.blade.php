@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/assets/css/filter-column.css') }}">
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <!-- RTL Support -->
     <link href="{{ asset('src/assets/css/rtl-support.css') }}" rel="stylesheet" type="text/css" />
@@ -33,16 +34,18 @@
 
             <div class="row layout-top-spacing">
 
-                <x-add-button model="machines" name="machine" />
+                <x-add-button model="machines" name="machines" />
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
-                    <div class="widget-content widget-content-area br-8">                        <form method="GET" action="{{ route('machines.index') }}" class="mb-3">
+                    <div class="widget-content widget-content-area br-8">
+                        <form method="GET" action="{{ route('machines.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-3 col-12 filter-column">
                                     <input type="text" name="Code" class="form-control"
                                         placeholder="{{ __('app.filter_by_machine_code') }}"
                                         value="{{ request('Code') }}">
-                                </div>                                <div class="col-md-3 col-12 filter-column">
+                                </div>
+                                <div class="col-md-3 col-12 filter-column">
                                     <input type="text" name="BladderCode" class="form-control"
                                         placeholder="{{ __('app.filter_by_bladder') }}"
                                         value="{{ request('BladderCode') }}">
@@ -81,7 +84,8 @@
                                                 <span class="badge bg-{{ $machine->is_working ? 'success' : 'danger' }}">
                                                     {{ $machine->status_text }}
                                                 </span>
-                                            </td>                                            <td data-th="Left Bladder">
+                                            </td>
+                                            <td data-th="Left Bladder">
                                                 @if ($machine->leftBladder)
                                                     <span
                                                         class="badge bg-info">{{ $machine->leftBladder->BladderCode }}</span>
@@ -99,11 +103,13 @@
                                             </td>
                                             <td class="text-center" data-th="Actions">
                                                 <div class="d-flex flex-wrap justify-content-center button-group gap-1">
-                                                    <x-show-button route="machines.show" :param="$machine->Id" name="machine" />
-                                                    <x-edit-button route="machines.edit" :param="$machine->Id" name="machine" />
+                                                    <x-show-button route="machines.show" :param="$machine->Id"
+                                                        name="machines" />
+                                                    <x-edit-button route="machines.edit" :param="$machine->Id"
+                                                        name="machines" />
                                                     <div style="margin-top: 0.07rem">
                                                         <x-delete-button route="machines.destroy" :param="$machine->Id"
-                                                            name="machine" />
+                                                            name="machines" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -156,23 +162,24 @@
             });
 
             // Submit the form to clear filters
-            form.submit();        }
+            form.submit();
+        }
 
         // RTL/LTR handling function
         function updateDirection() {
             const currentLocale = document.documentElement.lang;
             const direction = currentLocale === 'ar' ? 'rtl' : 'ltr';
-            
+
             // Update document direction
             document.documentElement.dir = direction;
             document.body.dir = direction;
-            
+
             // Update table direction
             const table = document.querySelector('#zero-config');
             if (table) {
                 table.style.direction = direction;
             }
-            
+
             // Reinitialize DataTable if it exists
             if (typeof $.fn.DataTable !== 'undefined') {
                 const dataTable = $('#zero-config').DataTable();
@@ -186,13 +193,14 @@
         // Initialize DataTable with RTL support
         function initializeDataTable() {
             const isRTL = document.documentElement.dir === 'rtl';
-            
+
             $('#zero-config').DataTable({
                 responsive: true,
                 language: {
                     search: isRTL ? "بحث:" : "Search:",
                     lengthMenu: isRTL ? "عرض _MENU_ عنصر" : "Show _MENU_ entries",
-                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" : "Showing _START_ to _END_ of _TOTAL_ entries",
+                    info: isRTL ? "عرض _START_ إلى _END_ من _TOTAL_ عنصر" :
+                        "Showing _START_ to _END_ of _TOTAL_ entries",
                     infoEmpty: isRTL ? "عرض 0 إلى 0 من 0 عنصر" : "Showing 0 to 0 of 0 entries",
                     infoFiltered: isRTL ? "(مرشح من _MAX_ إجمالي العناصر)" : "(filtered from _MAX_ total entries)",
                     paginate: {
@@ -203,13 +211,13 @@
                     },
                     emptyTable: isRTL ? "لا توجد بيانات متاحة في الجدول" : "No data available in table"
                 },
-                columnDefs: [
-                    {
-                        targets: 'no-sort',
-                        orderable: false
-                    }
+                columnDefs: [{
+                    targets: 'no-sort',
+                    orderable: false
+                }],
+                order: [
+                    [0, 'asc']
                 ],
-                order: [[0, 'asc']],
                 pageLength: 10,
                 dom: 'frtip'
             });
@@ -218,7 +226,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateDirection();
-            
+
             // Listen for language changes (if you have a language switcher)
             document.addEventListener('languageChanged', function() {
                 updateDirection();
@@ -232,21 +240,22 @@
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
     {{-- <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script> --}}
 
-    <script>        document.querySelector('table').addEventListener('click', function(e) {
+    <script>
+        document.querySelector('table').addEventListener('click', function(e) {
             if (e.target.classList.contains('delete-button')) {
                 const deleteUrl = e.target.getAttribute('data-url');
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';
-                
+
                 Swal.fire({
-                    title: '{{ __("common.are_you_sure") }}',
-                    text: @json(__("common.delete_confirm_text")),
+                    title: '{{ __('common.are_you_sure') }}',
+                    \text: @json(__('common.delete_confirm_text')),
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: '{{ __("common.yes_delete") }}',
-                    cancelButtonText: '{{ __("common.cancel") }}',
+                    confirmButtonText: '{{ __('common.yes_delete') }}',
+                    cancelButtonText: '{{ __('common.cancel') }}',
                     background: isDarkMode ? '#333' : '#fff',
                     color: isDarkMode ? '#fff' : '#000',
                     customClass: {
@@ -280,7 +289,8 @@
         });
     </script>
 
-    @if (session('success'))        <script>
+    @if (session('success'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';
@@ -319,7 +329,8 @@
         </script>
     @endif
 
-    @if (session('error'))        <script>
+    @if (session('error'))
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const isRTL = document.documentElement.dir === 'rtl';
