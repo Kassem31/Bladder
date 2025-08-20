@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BladderTransaction;
 use App\Models\Bladder;
 use App\Models\Machine;
+use Illuminate\Http\Request;
+use App\Models\BladderTransaction;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBladderTransactionRequest;
 use App\Http\Requests\UpdateBladderTransactionRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BladderTransactionController extends Controller
 {
@@ -17,6 +18,9 @@ class BladderTransactionController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('list_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $query = BladderTransaction::with(['bladder', 'machine']);
 
         // Apply filters
@@ -88,6 +92,9 @@ class BladderTransactionController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladders = Bladder::all();
         $machines = Machine::all();
         $validTransactionTypes = BladderTransaction::VALID_TRANSACTION_TYPES;
@@ -98,7 +105,10 @@ class BladderTransactionController extends Controller
      * Show form for creating a new Dismount transaction.
      */
     public function createDismount()
-    {        
+    {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         // Get bladders with no transactions or last transaction = "Mount"
         $latest = DB::table('BladderTransactions')
             ->select('BladderId', DB::raw('MAX(CreatedAt) as MaxDate'))
@@ -156,6 +166,9 @@ class BladderTransactionController extends Controller
      */
     public function createMaintenance()
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $machines = Machine::all();
         $findings = \App\Models\Finding::all();
         
@@ -202,6 +215,9 @@ class BladderTransactionController extends Controller
      */
     public function createTest()
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $machines = Machine::all();
         
         // Get bladders where the last transaction is "Maintenance"
@@ -244,6 +260,9 @@ class BladderTransactionController extends Controller
      */
     public function createMount()
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $machines = Machine::all();
         
         // Get bladders where the last transaction is "Test"
@@ -435,6 +454,9 @@ class BladderTransactionController extends Controller
      */
     public function show(BladderTransaction $bladderTransaction)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('show_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladderTransaction->load(['bladder', 'machine', 'maintenanceFindings.finding']);
         
         // Check if this is the latest transaction for the bladder
@@ -448,6 +470,9 @@ class BladderTransactionController extends Controller
      */
     public function edit(BladderTransaction $bladderTransaction)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('edit_bladder-transactions')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladders = Bladder::all();
         $machines = Machine::all();
         return view('bladder-transactions.edit', compact('bladderTransaction', 'bladders', 'machines'));

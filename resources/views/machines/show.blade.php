@@ -74,10 +74,13 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
+                                @permission('edit_machines')
                                 <a href="{{ route('machines.edit', $machine) }}" class="btn btn-primary">
                                     <i class="bx bxs-edit me-1"></i>{{ __('common.edit') }} {{ __('app.machine') }}
                                 </a>
-                <form action="{{ route('machines.destroy', $machine) }}" method="POST"
+                                @endpermission
+                                @permission('delete_machines')
+                                <form action="{{ route('machines.destroy', $machine) }}" method="POST"
                                     class="d-inline ms-2">
                                     @csrf
                                     @method('DELETE')
@@ -86,6 +89,7 @@
                                         <i class="bx bx-trash me-1"></i>{{ __('common.delete') }} {{ __('app.machine') }}
                                     </button>
                                 </form>
+                                @endpermission
                             </div>
                         </div>
                     </div>
@@ -152,7 +156,7 @@
                     const isDarkMode = window.matchMedia && window.matchMedia(
                         '(prefers-color-scheme: dark)').matches;                    Swal.fire({
                         title: '{{ __("common.are_you_sure") }}',
-                        text: '{{ __("common.delete_confirm_text") }}',
+                        text: @json(__("common.delete_confirm_text")),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

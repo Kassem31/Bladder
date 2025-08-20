@@ -207,7 +207,7 @@
 
                 Swal.fire({
                     title: '{{ __("common.are_you_sure") }}',
-                    text: '{{ __("common.delete_confirm_text") }}',
+                    text: @json(__("common.delete_confirm_text")),
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

@@ -76,7 +76,8 @@ return [
     'user_created' => 'User created successfully.',
     'user_updated' => 'User updated successfully.',
     'user_deleted' => 'User deleted successfully.',
-    
+    'role_delete_in_use' => 'Cannot delete role. It is currently being used by one or more users.',
+
     // Specific Error Messages
     'bladder_delete_machine_use' => 'Cannot delete bladder. It is currently being used by one or more machines.',
     'bladder_delete_has_transactions' => 'Cannot delete bladder. It has associated transactions.',
@@ -88,11 +89,12 @@ return [
     'machine_both_sides_mounted' => 'This machine already has bladders mounted on both sides.',
     'machine_left_side_mounted' => 'This machine already has a bladder mounted on the left side.',
     'machine_right_side_mounted' => 'This machine already has a bladder mounted on the right side.',
-    'are_you_sure' => 'Are you sure?',
-    'delete_confirm_text' => 'You won\'t be able to revert this!',
-    'confirm_delete' => 'Are you sure you want to delete this item?',
-    'confirm_delete_message' => 'You won\'t be able to revert this!',
-    'yes_delete' => 'Yes, delete it!',    'no_data_available' => 'No data available',
+  'are_you_sure' => 'Are you sure?',
+  'delete_confirm_text' => html_entity_decode("You won't be able to revert this!"),
+  'confirm_delete' => 'Are you sure you want to delete this item?',
+  'confirm_delete_message' => html_entity_decode("You won't be able to revert this!"),
+  'yes_delete' => 'Yes, delete it!',
+  'no_data_available' => 'No data available',
     'not_available' => 'N/A',
     'close' => 'Close',
     'none' => 'None',

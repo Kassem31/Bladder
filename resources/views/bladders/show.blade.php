@@ -130,9 +130,12 @@
                                 </a>
                             </div>
                             <div class="col-12 d-flex flex-wrap justify-content-between gap-2">
+                                @permission('edit_bladders')
                                 <a href="{{ route('bladders.edit', $bladder) }}" class="btn btn-primary flex-grow-1">
                                     <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
                                 </a>
+                                @endpermission
+                                @permission('delete_bladders')
                                 <form action="{{ route('bladders.destroy', $bladder) }}" method="POST" class="m-0 flex-grow-1">
                                     @csrf
                                     @method('DELETE')
@@ -140,6 +143,7 @@
                                         <i class="bx bx-trash me-1"></i>{{ __('common.delete') }}
                                     </button>
                                 </form>
+                                @endpermission
                             </div>
                         </div>
                     </div>
@@ -164,7 +168,7 @@
                         '(prefers-color-scheme: dark)').matches;
                     Swal.fire({
                         title: "{{ __('common.are_you_sure') }}",
-                        text: "{{ __('common.delete_confirm_text') }}",
+                        text: @json(__('common.delete_confirm_text')),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

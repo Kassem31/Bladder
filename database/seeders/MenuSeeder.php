@@ -20,7 +20,7 @@ class MenuSeeder extends Seeder
             'name'       => 'Users Management',
             'translation_key' => 'menu_users_management',
             'order'      => $order++,
-            'permission' => 'list_user',
+            'permission' => 'list_user-management',
             'svg'        => 'svg/users.svg', // Users management icon
             // 'panel_type' => '1',
         ]);
@@ -71,7 +71,7 @@ class MenuSeeder extends Seeder
             'route'      => 'bladders.index',
             'parent_id'  => $MasterData->id,
             'order'      => $subOrder++,
-            'permission' => 'list_bladder',
+            'permission' => 'list_bladders',
         ]);
 
         // Machines
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
             'route'      => 'machines.index',
             'parent_id'  => $MasterData->id,
             'order'      => $subOrder++,
-            'permission' => 'list_machine',
+            'permission' => 'list_machines',
         ]);
 
         // observations submenu

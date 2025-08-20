@@ -82,6 +82,7 @@ return [
     'user_created' => 'تم إنشاء المستخدم بنجاح.',
     'user_updated' => 'تم تحديث المستخدم بنجاح.',
     'user_deleted' => 'تم حذف المستخدم بنجاح.',
+    'role_delete_in_use' => 'لا يمكن حذف الدور. يتم استخدامه حالياً من قبل مستخدم أو أكثر.',
 
     // Specific Error Messages
     'bladder_delete_machine_use' => 'لا يمكن حذف البلادر. يتم استخدامها حالياً من قبل آلة أو أكثر.',

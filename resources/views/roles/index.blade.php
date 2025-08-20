@@ -40,7 +40,7 @@
                                     <th>{{ __('common.name') }}</th>
                                     <th>{{ __('common.display_name') }}</th>
                                     <th>{{ __('common.description') }}</th>
-                                    <th>{{ __('common.actions') }}</th>
+                                    <th class="text-center">{{ __('common.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,15 +50,8 @@
                                         <td>{{ $role->display_name }}</td>
                                         <td>{{ $role->description }}</td>
                                         <td>
-                                            {{-- DEBUG: Check permissions --}}
-                                            @if(auth()->user()->can('delete_role'))
-                                                <span style="color: green;">✓ Has delete_role permission</span><br>
-                                            @else
-                                                <span style="color: red;">✗ Missing delete_role permission</span><br>
-                                            @endif
-                                            
                                             {{-- <x-show-button route="roles.show" :param="$role->id" name="role" /> --}}
-                                            <x-edit-button route="roles.edit" :param="$role->id" name="role" />
+                                            <x-edit-button route="roles.edit" :param="$role->id" name="role" />                                
                                             <x-delete-button route="roles.destroy" :param="$role->id" name="role" />
                                         </td>
                                     </tr>
@@ -156,7 +149,7 @@
 
                     Swal.fire({
                         title: '{{ __("common.are_you_sure") }}',
-                        text: '{{ __("common.delete_confirm_text") }}',
+                        text: @json(__("common.delete_confirm_text")),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

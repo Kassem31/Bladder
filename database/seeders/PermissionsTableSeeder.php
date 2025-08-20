@@ -13,6 +13,8 @@ class PermissionsTableSeeder extends Seeder
         DB::table('permissions')->delete();
 
         $permissions = [
+            'list_user-management',
+            
             'list_user',
             'show_user',
             'create_user',

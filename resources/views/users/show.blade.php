@@ -35,7 +35,9 @@
 
                     <div class="form-group mb-4">
                         <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('common.back_to') }} {{ __('app.users') }}</a>
+                        @permission('edit_user')
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">{{ __('common.edit') }} {{ __('app.user') }}</a>
+                        @endpermission
                     </div>
                 </div>
             </div>

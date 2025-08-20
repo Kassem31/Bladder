@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BladderSize;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBladderSizeRequest;
 use App\Http\Requests\UpdateBladderSizeRequest;
-use Illuminate\Http\Request;
 
 class BladderSizeController extends Controller
 {
@@ -14,6 +15,9 @@ class BladderSizeController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('list_bladder-sizes')) {
+            abort(403, __('common.unauthorized'));
+        }
         $query = BladderSize::query();
         if ($request->filled('Name')) {
             $query->where('Name', 'LIKE', '%' . $request->Name . '%');
@@ -28,6 +32,9 @@ class BladderSizeController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-sizes')) {
+            abort(403, __('common.unauthorized'));
+        }
         return view('bladder-sizes.create');
     }
 
@@ -46,6 +53,9 @@ class BladderSizeController extends Controller
      */
     public function show(BladderSize $bladderSize)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('show_bladder-sizes')) {
+            abort(403, __('common.unauthorized'));
+        }
         return view('bladder-sizes.show', compact('bladderSize'));
     }
 
@@ -54,6 +64,9 @@ class BladderSizeController extends Controller
      */
     public function edit(BladderSize $bladderSize)
     {
+        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('edit_bladder-sizes')) {
+            abort(403, __('common.unauthorized'));
+        }
         return view('bladder-sizes.edit', compact('bladderSize'));
     }
 

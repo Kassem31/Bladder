@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bladder;
-use App\Models\BladderSize;
 use App\Models\Machine;
+use App\Models\BladderSize;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBladderRequest;
 use App\Http\Requests\UpdateBladderRequest;
-use Illuminate\Http\Request;
 
 class BladderController extends Controller
 {
@@ -16,6 +17,9 @@ class BladderController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->is_super_admin && !Auth::user()->hasPermission('list_bladders')) {
+            abort(403, __('common.unauthorized'));
+        }
         $query = Bladder::with('bladderSize');
 
         // Filter by Bladder Code
@@ -53,6 +57,9 @@ class BladderController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladders')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladderSizes = BladderSize::all();
         return view('bladders.create', compact('bladderSizes'));
     }
@@ -72,6 +79,9 @@ class BladderController extends Controller
      */
     public function show(Bladder $bladder)
     {
+        if(!Auth::user()->is_super_admin && !Auth::user()->hasPermission('show_bladders')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladder->load('bladderSize', 'bladderTransactions');
         return view('bladders.show', compact('bladder'));
     }
@@ -81,6 +91,9 @@ class BladderController extends Controller
      */
     public function edit(Bladder $bladder)
     {
+        if(!Auth::user()->is_super_admin && !Auth::user()->hasPermission('edit_bladders')) {
+            abort(403, __('common.unauthorized'));
+        }
         $bladderSizes = BladderSize::all();
         return view('bladders.edit', compact('bladder', 'bladderSizes'));
     }

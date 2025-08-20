@@ -51,6 +51,9 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        if ($role->users()->count() > 0) {
+            return redirect()->route('roles.index')->with('error', __('common.role_delete_in_use'));
+        }
         $role->delete();
         return redirect()->route('roles.index')->with('success', __('common.role_deleted'));
     }

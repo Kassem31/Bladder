@@ -43,7 +43,8 @@
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
                 <div class="widget-content widget-content-area br-8">
                     <div class="card-body p-5">
-                        <hr>                        <div class="row mb-3">
+                        <hr>
+                        <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">{{ __('app.bladder') }}:</h6>
                             </div>
@@ -52,7 +53,8 @@
                                     {{ $bladderTransaction->bladder->BladderCode ?? __('common.not_available') }}
                                 </a>
                             </div>
-                        </div>                        <div class="row mb-3">
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">{{ __('app.machine') }}:</h6>
                             </div>
@@ -66,7 +68,8 @@
                                     {{ __('common.not_available') }}
                                 @endif
                             </div>
-                        </div>                        <div class="row mb-3">
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">{{ __('app.transaction_type') }}:</h6>
                             </div>
@@ -84,7 +87,8 @@
                                     {{ __('app.' . strtolower($bladderTransaction->TransactionType)) }}
                                 </span>
                             </div>
-                        </div>                        @if (in_array($bladderTransaction->TransactionType, ['Mount', 'Dismount']) &&
+                        </div>
+                        @if (in_array($bladderTransaction->TransactionType, ['Mount', 'Dismount']) &&
                                 $bladderTransaction->Discriminator &&
                                 in_array($bladderTransaction->Discriminator, ['Left', 'Right']))
                             <div class="row mb-3">
@@ -92,20 +96,22 @@
                                     <h6 class="mb-0">{{ __('app.direction') }}:</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <span class="badge bg-info">{{ __('app.' . strtolower($bladderTransaction->Discriminator)) }}</span>
+                                    <span
+                                        class="badge bg-info">{{ __('app.' . strtolower($bladderTransaction->Discriminator)) }}</span>
                                 </div>
                             </div>
-                        @endif                        <div class="row mb-3">
+                        @endif
+                        <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">{{ __('app.transaction_date') }}:</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                {{ app()->getLocale() == 'ar' 
-                                    ? \Carbon\Carbon::parse($bladderTransaction->CreatedAt)->locale('ar')->isoFormat('DD MMMM YYYY, hh:mm a') 
-                                    : \Carbon\Carbon::parse($bladderTransaction->CreatedAt)->format('F j, Y g:i A') 
-                                }}
+                                {{ app()->getLocale() == 'ar'
+                                    ? \Carbon\Carbon::parse($bladderTransaction->CreatedAt)->locale('ar')->isoFormat('DD MMMM YYYY, hh:mm a')
+                                    : \Carbon\Carbon::parse($bladderTransaction->CreatedAt)->format('F j, Y g:i A') }}
                             </div>
-                        </div>@if ($bladderTransaction->Notes)
+                        </div>
+                        @if ($bladderTransaction->Notes)
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">{{ __('common.notes') }}:</h6>
@@ -114,13 +120,15 @@
                                     {{ $bladderTransaction->Notes }}
                                 </div>
                             </div>
-                        @endif                        <hr>
+                        @endif
+                        <hr>
                         <div class="row">
                             <div class="col-sm-12 button-group">
                                 <a href="{{ route('bladder-transactions.index') }}" class="btn btn-secondary me-2">
                                     <i class="bx bx-arrow-back"></i> {{ __('common.back_to_list') }}
                                 </a>
                                 @if ($isLatestTransaction)
+                                @permission('delete_bladder-transactions')
                                     <form action="{{ route('bladder-transactions.destroy', $bladderTransaction->Id) }}"
                                         method="POST" class="d-inline"
                                         onsubmit="return confirm('{{ __('common.confirm_delete') }}');">
@@ -132,7 +140,9 @@
                                             <i class="bx bx-trash"></i> {{ __('common.delete') }}
                                         </button>
                                     </form>
+                                @endpermission
                                 @else
+                                @permission('delete_bladder-transactions')
                                     <button type="button" class="btn btn-danger" disabled
                                         style="margin-top: 0.8rem; opacity: 0.6;"
                                         title="{{ __('app.only_latest_can_delete') }}">
@@ -141,9 +151,10 @@
                                     <div class="text-muted small mt-2">
                                         <i class="bx bx-info-circle"></i> {{ __('app.only_latest_can_delete') }}
                                     </div>
+                                @endpermission
                                 @endif
                             </div>
-                        </div>                        <!-- Transaction Sequence Information -->
+                        </div> <!-- Transaction Sequence Information -->
                         <div class="card mt-4 border-top border-0 border-4 border-primary">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-center">
@@ -154,15 +165,18 @@
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="mb-4">                                            <div class="d-flex align-items-center sequence-steps">
+                                        <div class="mb-4">
+                                            <div class="d-flex align-items-center sequence-steps">
                                                 <div
                                                     class="sequence-step {{ $bladderTransaction->TransactionType == 'Dismount' ? 'active' : '' }}">
-                                                    <span class="badge rounded-pill bg-warning">{{ __('app.dismount') }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-warning">{{ __('app.dismount') }}</span>
                                                 </div>
                                                 <span class="arrow">{{ app()->getLocale() == 'ar' ? '←' : '→' }}</span>
                                                 <div
                                                     class="sequence-step {{ $bladderTransaction->TransactionType == 'Maintenance' ? 'active' : '' }}">
-                                                    <span class="badge rounded-pill bg-info">{{ __('app.maintenance') }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-info">{{ __('app.maintenance') }}</span>
                                                 </div>
                                                 <span class="arrow">{{ app()->getLocale() == 'ar' ? '←' : '→' }}</span>
                                                 <div
@@ -172,7 +186,8 @@
                                                 <span class="arrow">{{ app()->getLocale() == 'ar' ? '←' : '→' }}</span>
                                                 <div
                                                     class="sequence-step {{ $bladderTransaction->TransactionType == 'Mount' ? 'active' : '' }}">
-                                                    <span class="badge rounded-pill bg-success">{{ __('app.mount') }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-success">{{ __('app.mount') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,15 +214,16 @@
                 button.addEventListener('click', function(e) {
                     const deleteUrl = this.getAttribute('data-url');
                     const isDarkMode = window.matchMedia && window.matchMedia(
-                        '(prefers-color-scheme: dark)').matches;                    Swal.fire({
-                        title: '{{ __("common.are_you_sure") }}',
-                        text: "{{ __('common.delete_confirm_text') }}",
+                        '(prefers-color-scheme: dark)').matches;
+                    Swal.fire({
+                        title: '{{ __('common.are_you_sure') }}',
+                        text: @json(__('common.delete_confirm_text')),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: '{{ __("common.yes_delete") }}',
-                        cancelButtonText: '{{ __("common.cancel") }}',
+                        confirmButtonText: '{{ __('common.yes_delete') }}',
+                        cancelButtonText: '{{ __('common.cancel') }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

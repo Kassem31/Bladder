@@ -47,9 +47,13 @@
                                     <a href="{{ route('findings.index') }}" class="btn btn-secondary me-2">
                                         <i class="bx bx-arrow-back"></i> {{ __('common.back_to_list') }}
                                     </a>
+                                    @permission('edit_findings')
                                     <a href="{{ route('findings.edit', $finding->Id) }}" class="btn btn-warning me-2">
                                         <i class="bx bx-edit"></i> {{ __('common.edit') }}
-                                    </a><form action="{{ route('findings.destroy', $finding->Id) }}" method="POST"
+                                    </a>
+                                    @endpermission
+                                    @permission('delete_findings')
+                                    <form action="{{ route('findings.destroy', $finding->Id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')                                        <button type="button" class="btn btn-danger delete-button"
@@ -57,6 +61,7 @@
                                             <i class="bx bx-trash"></i> {{ __('common.delete') }}
                                         </button>
                                     </form>
+                                    @endpermission
                                 </div>
                             </div>
                         </div>
@@ -85,7 +90,7 @@
                     const isDarkMode = window.matchMedia && window.matchMedia(
                         '(prefers-color-scheme: dark)').matches;                    Swal.fire({
                         title: '{{ __("common.are_you_sure") }}',
-                        text: "{{ __('common.delete_confirm_text') }}",
+                        text: @json(__('common.delete_confirm_text')),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

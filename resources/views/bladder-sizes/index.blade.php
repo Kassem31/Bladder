@@ -146,7 +146,7 @@
                 const deleteUrl = e.target.getAttribute('data-url');
                 const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;                Swal.fire({
                     title: '{{ __("common.are_you_sure") }}',
-                    text: '{{ __("common.delete_confirm_text") }}',
+                    text: @json(__("common.delete_confirm_text")),
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

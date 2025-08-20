@@ -86,6 +86,7 @@
 
             <div class="row layout-top-spacing">
                 <div class="col-12 text-end mb-2">
+                    @permission('create_bladder-transactions')
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -114,6 +115,7 @@
                             </li>
                         </ul>
                     </div>
+                    @endpermission
                 </div>
 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -200,11 +202,11 @@
                                             <td class="text-center" data-th="Actions">
                                                 <div class="d-flex flex-wrap justify-content-center button-group gap-1">
                                                     <x-show-button route="bladder-transactions.show" :param="$transaction->Id"
-                                                        name="bladder_transaction" />
+                                                        name="bladder-transactions" />
                                                     @if (in_array($transaction->Id, $latestTransactionIds))
                                                         <div style="margin-top: 0.07rem">
                                                             <x-delete-button route="bladder-transactions.destroy"
-                                                                :param="$transaction->Id" name="bladder_transaction" />
+                                                                :param="$transaction->Id" name="bladder-transactions" />
                                                         </div>
                                                     @endif
                                                 </div>
@@ -248,7 +250,7 @@
 
                 Swal.fire({
                     title: '{{ __('common.are_you_sure') }}',
-                    text: '{{ __('common.delete_confirm_text') }}',
+                    text: @json(__('common.delete_confirm_text')),
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
