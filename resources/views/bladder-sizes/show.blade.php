@@ -44,7 +44,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                @permission('edit_bladder-sizes')
+                                @permission('edit_bladder-size')
                                 <a href="{{ route('bladder-sizes.edit', $bladderSize->Id) }}" class="btn btn-primary">
                                     <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
                                 </a>
@@ -52,7 +52,7 @@
                                 <a href="{{ route('bladder-sizes.index') }}" class="btn btn-secondary ms-2">
                                     <i class="bx bx-arrow-back me-1"></i>{{ __('common.back_to_list') }}
                                 </a>
-                                @permission('delete_bladder-sizes')
+                                @permission('delete_bladder-size')
                                 <form action="{{ route('bladder-sizes.destroy', $bladderSize->Id) }}" method="POST"
                                     class="d-inline ms-2">
                                     @csrf

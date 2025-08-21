@@ -32,7 +32,7 @@
 
             <div class="row layout-top-spacing">
 
-                <x-add-button model="bladder-sizes" name="bladder size" />
+                <x-add-button model="bladder-sizes" name="bladder-size" />
 
                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                     <div class="widget-content widget-content-area br-8">
@@ -63,14 +63,14 @@
                                                 <div class="d-flex flex-wrap justify-content-center button-group gap-1">
                                                     <!-- Show Button -->
                                                     <x-show-button route="bladder-sizes.show" :param="$bladderSize->Id"
-                                                        name="bladder_size" />
+                                                        name="bladder-size" />
                                                     <!-- Edit Button -->
                                                     <x-edit-button route="bladder-sizes.edit" :param="$bladderSize->Id"
-                                                        name="bladder_size" />
+                                                        name="bladder-size" />
                                                     <!-- Delete Button -->
                                                     <div style="margin-top: 0.07rem">
                                                         <x-delete-button route="bladder-sizes.destroy" :param="$bladderSize->Id"
-                                                            name="bladder_size" />
+                                                            name="bladder-size" />
                                                     </div>
                                                 </div>
                                             </td>

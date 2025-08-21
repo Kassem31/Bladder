@@ -19,56 +19,59 @@
                 <h3>{{ __('app.observation_details') }}</h3>
             </div>
 
-                <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
-                    <div class="widget-content widget-content-area br-8">
-                        <div class="card-body p-5">
-                            <hr>                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">{{ __('app.icon') }}:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    @if ($finding->IconClass)
-                                        <i class="{{ $finding->IconClass }}"
-                                            style="font-size: 1.8rem; margin-right: 0.5rem; color: #0d6efd;"></i>
-                                    @else
-                                        <span class="text-muted">{{ __('app.no_icon') }}</span>
-                                    @endif
-                                </div>
-                            </div>                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">{{ __('common.description') }}:</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ $finding->Description }}
-                                </div>
-                            </div>                            <hr>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <a href="{{ route('findings.index') }}" class="btn btn-secondary me-2">
-                                        <i class="bx bx-arrow-back"></i> {{ __('common.back_to_list') }}
-                                    </a>
-                                    @permission('edit_findings')
+            <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+                <div class="widget-content widget-content-area br-8">
+                    <div class="card-body p-5">
+                        <hr>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">{{ __('app.icon') }}:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @if ($finding->IconClass)
+                                    <i class="{{ $finding->IconClass }}"
+                                        style="font-size: 1.8rem; margin-right: 0.5rem; color: #0d6efd;"></i>
+                                @else
+                                    <span class="text-muted">{{ __('app.no_icon') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">{{ __('common.description') }}:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ $finding->Description }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="{{ route('findings.index') }}" class="btn btn-secondary me-2">
+                                    <i class="bx bx-arrow-back"></i> {{ __('common.back_to_list') }}
+                                </a>
+                                @permission('edit_finding')
                                     <a href="{{ route('findings.edit', $finding->Id) }}" class="btn btn-warning me-2">
                                         <i class="bx bx-edit"></i> {{ __('common.edit') }}
                                     </a>
-                                    @endpermission
-                                    @permission('delete_findings')
+                                @endpermission
+                                @permission('delete_finding')
                                     <form action="{{ route('findings.destroy', $finding->Id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
-                                        @method('DELETE')                                        <button type="button" class="btn btn-danger delete-button"
+                                        @method('DELETE') <button type="button" class="btn btn-danger delete-button"
                                             data-url="{{ route('findings.destroy', $finding->Id) }}">
                                             <i class="bx bx-trash"></i> {{ __('common.delete') }}
                                         </button>
                                     </form>
-                                    @endpermission
-                                </div>
+                                @endpermission
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
@@ -88,15 +91,16 @@
                 button.addEventListener('click', function(e) {
                     const deleteUrl = this.getAttribute('data-url');
                     const isDarkMode = window.matchMedia && window.matchMedia(
-                        '(prefers-color-scheme: dark)').matches;                    Swal.fire({
-                        title: '{{ __("common.are_you_sure") }}',
+                        '(prefers-color-scheme: dark)').matches;
+                    Swal.fire({
+                        title: '{{ __('common.are_you_sure') }}',
                         text: @json(__('common.delete_confirm_text')),
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: '{{ __("common.yes_delete") }}',
-                        cancelButtonText: '{{ __("common.cancel") }}',
+                        confirmButtonText: '{{ __('common.yes_delete') }}',
+                        cancelButtonText: '{{ __('common.cancel') }}',
                         background: isDarkMode ? '#333' : '#fff',
                         color: isDarkMode ? '#fff' : '#000'
                     }).then((result) => {

@@ -130,12 +130,12 @@
                                 </a>
                             </div>
                             <div class="col-12 d-flex flex-wrap justify-content-between gap-2">
-                                @permission('edit_bladders')
+                                @permission('edit_bladder')
                                 <a href="{{ route('bladders.edit', $bladder) }}" class="btn btn-primary flex-grow-1">
                                     <i class="bx bx-edit me-1"></i>{{ __('common.edit') }}
                                 </a>
                                 @endpermission
-                                @permission('delete_bladders')
+                                @permission('delete_bladder')
                                 <form action="{{ route('bladders.destroy', $bladder) }}" method="POST" class="m-0 flex-grow-1">
                                     @csrf
                                     @method('DELETE')
