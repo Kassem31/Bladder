@@ -15,9 +15,8 @@ class BladderSizeController extends Controller
      */
     public function index(Request $request)
     {
-        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('list_bladder-sizes')) {
-            abort(403, __('common.unauthorized'));
-        }
+        $this->checkPermission('list_bladder-size');
+
         $query = BladderSize::query();
         if ($request->filled('Name')) {
             $query->where('Name', 'LIKE', '%' . $request->Name . '%');
@@ -32,9 +31,8 @@ class BladderSizeController extends Controller
      */
     public function create()
     {
-        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('create_bladder-sizes')) {
-            abort(403, __('common.unauthorized'));
-        }
+        $this->checkPermission('create_bladder-size');
+
         return view('bladder-sizes.create');
     }
 
@@ -43,6 +41,8 @@ class BladderSizeController extends Controller
      */
     public function store(StoreBladderSizeRequest $request)
     {
+        $this->checkPermission('create_bladder-size');
+
         BladderSize::create($request->validated());
         return redirect()->route('bladder-sizes.index')
             ->with('success', __('common.bladder_size_created'));
@@ -53,9 +53,8 @@ class BladderSizeController extends Controller
      */
     public function show(BladderSize $bladderSize)
     {
-        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('show_bladder-sizes')) {
-            abort(403, __('common.unauthorized'));
-        }
+        $this->checkPermission('show_bladder-size');
+
         return view('bladder-sizes.show', compact('bladderSize'));
     }
 
@@ -64,9 +63,8 @@ class BladderSizeController extends Controller
      */
     public function edit(BladderSize $bladderSize)
     {
-        if (!Auth::user()->is_super_admin && !Auth::user()->hasPermission('edit_bladder-sizes')) {
-            abort(403, __('common.unauthorized'));
-        }
+        $this->checkPermission('edit_bladder-size');
+
         return view('bladder-sizes.edit', compact('bladderSize'));
     }
 
@@ -75,6 +73,8 @@ class BladderSizeController extends Controller
      */
     public function update(UpdateBladderSizeRequest $request, BladderSize $bladderSize)
     {
+        $this->checkPermission('edit_bladder-size');
+
         $bladderSize->update($request->validated());
         return redirect()->route('bladder-sizes.index')
             ->with('success', __('common.bladder_size_updated'));
@@ -85,6 +85,8 @@ class BladderSizeController extends Controller
      */
     public function destroy(BladderSize $bladderSize)
     {
+        $this->checkPermission('delete_bladder-size');
+
         // Check if bladder size is being used by any bladders
         if ($bladderSize->bladders()->exists()) {
             return redirect()->route('bladder-sizes.index')

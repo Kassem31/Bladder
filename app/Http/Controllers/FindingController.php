@@ -14,12 +14,13 @@ class FindingController extends Controller
      */
     public function index(Request $request)
     {
+        $this->checkPermission('list_finding');
+
         $query = Finding::query();
 
         // Apply filters
         if ($request->filled('Description')) {
             $query->where('Description', 'LIKE', '%' . $request->Description . '%');
-
         }
 
         $findings = $query->paginate(10)->withQueryString();
@@ -32,6 +33,8 @@ class FindingController extends Controller
      */
     public function create()
     {
+        $this->checkPermission('create_finding');
+
         return view('findings.create');
     }
 
@@ -40,10 +43,12 @@ class FindingController extends Controller
      */
     public function store(StoreFindingRequest $request)
     {
+        $this->checkPermission('create_finding');
+
         Finding::create($request->validated());
 
         return redirect()->route('findings.index')
-                         ->with('success', __('common.finding_created'));
+            ->with('success', __('common.finding_created'));
     }
 
     /**
@@ -51,6 +56,8 @@ class FindingController extends Controller
      */
     public function show(Finding $finding)
     {
+        $this->checkPermission('show_finding');
+
         $finding->load('maintenanceFindings.maintenanceTransaction');
         return view('findings.show', compact('finding'));
     }
@@ -60,6 +67,8 @@ class FindingController extends Controller
      */
     public function edit(Finding $finding)
     {
+        $this->checkPermission('edit_finding');
+
         return view('findings.edit', compact('finding'));
     }
 
@@ -68,10 +77,12 @@ class FindingController extends Controller
      */
     public function update(UpdateFindingRequest $request, Finding $finding)
     {
+        $this->checkPermission('edit_finding');
+
         $finding->update($request->validated());
 
         return redirect()->route('findings.index')
-                         ->with('success', __('common.finding_updated'));
+            ->with('success', __('common.finding_updated'));
     }
 
     /**
@@ -79,6 +90,8 @@ class FindingController extends Controller
      */
     public function destroy(Finding $finding)
     {
+        $this->checkPermission('delete_finding');
+
         // Check if finding is being used by any maintenance findings
         if ($finding->maintenanceFindings()->exists()) {
             return redirect()->route('findings.index')
@@ -88,6 +101,6 @@ class FindingController extends Controller
         $finding->delete();
 
         return redirect()->route('findings.index')
-                         ->with('success', __('common.finding_deleted'));
+            ->with('success', __('common.finding_deleted'));
     }
 }

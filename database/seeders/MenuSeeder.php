@@ -51,7 +51,7 @@ class MenuSeeder extends Seeder
             'translation_key' => 'menu_master_data',
             'order'      => $order++,
             'permission' => 'list_master-data',
-            // 'panel_type' 
+            // 'panel_type'
             'svg'        => 'svg/menu/master-data.svg',
             'route'      => 'master-data.index',
         ]);
@@ -62,7 +62,7 @@ class MenuSeeder extends Seeder
             'route'      => 'bladder-sizes.index',
             'parent_id'  => $MasterData->id,
             'order'      => $subOrder++,
-            'permission' => 'list_bladder-sizes',
+            'permission' => 'list_bladder-size',
         ]);
 
         Menu::create([
@@ -71,7 +71,7 @@ class MenuSeeder extends Seeder
             'route'      => 'bladders.index',
             'parent_id'  => $MasterData->id,
             'order'      => $subOrder++,
-            'permission' => 'list_bladders',
+            'permission' => 'list_bladder',
         ]);
 
         // Machines
@@ -92,7 +92,7 @@ class MenuSeeder extends Seeder
             'route'      => 'findings.index',
             'parent_id'  =>  $MasterData->id,
             'order'      =>  $subOrder++,
-            'permission' => 'list_findings',
+            'permission' => 'list_finding',
         ]);
 
         $bladderTransactions = Menu::create([

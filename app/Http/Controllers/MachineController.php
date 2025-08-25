@@ -15,6 +15,8 @@ class MachineController extends Controller
      */
     public function index(Request $request)
     {
+        $this->checkPermission('list_machines');
+
         $query = Machine::with(['leftBladder', 'rightBladder']);
 
         // Apply filters
@@ -24,33 +26,33 @@ class MachineController extends Controller
                 $q->where('Code', 'like', "%{$search}%");
             });
         }
-        
+
         // Filter by machine code
         if ($request->filled('Code')) {
             $query->where('Code', 'like', "%{$request->Code}%");
         }
-        
+
         // Filter by bladder code (left or right) - text search
         if ($request->filled('BladderCode')) {
             $bladderCode = $request->BladderCode;
-            $query->where(function($q) use ($bladderCode) {
-                $q->whereHas('leftBladder', function($subQuery) use ($bladderCode) {
+            $query->where(function ($q) use ($bladderCode) {
+                $q->whereHas('leftBladder', function ($subQuery) use ($bladderCode) {
                     $subQuery->where('BladderCode', 'like', "%{$bladderCode}%");
-                })->orWhereHas('rightBladder', function($subQuery) use ($bladderCode) {
+                })->orWhereHas('rightBladder', function ($subQuery) use ($bladderCode) {
                     $subQuery->where('BladderCode', 'like', "%{$bladderCode}%");
                 });
             });
         }
-        
+
         // Filter by status (working/stopped)
         if ($request->filled('Status')) {
             if ($request->Status === 'working') {
                 $query->whereNotNull('LeftBladderId')
-                      ->whereNotNull('RightBladderId');
+                    ->whereNotNull('RightBladderId');
             } elseif ($request->Status === 'stopped') {
-                $query->where(function($q) {
+                $query->where(function ($q) {
                     $q->whereNull('LeftBladderId')
-                      ->orWhereNull('RightBladderId');
+                        ->orWhereNull('RightBladderId');
                 });
             }
         }
@@ -65,6 +67,8 @@ class MachineController extends Controller
      */
     public function create()
     {
+        $this->checkPermission('create_machines');
+
         $bladders = Bladder::where('Status', 'available')->get();
         return view('machines.create', compact('bladders'));
     }
@@ -74,10 +78,12 @@ class MachineController extends Controller
      */
     public function store(StoreMachineRequest $request)
     {
+        $this->checkPermission('create_machines');
+
         Machine::create($request->validated());
 
         return redirect()->route('machines.index')
-                         ->with('success', __('common.machine_created'));
+            ->with('success', __('common.machine_created'));
     }
 
     /**
@@ -85,6 +91,8 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
+        $this->checkPermission('show_machines');
+
         $machine->load(['leftBladder', 'rightBladder', 'bladderTransactions']);
         return view('machines.show', compact('machine'));
     }
@@ -94,9 +102,11 @@ class MachineController extends Controller
      */
     public function edit(Machine $machine)
     {
+        $this->checkPermission('edit_machines');
+
         $bladders = Bladder::where('Status', 'available')
-                          ->orWhereIn('id', [$machine->LeftBladderId, $machine->RightBladderId])
-                          ->get();
+            ->orWhereIn('id', [$machine->LeftBladderId, $machine->RightBladderId])
+            ->get();
         return view('machines.edit', compact('machine', 'bladders'));
     }
 
@@ -105,10 +115,12 @@ class MachineController extends Controller
      */
     public function update(UpdateMachineRequest $request, Machine $machine)
     {
+        $this->checkPermission('edit_machines');
+
         $machine->update($request->validated());
 
         return redirect()->route('machines.index')
-                         ->with('success', __('common.machine_updated'));
+            ->with('success', __('common.machine_updated'));
     }
 
     /**
@@ -116,6 +128,8 @@ class MachineController extends Controller
      */
     public function destroy(Machine $machine)
     {
+        $this->checkPermission('delete_machines');
+
         // Check if machine has any bladder transactions
         if ($machine->bladderTransactions()->exists()) {
             // delete all bladder transactions associated with this machine
@@ -126,6 +140,6 @@ class MachineController extends Controller
         $machine->delete();
 
         return redirect()->route('machines.index')
-                         ->with('success', __('common.machine_deleted'));
+            ->with('success', __('common.machine_deleted'));
     }
 }

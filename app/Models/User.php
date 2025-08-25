@@ -24,6 +24,7 @@ class User extends Authenticatable implements LaratrustUser
         'name',
         'email',
         'password',
+        'is_super_admin',
     ];
 
     /**
@@ -46,6 +47,7 @@ class User extends Authenticatable implements LaratrustUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean',
         ];
     }
 

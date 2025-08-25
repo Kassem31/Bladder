@@ -65,26 +65,32 @@ class ProfileController extends Controller
 
     public function listUsers(Request $request)
     {
-        if( $request['name']){
+        $this->checkPermission('list_user');
+
+        if ($request['name']) {
             $users = User::with('roles')
                 ->where('name', 'like', '%' . $request['name'] . '%')
-                ->where('id' , "!=" , auth()->user()->id)
-                ->where('is_super_admin',0)
+                ->where('id', "!=", auth()->user()->id)
+                ->where('is_super_admin', 0)
                 ->get();
         } else {
-            $users = User::with('roles')->where('id' , "!=" , auth()->user()->id)->where('is_super_admin',0)->get();
+            $users = User::with('roles')->where('id', "!=", auth()->user()->id)->where('is_super_admin', 0)->get();
         }
         return view('users.index', compact('users'));
     }
 
     public function createUser()
     {
+        $this->checkPermission('create_user');
+
         $roles = Role::all();
         return view('users.create', compact('roles'));
     }
 
     public function storeUser(Request $request)
     {
+        $this->checkPermission('create_user');
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -94,8 +100,8 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             return redirect()->route('users.index')
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         DB::beginTransaction();
@@ -107,9 +113,9 @@ class ProfileController extends Controller
         ]);
 
 
-        if($request->role_id){
-        $user->syncRoles([$request->role_id]);
-	}
+        if ($request->role_id) {
+            $user->syncRoles([$request->role_id]);
+        }
 
         DB::commit();
 
@@ -118,17 +124,23 @@ class ProfileController extends Controller
 
     public function showUser(User $user)
     {
+        $this->checkPermission('show_user');
+
         return view('users.show', compact('user'));
     }
 
     public function editUser(User $user)
     {
+        $this->checkPermission('edit_user');
+
         $roles = Role::all();
         return view('users.edit', compact('user', 'roles'));
     }
 
     public function updateUser(Request $request, User $user)
     {
+        $this->checkPermission('edit_user');
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -138,8 +150,8 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             return redirect()->route('users.edit', $user)
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         DB::beginTransaction();
@@ -148,12 +160,12 @@ class ProfileController extends Controller
             'email' => $request->email,
             'is_active' => $request->is_active,
         ]);
-	
-	    $user->roles()->detach();
 
-        if($request->role_id){
-        $user->syncRoles([$request->role_id]);
-	}
+        $user->roles()->detach();
+
+        if ($request->role_id) {
+            $user->syncRoles([$request->role_id]);
+        }
 
         DB::commit();
 
@@ -162,6 +174,8 @@ class ProfileController extends Controller
 
     public function destroyUser(User $user)
     {
+        $this->checkPermission('delete_user');
+
         $user->delete();
         return redirect()->route('users.index')->with('success', __('common.user_deleted'));
     }
@@ -180,16 +194,16 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             return redirect()->route('profile.showResetPasswordForm')
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
             return redirect()->route('profile.showResetPasswordForm')
-                             ->withErrors(['current_password' => __('common.current_password_incorrect')])
-                             ->withInput();
+                ->withErrors(['current_password' => __('common.current_password_incorrect')])
+                ->withInput();
         }
 
         $user->password = Hash::make($request->new_password);
